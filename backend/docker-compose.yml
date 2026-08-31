@@ -1,0 +1,12 @@
+services:
+  h2-db:
+    image: oscarfonts/h2:latest
+    container_name: h2-database
+    ports:
+      - "81:81"
+      - "1521:1521"
+    environment:
+      - H2_OPTIONS=-webAllowOthers -tcpAllowOthers -ifNotExists
+    volumes:
+      - ./h2data:/opt/h2-data
+    restart: always
