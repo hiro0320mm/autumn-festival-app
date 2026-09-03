@@ -1,0 +1,27 @@
+INSERT INTO POSITIONS(
+                      group_id,
+                      position_name,
+                      target,
+                      max_capacity,
+                      recruitment_deadline,
+                      recruitment_status,
+                      created_by,
+                      created_at,
+                      updated_by,
+                      updated_at
+) VALUES
+    (1,'金棒引き','未就学児',10,'2027-09-10 23:59:59',TRUE,'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP),
+    (1,'綱引き','小学生',30,'2027-09-10 23:59:59',TRUE,'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP),
+    (1,'笛吹き','中学生',20,'2027-09-10 23:59:59',TRUE,'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP),
+    (1,'大太鼓','18歳以上',2,'2027-09-10 23:59:59',TRUE,'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP),
+    (2,'金棒引き','未就学児',15,'2027-09-10 23:59:59',TRUE,'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP),
+    (2,'綱引き','小学生',25,'2027-09-10 23:59:59',TRUE,'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP),
+    (2,'笛吹き','中学生・高校生',20,'2027-09-10 23:59:59',TRUE,'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP),
+    (2,'小太鼓','未就学児',5,'2027-09-10 23:59:59',TRUE,'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP),
+    (3,'金棒引き','未就学児',10,'2027-09-10 23:59:59',TRUE,'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP),
+    (3,'綱引き','小学生',30,'2027-09-10 23:59:59',TRUE,'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP),
+    (3,'笛吹き','中学生',20,'2027-09-10 23:59:59',TRUE,'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP),
+    (3,'金棒引き','高校生',5,'2027-09-10 23:59:59',TRUE,'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP),
+    (4,'金棒引き','未就学児',20,'2027-09-10 23:59:59',TRUE,'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP),
+    (4,'綱引き','小学生',50,'2027-09-10 23:59:59',TRUE,'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP),
+    (4,'笛吹き','中学生・高校生',20,'2027-09-10 23:59:59',TRUE,'SYSTEM', CURRENT_TIMESTAMP, 'SYSTEM', CURRENT_TIMESTAMP);

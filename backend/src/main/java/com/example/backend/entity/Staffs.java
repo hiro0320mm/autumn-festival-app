@@ -10,13 +10,18 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "staffs")
-public class Staffs {
+public class Staffs extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "staff_id")
     private Long staffId;
 
+    @ManyToOne
+    @JoinColumn(name = "group_id")
+    private Groups group;
+
     @NotBlank
+    @Size(max = 20)
     @Column(name = "staff_name", nullable = false)
     private String staffName;
 
