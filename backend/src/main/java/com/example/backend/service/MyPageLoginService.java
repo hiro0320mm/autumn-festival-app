@@ -18,11 +18,11 @@ public class MyPageLoginService {
 
     public Applicants login(MyPageLoginRequest request) {
         Applicants applicants = applyRepository
-                .findByReceptionNumber(request.getReceptionNumber())
+                .findByReceptionNumber(request.receptionNumber())
                 .orElseThrow(() -> new MyPageLoginException("お名前・電話番号・申込受付番号のいずれかが正しくありません"));
 
-        String requestName = InputNormalizer.removeSpaces(request.getApplicantName());
-        String requestTel = InputNormalizer.removeSpaces(request.getTel());
+        String requestName = InputNormalizer.removeSpaces(request.applicantName());
+        String requestTel = InputNormalizer.removeSpaces(request.tel());
 
         boolean nameMatches = applicants.getApplicantName().equals(requestName);
         boolean telMatches = applicants.getTel().equals(requestTel);

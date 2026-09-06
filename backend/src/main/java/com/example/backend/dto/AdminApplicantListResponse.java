@@ -1,21 +1,20 @@
 package com.example.backend.dto;
 
-public record ApplicantListResponse(
+import com.example.backend.entity.CancelStatus;
+
+public record AdminApplicantListResponse (
         Long applicantId,
         String receptionNumber,
+        String groupName,
         String applicantName,
         String kana,
         Integer age,
         String address,
         String tel,
-        String email,
-        String parentName,
-        String groupName,
         String positionName,
-        Boolean isStudent,
         String schoolName,
         String schoolGrade,
-        String schoolClass,
         String note,
-        String staffMemo
+        String staffMemo,
+        CancelStatus cancelStatus
 ){}

@@ -1,43 +1,39 @@
 package com.example.backend.dto;
 
 import jakarta.validation.constraints.*;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
-public class MyPageUpdateRequest {
+public record MyPageUpdateRequest(
 
     @NotBlank
-    private String applicantName;
+    String applicantName,
 
     @NotBlank
-    private String kana;
+    String kana,
 
     @NotNull
     @Min(value = 0, message = "0以上の整数を入力してください")
     @Max(value = 120, message = "年齢をご確認ください")
-    private Integer age;
+    Integer age,
 
     @NotBlank
-    private String address;
+    String address,
 
     @NotBlank
     @Email(message = "有効なメールアドレス形式で入力してください")
     @Size(max = 255, message = "メールアドレスは255文字以内で入力してください")
-    private String email;
+    String email,
 
     @NotBlank
-    private String tel;
+    String tel,
 
-    private String parentName;
+    String parentName,
 
     @NotNull
-    private Boolean isStudent;
+    Boolean isStudent,
 
-    private String schoolName;
-    private String schoolGrade;
-    private String schoolClass;
+    String schoolName,
+    String schoolGrade,
+    String schoolClass,
 
-    private String note;
-}
+    String note
+){}

@@ -11,6 +11,7 @@ import com.example.backend.repository.ApplyRepository;
 import com.example.backend.repository.GroupsRepository;
 import com.example.backend.repository.PositionsRepository;
 import com.example.backend.util.InputNormalizer;
+import com.example.backend.validator.ApplicationValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,50 +23,25 @@ public class ApplyService {
     private final GroupsRepository groupsRepository;
     private final PositionsRepository positionsRepository;
     private final ApplyRepository applyRepository;
-
-    private void validateApplication(
-            Integer age,
-            String parentName,
-            Boolean isStudent,
-            String schoolName,
-            String schoolGrade,
-            String schoolClass
-    ) {
-
-        // 18歳未満は保護者名の入力を必須にする
-        if (age != null && age < 18) {
-            if (parentName == null || parentName.isBlank()) {
-                throw new IllegalArgumentException(
-                        "参加者が18歳未満の場合は保護者名を必ずご入力ください"
-                );
-            }
-        }
-
-        // 小中高校生は学校情報の入力を必須にする
-        if (Boolean.TRUE.equals(isStudent)) {
-            if (isNullOrBlank(schoolName) ||
-                    isNullOrBlank(schoolGrade) ||
-                    isNullOrBlank(schoolClass)) {
-
-                throw new IllegalArgumentException(
-                        "小中高生は学校名・学年・クラスを必ずご入力ください"
-                );
-            }
-        }
-
-    }
+    private final ApplicationValidator applicationValidator;
 
     public void create(ApplyForm form) {
 
         Applicants applicant = new Applicants();
 
         Groups group = groupsRepository.findById(form.getGroupId())
-                        .orElseThrow();
-
+                        .orElseThrow(() ->
+                                new IllegalArgumentException("指定された山車組は存在しません")
+                        );
 
         Positions position = positionsRepository.findById(form.getPositionId())
-                        .orElseThrow();
-
+                        .orElseThrow(() ->
+                                new IllegalArgumentException("指定されたポジションは存在しません")
+                        );
+        // 山車組とポジションが正しく紐づいていない場合はエラーを返す
+        if (!position.getGroup().getGroupId().equals(group.getGroupId())) {
+            throw new IllegalArgumentException("指定されたポジションは、この山車組に登録できません");
+        }
 
         applicant.setGroup(group);
         applicant.setPosition(position);
@@ -91,12 +67,9 @@ public class ApplyService {
         applicantsRepository.save(applicant);
     }
 
-    private boolean isNullOrBlank(String str) {
-        return str == null || str.isBlank();
-    }
-
+    // 参加申込フォームからの登録処理
     public void registerApplication(ApplyForm form) {
-        validateApplication(
+        applicationValidator.validate(
                 form.getAge(),
                 form.getParentName(),
                 form.getIsStudent(),
@@ -143,31 +116,33 @@ public class ApplyService {
                         applicant.getSchoolGrade(),
                         applicant.getSchoolClass(),
                         applicant.getNote()
-
         );
     }
 
+    // マイページ：編集
     public void updateMyPage(Long applicantId, MyPageUpdateRequest request) {
 
         Applicants applicant = applyRepository.findById(applicantId)
-                .orElseThrow();
+                .orElseThrow(() ->
+                        new IllegalArgumentException("指定された申込者は存在しません")
+                );
 
-        validateApplication(
-                request.getAge(),
-                request.getParentName(),
-                request.getIsStudent(),
-                request.getSchoolName(),
-                request.getSchoolGrade(),
-                request.getSchoolClass()
+        applicationValidator.validate(
+                request.age(),
+                request.parentName(),
+                request.isStudent(),
+                request.schoolName(),
+                request.schoolGrade(),
+                request.schoolClass()
         );
 
-        // 同一人物の重複申込チェック
+        // 同一人物の重複チェック
         boolean duplicate = applicantsRepository
                 .existsByApplicantNameAndKanaAndAgeAndTelAndApplicantIdNot(
-                        InputNormalizer.removeSpaces(request.getApplicantName()),
-                        InputNormalizer.removeSpaces(request.getKana()),
-                        request.getAge(),
-                        request.getTel(),
+                        InputNormalizer.removeSpaces(request.applicantName()),
+                        InputNormalizer.removeSpaces(request.kana()),
+                        request.age(),
+                        request.tel(),
                         applicantId
                 );
         if (duplicate) {
@@ -177,23 +152,23 @@ public class ApplyService {
         }
 
         applicant.setApplicantName(
-                InputNormalizer.removeSpaces(request.getApplicantName())
+                InputNormalizer.removeSpaces(request.applicantName())
         );
         applicant.setKana(
-                InputNormalizer.removeSpaces(request.getKana())
+                InputNormalizer.removeSpaces(request.kana())
         );
-        applicant.setAge(request.getAge());
-        applicant.setAddress(request.getAddress());
-        applicant.setEmail(request.getEmail());
-        applicant.setTel(request.getTel());
+        applicant.setAge(request.age());
+        applicant.setAddress(request.address());
+        applicant.setEmail(request.email());
+        applicant.setTel(request.tel());
         applicant.setParentName(
-                InputNormalizer.removeSpaces(request.getParentName())
+                InputNormalizer.removeSpaces(request.parentName())
         );
-        applicant.setIsStudent(request.getIsStudent());
-        applicant.setSchoolName(request.getSchoolName());
-        applicant.setSchoolGrade(request.getSchoolGrade());
-        applicant.setSchoolClass(request.getSchoolClass());
-        applicant.setNote(request.getNote());
+        applicant.setIsStudent(request.isStudent());
+        applicant.setSchoolName(request.schoolName());
+        applicant.setSchoolGrade(request.schoolGrade());
+        applicant.setSchoolClass(request.schoolClass());
+        applicant.setNote(request.note());
 
         applyRepository.save(applicant);
 

@@ -3,6 +3,8 @@ package com.example.backend.repository;
 import com.example.backend.entity.Applicants;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 public interface ApplicantsRepository extends JpaRepository<Applicants, Long> {
 
     boolean existsByApplicantNameAndKanaAndAgeAndTel(
@@ -19,5 +21,7 @@ public interface ApplicantsRepository extends JpaRepository<Applicants, Long> {
             String tel,
             Long applicantId
     );
+
+    List<Applicants> findByGroup_GroupId(Long groupId);
 
 }
