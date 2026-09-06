@@ -4,6 +4,9 @@ target
 .project
 .classpath
 dist
+.env
+!.env.example
+h2data/
 
 # Numerous always-ignore extensions
 *.bak
@@ -34,6 +37,8 @@ dist
 *.sublime-workspace
 nbproject
 thumbs.db
+../.idea/
+*iml
 
 # Folders to ignore
 .idea

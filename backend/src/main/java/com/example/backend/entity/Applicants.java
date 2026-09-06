@@ -21,10 +21,12 @@ public class Applicants extends BaseEntity {
     private Long applicantId;
 
     @ManyToOne
+    @NotNull
     @JoinColumn(name = "group_id", nullable = false)
     private Groups group;
 
     @ManyToOne
+    @NotNull
     @JoinColumn(name = "position_id", nullable = false)
     private Positions position;
 
@@ -46,7 +48,7 @@ public class Applicants extends BaseEntity {
     @Column(name = "applicant_address",nullable = false)
     private String address;
 
-    @NotNull
+    @NotBlank
     @Email(message = "有効なメールアドレス形式で入力してください")
     @Size(max = 255, message = "メールアドレスは255文字以内で入力してください")
     @Column(name = "applicant_email", nullable = false)
@@ -59,7 +61,7 @@ public class Applicants extends BaseEntity {
     @Column(name = "parent_name")
     private String parentName;
 
-    @NotBlank
+    @NotNull
     @JsonProperty("isStudent")
     @Column(name = "is_student", nullable = false)
     private Boolean isStudent = true;
@@ -87,15 +89,15 @@ public class Applicants extends BaseEntity {
     @Column(name = "staff_memo", columnDefinition = "TEXT")
     private String staffMemo;
 
-    @JsonProperty("applicationNumber")
-    @Column(name = "application_number", nullable = false, unique = true, length = 6, updatable = false)
-    private String applicationNumber;
+    @JsonProperty("receptionNumber")
+    @Column(name = "reception_number", nullable = false, unique = true, length = 6, updatable = false)
+    private String receptionNumber;
 
     //登録直前に申込受付番号を自動発行
     @PrePersist
-    public void generateApplicationNumber() {
-        if (this.applicationNumber == null) {
-            this.applicationNumber = generateRandomCode(6);
+    public void generateReceptionNumber() {
+        if (this.receptionNumber == null) {
+            this.receptionNumber = generateRandomCode(6);
         }
     }
     //英大文字＋数字の6桁ランダム文字列生成
