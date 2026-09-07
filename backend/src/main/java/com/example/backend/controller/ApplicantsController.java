@@ -59,4 +59,14 @@ public class ApplicantsController {
         return ResponseEntity.noContent().build();
     }
 
+    @DeleteMapping("/{applicantId}")
+    public ResponseEntity<Void> deleteApplicant(
+            @PathVariable Long applicantId,
+            Authentication authentication
+    ) {
+        applicantsService.deleteApplicant(applicantId, authentication);
+
+        return ResponseEntity.noContent().build();
+    }
+
 }

@@ -313,4 +313,38 @@ public class ApplicantsService {
 
         applicantsRepository.save(applicant);
     }
+
+    // 管理画面：削除
+    public void deleteApplicant(
+            Long applicantId,
+            Authentication authentication
+    ) {
+
+        String staffName = authentication.getName();
+
+        Staffs staff = staffsRepository.findByStaffName(staffName)
+                .orElseThrow(() ->
+                        new UsernameNotFoundException("管理者が見つかりません")
+                );
+
+        Applicants applicant = applicantsRepository.findById(applicantId)
+                .orElseThrow(() ->
+                        new IllegalArgumentException("指定された申込者は存在しません")
+                );
+
+        if (staff.getRole() == Role.ROLE_ADMIN) {
+
+            if (!applicant.getGroup().getGroupId()
+            .equals(staff.getGroup().getGroupId())) {
+                throw new IllegalArgumentException("この申込者を削除する権限がありません");
+            }
+
+        } else if (staff.getRole() != Role.ROLE_SUPER_ADMIN) {
+
+            throw new IllegalArgumentException("権限が不正です");
+
+        }
+
+        applicantsRepository.delete(applicant);
+    }
 }
