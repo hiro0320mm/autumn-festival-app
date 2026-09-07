@@ -17,6 +17,7 @@ public class ApplyController {
         this.applyService = applyService;
     }
 
+    // 参加申込フォームからの送信
     @PostMapping
     public ResponseEntity<String> registerApplication(@Valid @RequestBody ApplyForm form) {
         applyService.registerApplication(form);

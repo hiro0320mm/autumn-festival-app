@@ -1,52 +1,39 @@
-package com.example.backend.entity;
+package com.example.backend.dto;
 
+import com.example.backend.entity.Groups;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@Entity
-@Table(name = "positions")
-public class Positions extends BaseEntity {
+public class AdminPositionForm {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "position_id")
-    private Long positionId;
+    // 特権管理者用にnullを受け付ける
+    private Long groupId;
 
-    @ManyToOne
-    @JoinColumn(name = "group_id", nullable = false)
-    private Groups group;
-
-    @NotBlank
-    @Column(name = "position_name",nullable = false)
+    @NotBlank(message = "ポジション名は必須項目です")
     private String positionName;
 
-    @NotBlank
-    @Column(nullable = false)
+    @NotBlank(message = "対象者は必須項目です")
     private String target;
 
     @NotNull
     @Min(value = 1, message = "定員は1人以上で入力してください")
     @Max(value = 999, message = "定員は999人以下で入力してください")
-    @Column(name ="max_capacity", nullable = false)
     private Integer maxCapacity;
 
     @NotNull
     @Future(message = "締め切り日時は現在よりも未来の日時を指定してください")
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     @JsonFormat(pattern = "yyyy/MM/dd HH:mm", timezone = "Asia/Tokyo")
-    @Column(name = "recruitment_deadline", nullable = false)
     private LocalDateTime deadline;
 
-    @NotNull
-    @Column(name = "recruitment_status", nullable = false)
     private Boolean recruitmentStatus = true;
 
 }
