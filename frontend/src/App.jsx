@@ -7,6 +7,7 @@ import ApplyComplete from "./components/ApplyComplete.jsx";
 import MyPageLogin from "./pages/user/MyPageLogin.jsx";
 import MyPage from "./pages/user/MyPage.jsx";
 import MyPageEdit from "./pages/user/MyPageEdit.jsx";
+import MyPageLayout from "./pages/user/MyPageLayout.jsx";
 
 function App() {
     const [groups, setGroups] = useState([])
@@ -68,10 +69,24 @@ function App() {
                 <Route path="/mypage/login" element={<MyPageLogin />} />
 
                 // マイページ
-                <Route path="/mypage" element={<MyPage />} />
+                <Route
+                    path="/mypage"
+                    element={
+                        <MyPageLayout>
+                            <MyPage />
+                        </MyPageLayout>
+                    }
+                />
 
                 // マイページ：編集画面
-                <Route path="/mypage/edit" element={<MyPageEdit />} />
+                <Route
+                    path="/mypage/edit"
+                    element={
+                        <MyPageLayout>
+                            <MyPageEdit />
+                        </MyPageLayout>
+                    }
+                />
 
             </Routes>
         </BrowserRouter>

@@ -1,15 +1,24 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function MyPage() {
+
     const [applicant, setApplicant] = useState(null);
     const [error, setError] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
+
         const getMyPage = async () => {
             try {
                 const response = await fetch("/api/mypage", {
                     credentials: "include",
                 });
+
+                if (response.status === 401) {
+                    navigate("/mypage/login");
+                    return;
+                }
 
                 if (!response.ok) {
                     setError(true);
@@ -17,21 +26,37 @@ function MyPage() {
                 }
 
                 const data = await response.json();
+
                 setApplicant(data);
+
             } catch {
                 setError(true);
             }
         };
 
         getMyPage();
-    }, []);
+    }, [navigate]);
 
     if (error) {
         return <p>申込情報を取得できませんでした。</p>;
     }
 
+    // Logout処理
+    const handleLogout = async () => {
+        const response = await fetch("/api/mypage/logout", {
+            method: "POST",
+            credentials: "include",
+        });
+
+        console.log("logout status:", response.status);
+
+        if (response.ok) {
+            navigate("/");
+        }
+    };
+
     return (
-        <main>
+        <>
             <h1>マイページ</h1>
 
             {applicant && (
@@ -79,8 +104,13 @@ function MyPage() {
                 </div>
 
             )}
-
-        </main>
+            <button
+                onClick={handleLogout}
+                className="btn btn-primary"
+            >
+                ログアウト
+            </button>
+        </>
     );
 }
 

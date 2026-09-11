@@ -1,13 +1,13 @@
 package com.example.backend.config;
 
 import com.example.backend.service.StaffsService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.config.annotation.authentication.configurers.userdetails.DaoAuthenticationConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,6 +24,12 @@ public class SecurityConfig {
                         .requestMatchers("/api/mypage/**").authenticated()
                         .anyRequest().permitAll() // すべてのリクエストを認証なしで許可
                 )
+                // URL直打ちでmypageに遷移されないようにする
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                        })
+                )
                 .formLogin(login -> login
                         .loginProcessingUrl("/api/admin/login")
                         .usernameParameter("staffName")
@@ -37,6 +43,12 @@ public class SecurityConfig {
                             response.sendError(HttpStatus.UNAUTHORIZED.value());
                         })
                         .permitAll()
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/api/mypage/logout")
+                        .logoutSuccessHandler((request, response, authentication) -> {
+                            response.setStatus(HttpServletResponse.SC_OK);
+                        })
                 );
         return http.build();
     }

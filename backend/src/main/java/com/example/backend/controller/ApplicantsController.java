@@ -2,6 +2,7 @@ package com.example.backend.controller;
 
 import com.example.backend.dto.*;
 import com.example.backend.service.ApplicantsService;
+import com.example.backend.service.CancelService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -14,9 +15,11 @@ import java.util.List;
 public class ApplicantsController {
 
     private final ApplicantsService applicantsService;
+    private final CancelService cancelService;
 
-    public ApplicantsController(ApplicantsService applicantsService) {
+    public ApplicantsController(ApplicantsService applicantsService, CancelService cancelService) {
         this.applicantsService = applicantsService;
+        this.cancelService = cancelService;
     }
 
     // 管理画面：申込者一覧取得
@@ -72,6 +75,26 @@ public class ApplicantsController {
         applicantsService.deleteApplicant(applicantId, authentication);
 
         return ResponseEntity.noContent().build();
+    }
+
+    // 管理画面：キャンセル依頼を承認
+    @PutMapping("/{applicantId}/approve")
+    public ResponseEntity<Void> approveCancel(
+            @PathVariable Long applicantId,
+            Authentication authentication
+    ) {
+        cancelService.approveCancel(applicantId, authentication);
+        return ResponseEntity.ok().build();
+    }
+
+    // 管理画面：直接キャンセル
+    @PutMapping("/{applicantId}/cancel")
+    public ResponseEntity<Void> cancelDirectly(
+            @PathVariable Long applicantId,
+            Authentication authentication
+    ) {
+        cancelService.cancelDirectly(applicantId, authentication);
+        return ResponseEntity.ok().build();
     }
 
 }

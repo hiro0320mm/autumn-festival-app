@@ -119,6 +119,9 @@ return (
             <p>
                 {group.groupName}
             </p>
+            <button onClick={() => navigate('/')} className="btn btn-primary">
+                山車組選択画面へ戻る
+            </button>
         </div>
 
         <form onSubmit={handleSubmit}>
@@ -478,6 +481,10 @@ return (
                     </p>
                 )}
             </div>
+
+            <button onClick={() => navigate('/')} className="btn btn-primary">
+                秋まつり参加申込システム<br />トップへ戻る
+            </button>
 
             {/* 確認画面へ */}
             <div className="mt-8">
