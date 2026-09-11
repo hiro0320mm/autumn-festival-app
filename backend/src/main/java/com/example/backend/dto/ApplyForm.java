@@ -1,8 +1,6 @@
 package com.example.backend.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,6 +12,10 @@ public class ApplyForm {
     private String applicantName;
 
     @NotBlank(message = "お名前のよみがなは必須項目です")
+    @Pattern(
+            regexp = "^[ぁ-んー 　]+$",
+            message = "お名前のよみがなはひらがなで入力してください"
+    )
     private String kana;
 
     @NotNull(message = "参加される方の年齢は必須項目です")
@@ -23,6 +25,10 @@ public class ApplyForm {
     private String address;
 
     @NotBlank(message = "連絡先電話番号は必須項目です")
+    @Pattern(
+            regexp = "^\\d{10,11}$",
+            message = "電話番号は10桁または11桁の数字で入力してください"
+    )
     private String tel;
 
     @NotBlank(message = "メールアドレスは必須項目です")
@@ -40,8 +46,22 @@ public class ApplyForm {
     private Boolean isStudent = true;
 
     private String schoolName;
+
+    @Pattern(
+            regexp = "^$|^[0-9]+$",
+            message = "学年は半角数字で入力してください"
+    )
     private String schoolGrade;
+
+    @Pattern(
+            regexp = "^$|^[0-9A-Z]+$",
+            message = "クラス名は半角数字または半角大文字アルファベットで入力してください"
+    )
     private String schoolClass;
 
     private String note;
+
+    @NotNull(message = "個人情報の取り扱いへの同意が必要です")
+    @AssertTrue(message = "個人情報の取り扱いに同意してください")
+    private Boolean privacyAgreed;
 }

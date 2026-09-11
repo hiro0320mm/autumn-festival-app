@@ -18,4 +18,10 @@ public interface PositionsRepository extends JpaRepository<Positions, Long> {
             Long groupId,
             String positionName
     );
+
+    // 山車組とポジションの組み合わせチェック
+    boolean existsByPositionIdAndGroup_GroupId(
+            Long positionId,
+            Long groupId
+    );
 }

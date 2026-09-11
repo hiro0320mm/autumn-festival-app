@@ -3,6 +3,7 @@ package com.example.backend.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,6 +15,10 @@ public class AdminApplicantForm {
     private String applicantName;
 
     @NotBlank(message = "よみがなは必須項目です")
+    @Pattern(
+            regexp = "^[ぁ-んー]+$",
+            message = "お名前のよみがなはひらがなで入力してください"
+    )
     private String kana;
 
     @NotNull(message = "年齢は必須項目です")
@@ -23,6 +28,10 @@ public class AdminApplicantForm {
     private String address;
 
     @NotBlank(message = "連絡先電話番号は必須項目です")
+    @Pattern(
+            regexp = "^\\d{10,11}$",
+            message = "電話番号は10桁または11桁の数字で入力してください"
+    )
     private String tel;
 
     @NotBlank(message = "メールアドレスは必須項目です")

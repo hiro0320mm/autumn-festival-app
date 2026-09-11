@@ -17,7 +17,6 @@ import java.util.List;
 public class GroupsService {
 
     private final GroupsRepository groupsRepository;
-    private final PositionsRepository positionsRepository;
     private final StaffsRepository staffsRepository;
     private final PositionsService positionsService;
 
@@ -28,7 +27,6 @@ public class GroupsService {
             PositionsService positionsService
     ){
         this.groupsRepository = groupsRepository;
-        this.positionsRepository = positionsRepository;
         this.staffsRepository = staffsRepository;
         this.positionsService = positionsService;
     }
@@ -39,6 +37,7 @@ public class GroupsService {
                 .map(group -> new GroupListResponse(
                         group.getGroupId(),
                         group.getGroupName(),
+                        group.getOfficeTel(),
                         positionsService.findByGroupId(group.getGroupId())
                 ))
                 .toList();

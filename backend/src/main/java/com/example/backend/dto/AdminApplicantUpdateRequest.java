@@ -8,6 +8,10 @@ public record AdminApplicantUpdateRequest(
         String applicantName,
 
         @NotBlank(message = "よみがなは必須項目です")
+        @Pattern(
+                regexp = "^[ぁ-んー]+$",
+                message = "お名前のよみがなはひらがなで入力してください"
+        )
         String kana,
 
         @NotNull(message = "年齢は必須項目です")
@@ -17,6 +21,10 @@ public record AdminApplicantUpdateRequest(
         String address,
 
         @NotBlank(message = "連絡先電話番号は必須項目です")
+        @Pattern(
+                regexp = "^\\d{10,11}$",
+                message = "電話番号は10桁または11桁の数字で入力してください"
+        )
         String tel,
 
         @NotBlank(message = "メールアドレスは必須項目です")

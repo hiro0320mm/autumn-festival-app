@@ -25,7 +25,7 @@ public class ApplyService {
     private final ApplyRepository applyRepository;
     private final ApplicationValidator applicationValidator;
 
-    public void create(ApplyForm form) {
+    public Applicants create(ApplyForm form) {
 
         Applicants applicant = new Applicants();
 
@@ -64,11 +64,38 @@ public class ApplyService {
         applicant.setSchoolClass(form.getSchoolClass());
         applicant.setNote(form.getNote());
 
-        applicantsRepository.save(applicant);
+        return applicantsRepository.save(applicant);
     }
 
-    // 参加申込フォームからの登録処理
-    public void registerApplication(ApplyForm form) {
+    // マイページ：申込情報取得
+    public ApplyDetailResponse findById(Long applicantId) {
+
+        Applicants applicant = applyRepository.findById(applicantId)
+                .orElseThrow(() ->
+                        new IllegalArgumentException("指定された申込者は存在しません")
+                );
+
+        return new ApplyDetailResponse(
+                applicant.getApplicantId(),
+                applicant.getApplicantName(),
+                applicant.getKana(),
+                applicant.getAge(),
+                applicant.getAddress(),
+                applicant.getTel(),
+                applicant.getEmail(),
+                applicant.getParentName(),
+                applicant.getGroup().getGroupName(),
+                applicant.getPosition().getPositionName(),
+                applicant.getIsStudent(),
+                applicant.getSchoolName(),
+                applicant.getSchoolGrade(),
+                applicant.getSchoolClass(),
+                applicant.getNote()
+        );
+    }
+
+    // 参加申込フォームの内容確認
+    public void validateApply(ApplyForm form) {
         applicationValidator.validate(
                 form.getAge(),
                 form.getParentName(),
@@ -77,6 +104,32 @@ public class ApplyService {
                 form.getSchoolGrade(),
                 form.getSchoolClass()
         );
+    }
+
+    // 参加申込フォームからの登録処理
+    public Applicants registerApplication(ApplyForm form) {
+
+        applicationValidator.validate(
+                form.getAge(),
+                form.getParentName(),
+                form.getIsStudent(),
+                form.getSchoolName(),
+                form.getSchoolGrade(),
+                form.getSchoolClass()
+        );
+
+        // 山車組とポジションの組み合わせチェック
+        boolean validPosition = positionsRepository
+                .existsByPositionIdAndGroup_GroupId(
+                        form.getPositionId(),
+                        form.getGroupId()
+                );
+
+        if (!validPosition) {
+            throw new IllegalArgumentException(
+                    "選択した山車組とポジションの組み合わせが正しくありません"
+            );
+        }
 
         // 同一人物の重複申込チェック
         boolean duplicate = applicantsRepository
@@ -93,30 +146,7 @@ public class ApplyService {
             );
         }
 
-        create(form);
-    }
-
-    // マイページ申込情報取得用に詰め替え
-    public ApplyDetailResponse findById(Long applicantId) {
-        Applicants applicant = applyRepository.findById(applicantId)
-                .orElseThrow();
-        return new ApplyDetailResponse(
-                        applicant.getApplicantId(),
-                        applicant.getApplicantName(),
-                        applicant.getKana(),
-                        applicant.getAge(),
-                        applicant.getAddress(),
-                        applicant.getTel(),
-                        applicant.getEmail(),
-                        applicant.getParentName(),
-                        applicant.getGroup().getGroupName(),
-                        applicant.getPosition().getPositionName(),
-                        applicant.getIsStudent(),
-                        applicant.getSchoolName(),
-                        applicant.getSchoolGrade(),
-                        applicant.getSchoolClass(),
-                        applicant.getNote()
-        );
+        return create(form);
     }
 
     // マイページ：編集

@@ -8,6 +8,10 @@ public record MyPageUpdateRequest(
     String applicantName,
 
     @NotBlank
+    @Pattern(
+            regexp = "^[ぁ-んー]+$",
+            message = "お名前のよみがなはひらがなで入力してください"
+    )
     String kana,
 
     @NotNull
@@ -24,6 +28,10 @@ public record MyPageUpdateRequest(
     String email,
 
     @NotBlank
+    @Pattern(
+            regexp = "^\\d{10,11}$",
+            message = "電話番号は10桁または11桁の数字で入力してください"
+    )
     String tel,
 
     String parentName,
