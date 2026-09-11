@@ -32,6 +32,7 @@ public class MyPageController {
             Authentication authentication,
             @Valid @RequestBody MyPageUpdateRequest request
     ) {
+
         Long applicantId = (Long) authentication.getPrincipal();
 
         applyService.updateMyPage(applicantId, request);

@@ -4,6 +4,9 @@ import './App.css'
 import ApplyForm from './components/ApplyForm'
 import ApplyConfirm from "./components/ApplyConfirm.jsx";
 import ApplyComplete from "./components/ApplyComplete.jsx";
+import MyPageLogin from "./pages/user/MyPageLogin.jsx";
+import MyPage from "./pages/user/MyPage.jsx";
+import MyPageEdit from "./pages/user/MyPageEdit.jsx";
 
 function App() {
     const [groups, setGroups] = useState([])
@@ -53,22 +56,22 @@ function App() {
                 />
 
                 // 参加申込フォーム
-                <Route
-                    path="/apply/:groupId"
-                    element={<ApplyForm />}
-                />
+                <Route path="/apply/:groupId" element={<ApplyForm />} />
 
                 // 参加申込内容確認画面
-                <Route
-                    path="/apply/:groupId/confirm"
-                    element={<ApplyConfirm />}
-                />
+                <Route path="/apply/:groupId/confirm" element={<ApplyConfirm />} />
 
                 // 申込完了画面
-                <Route
-                    path="/apply/complete"
-                    element={<ApplyComplete />}
-                />
+                <Route path="/apply/complete" element={<ApplyComplete />} />
+
+                // マイページ：ログイン画面
+                <Route path="/mypage/login" element={<MyPageLogin />} />
+
+                // マイページ
+                <Route path="/mypage" element={<MyPage />} />
+
+                // マイページ：編集画面
+                <Route path="/mypage/edit" element={<MyPageEdit />} />
 
             </Routes>
         </BrowserRouter>

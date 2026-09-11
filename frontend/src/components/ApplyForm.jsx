@@ -269,7 +269,7 @@ return (
                 </label>
 
                 <input
-                    type="email"
+                    type="text"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
@@ -424,7 +424,7 @@ return (
                 )}
             </div>
 
-            {/* 備考 */}
+            {/* 連絡事項 */}
             <div className="mb-6">
                 <label className="block font-bold mb-2">
                     連絡事項
