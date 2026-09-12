@@ -18,6 +18,9 @@ import AdminApplicants from "./pages/admin/applicants/AdminApplicants.jsx";
 import AdminApplicantDetail from "./pages/admin/applicants/AdminApplicantDetail.jsx";
 import AdminApplicantEdit from "./pages/admin/applicants/AdminApplicantEdit.jsx";
 import AdminApplicantNew from "./pages/admin/applicants/AdminApplicantNew.jsx";
+import AdminPositions from "./pages/admin/positions/AdminPositions.jsx";
+import AdminPositionDetail from "./pages/admin/positions/AdminPositionDetail.jsx";
+import AdminPositionNew from "./pages/admin/positions/AdminPositionNew.jsx";
 
 function App() {
     const [groups, setGroups] = useState([])
@@ -167,6 +170,42 @@ function App() {
                         <AdminProtectedRoute>
                             <AdminLayout>
                                 <AdminApplicantNew />
+                            </AdminLayout>
+                        </AdminProtectedRoute>
+                    }
+                />
+
+                // 管理画面：ポジション管理
+                <Route
+                    path="/admin/positions"
+                    element={
+                        <AdminProtectedRoute>
+                            <AdminLayout>
+                                <AdminPositions />
+                            </AdminLayout>
+                        </AdminProtectedRoute>
+                    }
+                />
+
+                // 管理画面：ポジション情報
+                <Route
+                    path="/admin/positions/:positionId"
+                    element={
+                        <AdminProtectedRoute>
+                            <AdminLayout>
+                                <AdminPositionDetail />
+                            </AdminLayout>
+                        </AdminProtectedRoute>
+                    }
+                />
+
+                // 管理画面：ポジション登録
+                <Route
+                    path="/admin/positions/register"
+                    element={
+                        <AdminProtectedRoute>
+                            <AdminLayout>
+                                <AdminPositionNew />
                             </AdminLayout>
                         </AdminProtectedRoute>
                     }
