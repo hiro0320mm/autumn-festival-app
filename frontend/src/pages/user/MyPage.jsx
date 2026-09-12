@@ -26,6 +26,7 @@ function MyPage() {
                 }
 
                 const data = await response.json();
+                console.log(data);
 
                 setApplicant(data);
 
@@ -43,12 +44,10 @@ function MyPage() {
 
     // Logout処理
     const handleLogout = async () => {
-        const response = await fetch("/api/mypage/logout", {
+        const response = await fetch("/api/logout", {
             method: "POST",
             credentials: "include",
         });
-
-        console.log("logout status:", response.status);
 
         if (response.ok) {
             navigate("/");
@@ -59,8 +58,12 @@ function MyPage() {
         <>
             <h1>マイページ</h1>
 
+
             {applicant && (
                 <div>
+                    {applicant.cancelStatus === "REQUESTED" && (
+                        <p>キャンセル承認待ちです</p>
+                    )}
                     <h2>申込情報</h2>
 
                     <p>山車組：{applicant.groupName}</p>
@@ -101,6 +104,21 @@ function MyPage() {
                     >
                         編集する
                     </button>
+
+                    {/*キャンセル依頼中の場合はキャンセルボタンを非表示*/}
+                    {applicant.cancelStatus === "NONE" && (
+                        <button
+                            onClick={() =>
+                                navigate("/mypage/cancel", {
+                                    state: { applicant }
+                                })
+                            }
+                            className="btn btn-primary"
+                        >
+                            キャンセルする
+                        </button>
+                    )}
+
                 </div>
 
             )}

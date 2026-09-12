@@ -90,6 +90,7 @@ public class ApplyService {
                 applicant.getSchoolName(),
                 applicant.getSchoolGrade(),
                 applicant.getSchoolClass(),
+                applicant.getCancelStatus(),
                 applicant.getNote()
         );
     }

@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-function MyPageHeader() {
+function AdminHeader() {
     const navigate = useNavigate();
 
     const handleLogout = async () => {
@@ -8,12 +8,16 @@ function MyPageHeader() {
             method: 'POST',
         });
 
-        navigate("/");
+        navigate("/api/admin/login");
     };
 
     return (
         <header>
-            <h1>秋まつり参加申込システム</h1>
+            <h1>秋まつり参加申込システム 管理画面</h1>
+
+            <button onClick={() => navigate("/admin/applicants")} className="btn btn-primary">
+                申込者管理
+            </button>
 
             <button
                 onClick={handleLogout}
@@ -25,4 +29,4 @@ function MyPageHeader() {
     );
 }
 
-export default MyPageHeader;
+export default AdminHeader;

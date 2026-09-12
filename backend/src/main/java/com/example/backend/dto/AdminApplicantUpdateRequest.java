@@ -33,11 +33,6 @@ public record AdminApplicantUpdateRequest(
 
         String parentName,
 
-        Long groupId,
-
-        @NotNull(message = "ポジションを選択してください")
-        Long positionId,
-
         Boolean isStudent,
 
         String schoolName,

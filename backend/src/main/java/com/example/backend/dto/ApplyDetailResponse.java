@@ -1,5 +1,7 @@
 package com.example.backend.dto;
 
+import com.example.backend.entity.CancelStatus;
+
 public record ApplyDetailResponse(
         Long applicantId,
         String applicantName,
@@ -15,5 +17,6 @@ public record ApplyDetailResponse(
         String schoolName,
         String schoolGrade,
         String schoolClass,
+        CancelStatus cancelStatus,
         String note
 ){}

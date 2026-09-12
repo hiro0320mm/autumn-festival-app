@@ -242,28 +242,8 @@ public class ApplicantsService {
                 throw new IllegalArgumentException("この申込者を編集する権限がありません");
             }
 
-        } else if (staff.getRole() == Role.ROLE_SUPER_ADMIN) {
-            // 特権管理者の場合は山車組選択を必須とする
-            if (request.groupId() == null) {
-                throw new IllegalArgumentException("山車組を選択してください");
-            }
-            // 特権管理者：指定された山車組に申込者を登録
-            group = groupsRepository.findById(request.groupId())
-                    .orElseThrow(() ->
-                            new IllegalArgumentException("指定された山車組がみつかりません")
-                    );
         } else {
             throw new IllegalArgumentException("権限が不正です");
-        }
-
-        Positions position = positionsRepository.findById(request.positionId())
-                .orElseThrow(() ->
-                        new IllegalArgumentException("指定されたポジションが見つかりません")
-                );
-
-        // 山車組とポジションが正しく紐づいていない場合はエラーを返す
-        if (!position.getGroup().getGroupId().equals(group.getGroupId())) {
-            throw new IllegalArgumentException("指定されたポジションは、この山車組に登録できません");
         }
 
         applicationValidator.validate(
@@ -287,9 +267,6 @@ public class ApplicantsService {
         if (duplicate) {
             throw new IllegalArgumentException("この参加者はすでに申込済みです");
         }
-
-        applicant.setGroup(group);
-        applicant.setPosition(position);
 
         applicant.setApplicantName(
                 InputNormalizer.removeSpaces(request.applicantName())
