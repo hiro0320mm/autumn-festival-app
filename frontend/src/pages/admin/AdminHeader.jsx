@@ -8,7 +8,7 @@ function AdminHeader() {
             method: 'POST',
         });
 
-        navigate("/api/admin/login");
+        navigate("/admin/login");
     };
 
     return (

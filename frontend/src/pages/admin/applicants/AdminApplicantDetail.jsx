@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import {Link, useLocation, useParams} from "react-router-dom";
+import {Link, useLocation, useNavigate, useParams} from "react-router-dom";
 
 function AdminApplicantDetail() {
     const { applicantId } = useParams();
     const location = useLocation();
+    const navigate = useNavigate();
     const message = location.state?.message;
 
     const [applicant, setApplicant] = useState(null);
@@ -31,6 +32,85 @@ function AdminApplicantDetail() {
             });
     }, [applicantId]);
 
+    const handleDelete = async () => {
+        const confirmed = window.confirm(
+            "この申込者を削除してもよろしいですか？"
+        );
+
+        if (!confirmed) {
+            return;
+        }
+
+        try {
+            const response = await fetch(
+                `/api/admin/applicants/${applicantId}`,
+                {
+                    method: "DELETE",
+                    credentials: "include",
+                }
+            );
+
+            if (!response.ok) {
+                const data = await response.json();
+                setError(data.message);
+                return;
+            }
+
+            navigate("/admin/applicants", {
+                state: { message: "申込者を削除しました" }
+            });
+
+        } catch {
+            setError("申込者の削除に失敗しました");
+        }
+    };
+
+    // 直接キャンセル
+    const handleCancel = async () => {
+
+        const response = await fetch(
+            `/api/admin/applicants/${applicantId}/cancel`,
+            {
+                method: "PUT",
+                credentials: "include",
+            }
+        );
+
+        if (response.ok) {
+            navigate(`/admin/applicants/${applicantId}`, {
+                state: {
+                    message: "申込をキャンセルしました"
+                }
+            });
+            return;
+        }
+
+        alert("キャンセルに失敗しました");
+    };
+
+    // キャンセル承認
+    const handleApproveCancel  = async () => {
+
+        const response = await fetch(
+            `/api/admin/applicants/${applicantId}/approve`,
+            {
+                method: "PUT",
+                credentials: "include",
+            }
+        );
+
+        if (response.ok) {
+            navigate(`/admin/applicants/${applicantId}`, {
+                state: {
+                    message: "キャンセル依頼を承認しました"
+                }
+            });
+            return;
+        }
+
+        alert("キャンセル承認に失敗しました");
+    };
+
     return (
         <div>
             <h1>申込者詳細</h1>
@@ -55,6 +135,26 @@ function AdminApplicantDetail() {
                     <Link to={`/admin/applicants/${applicant.applicantId}/edit`}>
                         編集
                     </Link>
+
+                    {applicant.cancelStatus === "NONE" && (
+                        <button type="button" onClick={handleCancel}>
+                            キャンセル
+                        </button>
+                    )}
+
+                    {applicant.cancelStatus === "REQUESTED" && (
+                        <button type="button" onClick={handleApproveCancel}>
+                            キャンセルを承認
+                        </button>
+                    )}
+
+                    {applicant.cancelStatus === "CANCELED" && (
+                        <p>キャンセル済み</p>
+                    )}
+
+                    <button type="button" onClick={handleDelete}>
+                        削除
+                    </button>
                 </div>
             )}
         </div>
