@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 function AdminApplicants() {
     const [applicants, setApplicants] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetch("/api/admin/applicants", {
@@ -26,6 +27,13 @@ function AdminApplicants() {
     return (
         <div>
             <h1>申込者管理</h1>
+
+            <button type="button"
+                    onClick={() => navigate('/admin/applicants/register')}
+                    className="btn btn-primary"
+            >
+                ＋申込者を追加する
+            </button>
 
             {applicants.map(applicant => (
                 <div key={applicant.applicantId}>

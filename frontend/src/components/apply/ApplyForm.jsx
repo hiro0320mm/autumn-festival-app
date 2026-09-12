@@ -87,7 +87,6 @@ function ApplyForm() {
 
         if (!response.ok) {
             const data = await response.json()
-            console.log(data)
             setErrors(data)
             return
         }

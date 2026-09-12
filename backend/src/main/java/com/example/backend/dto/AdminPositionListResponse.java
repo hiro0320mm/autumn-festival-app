@@ -8,6 +8,7 @@ public record AdminPositionListResponse(
         String target,
         Integer maxCapacity,
         LocalDateTime deadline,
-        Boolean recruitmentStatus
+        Boolean recruitmentStatus,
+        Long groupId
 ) {
 }

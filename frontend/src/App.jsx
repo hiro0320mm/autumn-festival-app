@@ -17,6 +17,7 @@ import AdminLayout from "./pages/admin/AdminLayout.jsx";
 import AdminApplicants from "./pages/admin/applicants/AdminApplicants.jsx";
 import AdminApplicantDetail from "./pages/admin/applicants/AdminApplicantDetail.jsx";
 import AdminApplicantEdit from "./pages/admin/applicants/AdminApplicantEdit.jsx";
+import AdminApplicantNew from "./pages/admin/applicants/AdminApplicantNew.jsx";
 
 function App() {
     const [groups, setGroups] = useState([])
@@ -154,6 +155,18 @@ function App() {
                         <AdminProtectedRoute>
                             <AdminLayout>
                                 <AdminApplicantEdit />
+                            </AdminLayout>
+                        </AdminProtectedRoute>
+                    }
+                />
+
+                // 管理画面：新規申込者登録
+                <Route
+                    path="/admin/applicants/register"
+                    element={
+                        <AdminProtectedRoute>
+                            <AdminLayout>
+                                <AdminApplicantNew />
                             </AdminLayout>
                         </AdminProtectedRoute>
                     }

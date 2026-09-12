@@ -71,7 +71,8 @@ public class PositionsService {
                         position.getTarget(),
                         position.getMaxCapacity(),
                         position.getDeadline(),
-                        position.getRecruitmentStatus()
+                        position.getRecruitmentStatus(),
+                        position.getGroup().getGroupId()
                 ))
                 .toList();
     }
