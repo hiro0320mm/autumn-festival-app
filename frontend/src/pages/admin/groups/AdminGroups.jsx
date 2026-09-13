@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAdmin } from "../../../components/admin/AdminContext";
+import {Pencil} from "lucide-react";
 
 function AdminGroupList() {
     const admin = useAdmin();
@@ -53,30 +54,55 @@ function AdminGroupList() {
     }
 
     return (
-        <div>
-            <h1>山車組一覧</h1>
+        <section>
+            <div className="flex justify-start gap-x-10">
+                <h1>山車組一覧</h1>
+            </div>
 
-            {groups.map(group => (
-                <div key={group.groupId}>
-                    <p><Link to={`/admin/groups/${group.groupId}`}>山車組名：{group.groupName}</Link></p>
-                    <p>主要エリア：{group.district}</p>
-                    <p>事務所所在地：{group.officeAddress}</p>
-                    <p>事務所電話番号：{group.officeTel}</p>
-                    <p>その他の窓口：{group.contactName}</p>
-                    <p>その他の窓口電話番号：{group.contactTel}</p>
-                    <p>紹介文：{group.description}</p>
-
-                    <button
-                        className="btn btn-primary"
-                        onClick={() => navigate(`/admin/groups/${group.groupId}/edit`)}
+            <table className="table">
+                <thead>
+                    <tr>
+                        <th>山車組名</th>
+                        <th>主要エリア</th>
+                        <th>事務所所在地</th>
+                        <th>事務所電話番号</th>
+                        <th>その他の窓口</th>
+                        <th>その他の窓口電話番号</th>
+                        <th>紹介文</th>
+                        <th>編集</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {groups.map(group => (
+                    <tr
+                        key={group.groupId}
+                        className="hover:bg-base-200 cursor-pointer text-center"
+                        onClick={() => navigate(`/admin/groups/${group.groupId}`)}
                     >
-                        編集
-                    </button>
-
-                    <hr />
-                </div>
-            ))}
-        </div>
+                        <td>{group.groupName}</td>
+                        <td>{group.district}</td>
+                        <td>{group.officeAddress}</td>
+                        <td>{group.officeTel}</td>
+                        <td>{group.contactName}</td>
+                        <td>{group.contactTel}</td>
+                        <td>{group.description}</td>
+                        <td
+                            onClick={(e) => e.stopPropagation()}
+                            className="text-center"
+                        >
+                            <Link
+                                to={`/admin/groups/${group.groupId}/edit`}
+                                state={{ from: "list" }}
+                                className="edit-icon"
+                            >
+                                <Pencil size={18} />
+                            </Link>
+                        </td>
+                    </tr>
+                ))}
+                </tbody>
+            </table>
+        </section>
     );
 }
 

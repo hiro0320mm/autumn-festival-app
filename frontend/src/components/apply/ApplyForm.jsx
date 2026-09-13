@@ -88,6 +88,10 @@ function ApplyForm() {
         if (!response.ok) {
             const data = await response.json()
             setErrors(data)
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth",
+            });
             return
         }
 
@@ -104,18 +108,18 @@ function ApplyForm() {
     }
 
 return (
-    <div className="max-w-2xl mx-auto p-6">
+    <section>
 
-        <h1 className="text-2xl font-bold mb-6">
-            参加申込
+        <h1 className="text-2xl font-bold mb-6 sm:m-2">
+            参加を希望される方は下記にご入力ください
         </h1>
 
         <div className="mb-6 p-4 border rounded">
-            <p className="font-bold mb-2">
+            <p className="font-bold mb-2 sm:m-2">
                 参加する山車組
             </p>
 
-            <p>
+            <p className="text-3xl mb-5 ml-5">
                 {group.groupName}
             </p>
             <button onClick={() => navigate('/')} className="btn btn-primary">
@@ -127,8 +131,14 @@ return (
 
             {/* お名前 */}
             <div className="mb-5">
-                <label className="block font-bold mb-2">
+                <label>
+                    <span className="required">＊必須項目</span>
                     参加される方のお名前
+                    {errors.applicantName && (
+                        <span className="validation-error">
+                            {errors.applicantName}
+                        </span>
+                    )}
                 </label>
 
                 <input
@@ -136,21 +146,22 @@ return (
                     name="applicantName"
                     value={formData.applicantName}
                     onChange={handleChange}
-                    className="input input-bordered w-full"
                     placeholder="久慈秋子"
                 />
 
-                {errors.applicantName && (
-                    <p className="text-error mt-1 text-xs">
-                        {errors.applicantName}
-                    </p>
-                )}
+                
             </div>
 
             {/* よみがな */}
             <div className="mb-5">
-                <label className="block font-bold mb-2">
+                <label>
+                    <span className="required">＊必須項目</span>
                     お名前のよみがな
+                    {errors.kana && (
+                        <span className="validation-error">
+                            {errors.kana}
+                        </span>
+                    )}
                 </label>
 
                 <input
@@ -158,22 +169,21 @@ return (
                     name="kana"
                     value={formData.kana}
                     onChange={handleChange}
-                    className="input input-bordered w-full"
                     placeholder="ひらがなで入力してください"
                 />
-
-                {errors.kana && (
-                    <p className="text-error mt-1 text-xs">
-                        {errors.kana}
-                    </p>
-                )}
 
             </div>
 
             {/* 年齢 */}
             <div className="mb-5">
-                <label className="block font-bold mb-2">
+                <label>
+                    <span className="required">＊必須項目</span>
                     参加される方の年齢
+                    {errors.age && (
+                        <span className="validation-error">
+                            {errors.age}
+                        </span>
+                    )}
                 </label>
 
                 <div className="flex items-center gap-2">
@@ -182,25 +192,24 @@ return (
                         name="age"
                         value={formData.age}
                         onChange={handleChange}
-                        className="input input-bordered w-32"
                         min="1"
                     />
                     <span>歳</span>
                 </div>
-
-                {errors.age && (
-                    <p className="text-error mt-1 text-xs">
-                        {errors.age}
-                    </p>
-                )}
 
             </div>
 
             {/* 保護者名 */}
             {formData.age !== '' && Number(formData.age) < 18 && (
                 <div className="mb-5">
-                    <label className="block font-bold mb-2">
+                    <label>
+                        <span className="required">＊18歳未満の場合は必須項目</span>
                         保護者のお名前
+                        {parentError && (
+                            <span className="validation-error">
+                                {errors.message}
+                            </span>
+                        )}
                     </label>
 
                     <input
@@ -208,22 +217,21 @@ return (
                         name="parentName"
                         value={formData.parentName}
                         onChange={handleChange}
-                        className="input input-bordered w-full"
                     />
-
-                    {parentError && (
-                        <p className="text-error mt-1 text-xs">
-                            {errors.message}
-                        </p>
-                    )}
 
                 </div>
             )}
 
             {/* 住所 */}
             <div className="mb-5">
-                <label className="block font-bold mb-2">
+                <label>
+                    <span className="required">＊必須項目</span>
                     住所
+                    {errors.address && (
+                        <span className="validation-error">
+                            {errors.address}
+                        </span>
+                    )}
                 </label>
 
                 <input
@@ -231,21 +239,20 @@ return (
                     name="address"
                     value={formData.address}
                     onChange={handleChange}
-                    className="input input-bordered w-full"
                     placeholder="岩手県久慈市○○町××丁目△△"
                 />
-
-                {errors.address && (
-                    <p className="text-error mt-1 text-xs">
-                        {errors.address}
-                    </p>
-                )}
             </div>
 
             {/* 電話番号 */}
             <div className="mb-5">
-                <label className="block font-bold mb-2">
+                <label>
+                    <span className="required">＊必須項目</span>
                     連絡先電話番号
+                    {errors.tel && (
+                        <span className="validation-error">
+                            {errors.tel}
+                        </span>
+                    )}
                 </label>
 
                 <input
@@ -253,21 +260,20 @@ return (
                     name="tel"
                     value={formData.tel}
                     onChange={handleChange}
-                    className="input input-bordered w-full"
                     placeholder="09012345678"
                 />
-
-                {errors.tel && (
-                    <p className="text-error mt-1 text-xs">
-                        {errors.tel}
-                    </p>
-                )}
             </div>
 
             {/* メールアドレス */}
             <div className="mb-5">
-                <label className="block font-bold mb-2">
+                <label>
+                    <span className="required">＊必須項目</span>
                     メールアドレス
+                    {errors.email && (
+                        <span className="validation-error">
+                            {errors.email}
+                        </span>
+                    )}
                 </label>
 
                 <input
@@ -275,14 +281,7 @@ return (
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    className="input input-bordered w-full"
                 />
-
-                {errors.email && (
-                    <p className="text-error mt-1 text-xs">
-                        {errors.email}
-                    </p>
-                )}
             </div>
 
             {/* 学生 */}
@@ -326,13 +325,14 @@ return (
                         学校情報
                     </p>
                     {schoolError && (
-                        <p className="text-error mt-1 text-xs">
+                        <p className="validation-error mb-5">
                             {errors.message}
                         </p>
                     )}
 
                     <div className="mb-4">
-                        <label className="block mb-2">
+                        <label>
+                            <span className="required">＊小中高生の場合は必須項目</span>
                             学校名
                         </label>
 
@@ -341,14 +341,19 @@ return (
                             name="schoolName"
                             value={formData.schoolName}
                             onChange={handleChange}
-                            className="input input-bordered w-full"
                         />
 
                     </div>
 
                     <div className="mb-4">
-                        <label className="block mb-2">
+                        <label>
+                            <span className="required">＊小中高生の場合は必須項目</span>
                             学年
+                            {errors.schoolGrade && (
+                                <span className="validation-error">
+                                    {errors.schoolGrade}
+                                </span>
+                            )}
                         </label>
 
                         <input
@@ -356,21 +361,21 @@ return (
                             name="schoolGrade"
                             value={formData.schoolGrade}
                             onChange={handleChange}
-                            className="input input-bordered w-full"
+                            className="short-text"
                         />
                         <span>年</span>
-
-                        {errors.schoolGrade && (
-                            <p className="text-error mt-1">
-                                {errors.schoolGrade}
-                            </p>
-                        )}
 
                     </div>
 
                     <div>
-                        <label className="block mb-2">
+                        <label>
+                            <span className="required">＊小中高生の場合は必須項目</span>
                             クラス
+                            {errors.schoolClass && (
+                                <span className="validation-error">
+                                    {errors.schoolClass}
+                                </span>
+                            )}
                         </label>
 
                         <input
@@ -378,15 +383,9 @@ return (
                             name="schoolClass"
                             value={formData.schoolClass}
                             onChange={handleChange}
-                            className="input input-bordered w-full"
+                            className="short-text"
                         />
                         <span>組</span>
-
-                        {errors.schoolClass && (
-                            <p className="text-error mt-1">
-                                {errors.schoolClass}
-                            </p>
-                        )}
 
                     </div>
 
@@ -395,8 +394,13 @@ return (
 
             {/* ポジション */}
             <div className="mb-5">
-                <label className="block font-bold mb-2">
+                <label>
                     希望するポジション
+                    {errors.positionId && (
+                        <span className="validation-error">
+                            {errors.positionId}
+                        </span>
+                    )}
                 </label>
 
                 <select
@@ -419,22 +423,17 @@ return (
                     ))}
                 </select>
 
-                {errors.positionId && (
-                    <p className="text-error mt-1 text-xs">
-                        {errors.positionId}
-                    </p>
-                )}
             </div>
 
             {/* 連絡事項 */}
             <div className="mb-6">
-                <label className="block font-bold mb-2">
+                <label>
                     連絡事項
                 </label>
                 <ul className="text-xs">
-                    <li>※参加する山車組に伝えておきたいことがあればご入力ください</li>
-                    <li>・参加できない日が予めわかっている場合や、食べ物等アレルギー情報、体調・体質で不安なことがあればお知らせください</li>
-                    <li className="text-red-700">・参加できなくなった場合は申し込んだ山車組の事務所へ直接ご連絡ください</li>
+                    <li>参加する山車組に伝えておきたいことがあればご入力ください</li>
+                    <li>参加できない日が予めわかっている場合や、食べ物等アレルギー情報、体調・体質で不安なことがあればお知らせください</li>
+                    <li className="text-red-700">参加できなくなった場合は申し込んだ山車組の事務所へ直接ご連絡ください</li>
                 </ul>
 
                 <textarea
@@ -447,9 +446,18 @@ return (
             </div>
 
             <div>
-                <h2>個人情報の取り扱いについて</h2>
 
-                <ol className="text-left list-decimal list-inside">
+                <h2 className="font-semibold">
+                    <span className="block required font-normal text-xs">＊必須項目</span>
+                    個人情報の取り扱いについて
+                    {errors.privacyAgreed && (
+                        <span className="validation-error">
+                            {errors.privacyAgreed}
+                        </span>
+                    )}
+                </h2>
+
+                <ol className="text-left list-decimal list-inside my-5 p-4 border rounded">
                     <li>
                         入力された情報は下記の目的でのみ使用します
                         <ul>
@@ -464,39 +472,35 @@ return (
                     </li>
                 </ol>
 
-                <label>
+                <label className="my-5">
                     <input
                         type="checkbox"
                         name="privacyAgreed"
                         checked={formData.privacyAgreed}
                         onChange={handleChange}
                     />
-                    個人情報の取り扱いに同意します
+                    {" "}個人情報の取り扱いに同意します
                 </label>
+                <div className="flex justify-center my-10">
+                    {/* 確認画面へ */}
+                    <div className="mt-8">
+                        <button
+                            type="submit"
+                            className="submit-btn"
+                        >
+                            確認画面へ
+                        </button>
+                    </div>
+                </div>
 
-                {errors.privacyAgreed && (
-                    <p className="text-error mt-1 text-xs">
-                        {errors.privacyAgreed}
-                    </p>
-                )}
             </div>
 
-            <button onClick={() => navigate('/')} className="btn btn-primary">
+            <button onClick={() => navigate('/')} className="back-to-btn">
                 秋まつり参加申込システム<br />トップへ戻る
             </button>
 
-            {/* 確認画面へ */}
-            <div className="mt-8">
-                <button
-                    type="submit"
-                    className="btn btn-primary w-full"
-                >
-                    確認画面へ
-                </button>
-            </div>
-
         </form>
-    </div>
+    </section>
 )
 }
 

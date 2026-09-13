@@ -9,6 +9,7 @@ public record AdminPositionListResponse(
         Integer maxCapacity,
         LocalDateTime deadline,
         Boolean recruitmentStatus,
-        Long groupId
+        Long groupId,
+        Long applicantCount
 ) {
 }

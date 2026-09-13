@@ -25,53 +25,14 @@ import AdminPositionEdit from "./pages/admin/positions/AdminPositionEdit.jsx";
 import AdminGroupDetail from "./pages/admin/groups/AdminGroupDetail.jsx";
 import AdminGroupEdit from "./pages/admin/groups/AdminGroupEdit.jsx";
 import AdminGroups from "./pages/admin/groups/AdminGroups.jsx";
+import GroupList from "./pages/user/GroupList.jsx";
 
 function App() {
-    const [groups, setGroups] = useState([])
-
-    useEffect(() => {
-        fetch('/api/groups')
-            .then(response => {
-                return response.json()
-            })
-            .then(data => {
-                setGroups(data)
-            })
-    }, [])
-
     return (
         <BrowserRouter>
             <Routes>
                 // **** 一般ユーザー用画面 ****
-                <Route
-                    path="/"
-                    element={
-                        <div className="app">
-                            <h1>秋祭り参加申込</h1>
-
-                            {groups.map(group => (
-                                <div key={group.groupId}>
-                                    <p>山車組：{group.groupName}</p>
-
-                                    <ul>
-                                        {group.positions.map(position => (
-                                            <li key={position.positionId}>
-                                                {position.positionName}
-                                            </li>
-                                        ))}
-                                    </ul>
-
-                                    <Link
-                                        to={`/apply/${group.groupId}`}
-                                        className="btn btn-primary"
-                                    >
-                                        {group.groupName}に申し込む
-                                    </Link>
-                                </div>
-                            ))}
-                        </div>
-                    }
-                />
+                <Route path="/" element={<GroupList />} />
 
                 // 参加申込フォーム
                 <Route path="/apply/:groupId" element={<ApplyForm />} />
@@ -109,11 +70,21 @@ function App() {
                 // マイページ：キャンセル確認画面
                 <Route
                     path="/mypage/cancel"
-                    element={<CancelConfirm />}
+                    element={
+                        <MyPageLayout>
+                            <CancelConfirm />
+                        </MyPageLayout>
+                    }
                 />
 
                 // キャンセル依頼完了画面
-                <Route path="/mypage/cancel/complete" element={<CancelComplete />} />
+                <Route
+                    path="/mypage/cancel/complete"
+                    element={
+                        <MyPageLayout>
+                            <CancelComplete />
+                        </MyPageLayout>
+                } />
 
                 // **** 管理画面 ****
                 // 管理画面：ログイン画面

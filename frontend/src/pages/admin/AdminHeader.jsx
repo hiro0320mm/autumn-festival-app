@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import { useAdmin } from "../../components/admin/AdminContext.jsx";
 
 function AdminHeader() {
@@ -15,27 +15,29 @@ function AdminHeader() {
 
     return (
         <header>
-            <h1>秋まつり参加申込システム 管理画面</h1>
+            <Link to="/admin"><h1>秋まつり参加申込システム 管理画面</h1></Link>
 
-            <button onClick={() => navigate("/admin/applicants")} className="btn btn-primary">
-                申込者管理
-            </button>
+            <nav className="flex items-center gap-4">
+                <button onClick={() => navigate("/admin/applicants")}>
+                    申込者管理
+                </button>
 
-            <button onClick={() => navigate("/admin/positions")} className="btn btn-primary">
-                ポジション管理
-            </button>
+                <button onClick={() => navigate("/admin/positions")}>
+                    ポジション管理
+                </button>
 
-            <button onClick={() => navigate("/admin/groups")} className="btn btn-primary">
-                山車組情報管理
-            </button>
+                <button onClick={() => navigate("/admin/groups")}>
+                    山車組情報管理
+                </button>
 
-            <span>{admin.staffName}さん</span>
-            <button
-                onClick={handleLogout}
-                className="btn btn-primary"
-            >
-                ログアウト
-            </button>
+                <span>{admin.staffName} でログイン中</span>
+                <button
+                    onClick={handleLogout}
+                    className="logout-btn"
+                >
+                    ログアウト
+                </button>
+            </nav>
         </header>
     );
 }

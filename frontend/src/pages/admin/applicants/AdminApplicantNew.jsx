@@ -13,9 +13,9 @@ function AdminApplicantNew() {
     const [positions, setPositions] = useState([]);
 
     const [error, setError] = useState("");
-    const [ errors, setErrors ] = useState({})
-    const parentError = errors.message?.includes('保護者名')
-    const schoolError = errors.message?.includes('学校名')
+    const [ errors, setErrors ] = useState({});
+    const parentError = errors.message?.includes('保護者名');
+    const schoolError = errors.message?.includes('学校名');
 
     const [formData, setFormData] = useState(
         location.state?.formData || {
@@ -78,6 +78,11 @@ function AdminApplicantNew() {
                     throw new Error("山車組情報の取得に失敗しました");
                 }
 
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth",
+                });
+
                 return response.json();
             })
             .then(data => {
@@ -101,6 +106,11 @@ function AdminApplicantNew() {
                 if (!response.ok) {
                     throw new Error("ポジション情報の取得に失敗しました");
                 }
+
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth",
+                });
 
                 return response.json();
             })
@@ -158,29 +168,36 @@ function AdminApplicantNew() {
             if (!response.ok) {
                 const data = await response.json()
                 setErrors(data);
+
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth",
+                });
                 return;
             }
 
             navigate("/admin/applicants", { state: { message: "申込者を登録しました", }, });
 
         } catch(error) {
-            console.error(error);
             setError("申込者の登録に失敗しました");
         }
     }
 
     return (
-        <div className="max-w-2xl mx-auto p-6">
+        <section>
 
-            <h1 className="text-2xl font-bold mb-6">
-                参加申込者新規登録
+            <h1>
+                参加申込者 新規登録
             </h1>
 
             <form onSubmit={handleSubmit}>
                 {/* 特権管理者のみ山車組を選択 */}
                 {role === "ROLE_SUPER_ADMIN" && (
                     <div>
-                        <label>山車組</label>
+                        <label>
+                            <span className="required">＊必須項目</span>
+                            山車組
+                        </label>
                         <select
                             value={formData.groupId}
                             onChange={(e) =>
@@ -204,15 +221,20 @@ function AdminApplicantNew() {
 
                 {/* ポジション */}
                 <div className="mb-5">
-                    <label className="block font-bold mb-2">
+                    <label>
+                        <span className="required">＊必須項目</span>
                         希望するポジション
+                        {errors.positionId && (
+                            <span className="validation-error">
+                                {errors.positionId}
+                            </span>
+                        )}
                     </label>
 
                     <select
                         name="positionId"
                         value={formData.positionId}
                         onChange={handleChange}
-                        className="select select-bordered w-full"
                         disabled={!formData.groupId}
                     >
                         <option value="">ポジションを選択してください</option>
@@ -227,17 +249,18 @@ function AdminApplicantNew() {
                         ))}
                     </select>
 
-                    {errors.positionId && (
-                        <p className="text-error mt-1 text-xs">
-                            {errors.positionId}
-                        </p>
-                    )}
                 </div>
 
                 {/* お名前 */}
                 <div className="mb-5">
-                    <label className="block font-bold mb-2">
+                    <label>
+                        <span className="required">＊必須項目</span>
                         参加される方のお名前
+                        {errors.applicantName && (
+                            <span className="validation-error">
+                                {errors.applicantName}
+                            </span>
+                        )}
                     </label>
 
                     <input
@@ -245,21 +268,21 @@ function AdminApplicantNew() {
                         name="applicantName"
                         value={formData.applicantName}
                         onChange={handleChange}
-                        className="input input-bordered w-full"
                         placeholder="久慈秋子"
                     />
 
-                    {errors.applicantName && (
-                        <p className="text-error mt-1 text-xs">
-                            {errors.applicantName}
-                        </p>
-                    )}
                 </div>
 
                 {/* よみがな */}
                 <div className="mb-5">
-                    <label className="block font-bold mb-2">
+                    <label>
+                        <span className="required">＊必須項目</span>
                         お名前のよみがな
+                        {errors.kana && (
+                            <span className="validation-error">
+                                {errors.kana}
+                            </span>
+                        )}
                     </label>
 
                     <input
@@ -267,22 +290,21 @@ function AdminApplicantNew() {
                         name="kana"
                         value={formData.kana}
                         onChange={handleChange}
-                        className="input input-bordered w-full"
                         placeholder="ひらがなで入力してください"
                     />
-
-                    {errors.kana && (
-                        <p className="text-error mt-1 text-xs">
-                            {errors.kana}
-                        </p>
-                    )}
 
                 </div>
 
                 {/* 年齢 */}
                 <div className="mb-5">
-                    <label className="block font-bold mb-2">
+                    <label>
+                        <span className="required">＊必須項目</span>
                         参加される方の年齢
+                        {errors.age && (
+                            <span className="validation-error">
+                                {errors.age}
+                            </span>
+                        )}
                     </label>
 
                     <div className="flex items-center gap-2">
@@ -291,25 +313,24 @@ function AdminApplicantNew() {
                             name="age"
                             value={formData.age}
                             onChange={handleChange}
-                            className="input input-bordered w-32"
                             min="1"
                         />
                         <span>歳</span>
                     </div>
-
-                    {errors.age && (
-                        <p className="text-error mt-1 text-xs">
-                            {errors.age}
-                        </p>
-                    )}
 
                 </div>
 
                 {/* 保護者名 */}
                 {formData.age !== '' && Number(formData.age) < 18 && (
                     <div className="mb-5">
-                        <label className="block font-bold mb-2">
+                        <label>
+                            <span className="required">＊18歳未満の場合は必須項目</span>
                             保護者のお名前
+                            {parentError && (
+                                <span className="validation-error">
+                                    {errors.message}
+                                </span>
+                            )}
                         </label>
 
                         <input
@@ -317,22 +338,21 @@ function AdminApplicantNew() {
                             name="parentName"
                             value={formData.parentName}
                             onChange={handleChange}
-                            className="input input-bordered w-full"
                         />
-
-                        {parentError && (
-                            <p className="text-error mt-1 text-xs">
-                                {errors.message}
-                            </p>
-                        )}
 
                     </div>
                 )}
 
                 {/* 住所 */}
                 <div className="mb-5">
-                    <label className="block font-bold mb-2">
+                    <label>
+                        <span className="required">＊必須項目</span>
                         住所
+                        {errors.address && (
+                            <span className="validation-error">
+                                {errors.address}
+                            </span>
+                        )}
                     </label>
 
                     <input
@@ -340,21 +360,21 @@ function AdminApplicantNew() {
                         name="address"
                         value={formData.address}
                         onChange={handleChange}
-                        className="input input-bordered w-full"
                         placeholder="岩手県久慈市○○町××丁目△△"
                     />
 
-                    {errors.address && (
-                        <p className="text-error mt-1 text-xs">
-                            {errors.address}
-                        </p>
-                    )}
                 </div>
 
                 {/* 電話番号 */}
                 <div className="mb-5">
-                    <label className="block font-bold mb-2">
+                    <label>
+                        <span className="required">＊必須項目</span>
                         連絡先電話番号
+                        {errors.tel && (
+                            <span className="validation-error">
+                                {errors.tel}
+                            </span>
+                        )}
                     </label>
 
                     <input
@@ -362,21 +382,21 @@ function AdminApplicantNew() {
                         name="tel"
                         value={formData.tel}
                         onChange={handleChange}
-                        className="input input-bordered w-full"
                         placeholder="09012345678"
                     />
 
-                    {errors.tel && (
-                        <p className="text-error mt-1 text-xs">
-                            {errors.tel}
-                        </p>
-                    )}
                 </div>
 
                 {/* メールアドレス */}
                 <div className="mb-5">
-                    <label className="block font-bold mb-2">
+                    <label>
+                        <span className="required">＊必須項目</span>
                         メールアドレス
+                        {errors.email && (
+                            <span className="validation-error">
+                                {errors.email}
+                            </span>
+                        )}
                     </label>
 
                     <input
@@ -384,14 +404,8 @@ function AdminApplicantNew() {
                         name="email"
                         value={formData.email}
                         onChange={handleChange}
-                        className="input input-bordered w-full"
                     />
 
-                    {errors.email && (
-                        <p className="text-error mt-1 text-xs">
-                            {errors.email}
-                        </p>
-                    )}
                 </div>
 
                 {/* 学生 */}
@@ -401,7 +415,7 @@ function AdminApplicantNew() {
                     </p>
 
                     <div className="flex gap-6">
-                        <label className="flex items-center gap-2">
+                        <label>
                             <input
                                 type="radio"
                                 name="isStudent"
@@ -413,7 +427,7 @@ function AdminApplicantNew() {
                             はい
                         </label>
 
-                        <label className="flex items-center gap-2">
+                        <label>
                             <input
                                 type="radio"
                                 name="isStudent"
@@ -435,13 +449,14 @@ function AdminApplicantNew() {
                             学校情報
                         </p>
                         {schoolError && (
-                            <p className="text-error mt-1 text-xs">
+                            <p className="text-error">
                                 {errors.message}
                             </p>
                         )}
 
                         <div className="mb-4">
-                            <label className="block mb-2">
+                            <label>
+                                <span className="required">＊小中高生の場合は必須項目</span>
                                 学校名
                             </label>
 
@@ -450,53 +465,39 @@ function AdminApplicantNew() {
                                 name="schoolName"
                                 value={formData.schoolName}
                                 onChange={handleChange}
-                                className="input input-bordered w-full"
                             />
-
                         </div>
 
                         <div className="mb-4">
-                            <label className="block mb-2">
+                            <label>
+                                <span className="required">＊小中高生の場合は必須項目</span>
                                 学年
                             </label>
 
                             <input
                                 type="text"
                                 name="schoolGrade"
+                                className="short-text"
                                 value={formData.schoolGrade}
                                 onChange={handleChange}
-                                className="input input-bordered w-full"
                             />
                             <span>年</span>
-
-                            {errors.schoolGrade && (
-                                <p className="text-error mt-1">
-                                    {errors.schoolGrade}
-                                </p>
-                            )}
-
                         </div>
 
                         <div>
-                            <label className="block mb-2">
+                            <label>
+                                <span className="required">＊小中高生の場合は必須項目</span>
                                 クラス
                             </label>
 
                             <input
                                 type="text"
                                 name="schoolClass"
+                                className="short-text"
                                 value={formData.schoolClass}
                                 onChange={handleChange}
-                                className="input input-bordered w-full"
                             />
                             <span>組</span>
-
-                            {errors.schoolClass && (
-                                <p className="text-error mt-1">
-                                    {errors.schoolClass}
-                                </p>
-                            )}
-
                         </div>
 
                     </div>
@@ -504,7 +505,7 @@ function AdminApplicantNew() {
 
                 {/* 連絡事項 */}
                 <div className="mb-6">
-                    <label className="block font-bold mb-2">
+                    <label>
                         連絡事項
                     </label>
                     <p>参加できない日が予めわかっている場合や、体調・体質でを付けるべきことなど、<br />
@@ -521,7 +522,7 @@ function AdminApplicantNew() {
 
                 {/* 担当者メモ */}
                 <div className="mb-6">
-                    <label className="block font-bold mb-2">
+                    <label>
                         担当者メモ
                     </label>
                     <p>申込者からの問い合わせ対応履歴など、山車組内で共有したい情報があれば入力してください</p>
@@ -534,24 +535,24 @@ function AdminApplicantNew() {
                     />
                 </div>
 
-                <button type="button"
-                        onClick={() => navigate('/admin/applicants')}
-                        className="btn btn-primary"
-                >
-                    申込者管理トップへ戻る
-                </button>
-
-                <div className="mt-8">
+                <div className="flex justify-center my-10">
                     <button
                         type="submit"
-                        className="btn btn-primary w-full"
+                        className="submit-btn"
                     >
                         登録する
                     </button>
                 </div>
 
+                <button type="button"
+                        onClick={() => navigate('/admin/applicants')}
+                        className="back-to-btn"
+                >
+                    ← 申込者管理トップへ戻る
+                </button>
+
             </form>
-        </div>
+        </section>
     )
 
 }

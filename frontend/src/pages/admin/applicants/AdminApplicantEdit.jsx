@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 function AdminApplicantEdit() {
     const navigate = useNavigate();
+    const location = useLocation();
 
     const [ applicant, setApplicant ] = useState(null);
     const [ error, setError ] = useState(false);
@@ -76,6 +77,11 @@ function AdminApplicantEdit() {
 
                 setErrors(data);
 
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth",
+                });
+
                 return;
             }
 
@@ -97,27 +103,40 @@ function AdminApplicantEdit() {
         return <p>読み込み中...</p>
     }
 
+    const backTo = location.state?.from === "detail"
+        ? "申込者詳細へ戻る"
+        : "申込者一覧へ戻る";
+
     return (
-        <>
+        <section>
             <h1>申込情報の編集</h1>
+            <div className="message-box">
+                {errors.message && (
+                    <strong>
+                        {errors.message}
+                    </strong>
+                )}
+            </div>
 
-            {errors.message && (
-                <p className="text-error">
-                    {errors.message}
-                </p>
-            )}
-
-            <p>参加山車組：{applicant.groupName}</p>
-            <p>参加ポジション：{applicant.positionName}</p>
-            <p>※参加する山車組およびポジションは変更できません。<br />
-                変更が必要な場合は申込者に確認し、この申込をキャンセルした後で登録し直してください</p>
+            <div className="my-5">
+                <h2 className="text-2xl font-bold mb-2">参加山車組：{applicant.groupName}</h2>
+                <h3 className="text-lg font-semibold mb-1">参加ポジション：{applicant.positionName}</h3>
+                <p className="text-sm text-error">※参加する山車組およびポジションは変更できません。<br />
+                    {"　"}変更が必要な場合は申込者に確認し、この申込をキャンセルした後で登録し直してください</p>
+            </div>
 
             <form onSubmit = {handleSubmit}>
 
                 {/* お名前 */}
                 <div className="mb-5">
-                    <label className="block font-bold mb-2">
+                    <label>
+
                         参加される方のお名前
+                        {errors.applicantName && (
+                            <span validation-error>
+                                {errors.applicantName}
+                            </span>
+                        )}
                     </label>
 
                     <input
@@ -126,17 +145,18 @@ function AdminApplicantEdit() {
                         defaultValue={applicant.applicantName}
                     />
 
-                    {errors.applicantName && (
-                        <p className="text-error mt-1 text-xs">
-                            {errors.applicantName}
-                        </p>
-                    )}
                 </div>
 
                 {/* よみがな */}
                 <div className="mb-5">
-                    <label className="block font-bold mb-2">
+                    <label>
+                        <span className="required">＊必須項目</span>
                         お名前のよみがな
+                        {errors.kana && (
+                            <span validation-error>
+                                {errors.kana}
+                            </span>
+                        )}
                     </label>
 
                     <input
@@ -145,18 +165,18 @@ function AdminApplicantEdit() {
                         defaultValue={applicant.kana}
                     />
 
-                    {errors.kana && (
-                        <p className="text-error mt-1 text-xs">
-                            {errors.kana}
-                        </p>
-                    )}
-
                 </div>
 
                 {/* 年齢 */}
                 <div className="mb-5">
-                    <label className="block font-bold mb-2">
+                    <label>
+                        <span className="required">＊必須項目</span>
                         参加される方の年齢
+                        {errors.age && (
+                            <span validation-error>
+                                {errors.age}
+                            </span>
+                        )}
                     </label>
 
                     <div className="flex items-center gap-2">
@@ -171,19 +191,19 @@ function AdminApplicantEdit() {
                         <span>歳</span>
                     </div>
 
-                    {errors.age && (
-                        <p className="text-error mt-1 text-xs">
-                            {errors.age}
-                        </p>
-                    )}
-
                 </div>
 
                 {/* 保護者名 */}
                 {age !== "" && Number(age) < 18 && (
                     <div className="mb-5">
-                        <label className="block font-bold mb-2">
+                        <label>
+                            <span className="required">＊18歳未満の方は必須項目</span>
                             保護者のお名前
+                            {parentError && (
+                                <span validation-error>
+                                    {errors.message}
+                                </span>
+                            )}
                         </label>
 
                         <input
@@ -193,19 +213,19 @@ function AdminApplicantEdit() {
                             defaultValue={applicant.parentName}
                         />
 
-                        {parentError && (
-                            <p className="text-error mt-1 text-xs">
-                                {errors.message}
-                            </p>
-                        )}
-
                     </div>
                 )}
 
                 {/* 住所 */}
                 <div className="mb-5">
-                    <label className="block font-bold mb-2">
+                    <label>
+                        <span className="required">＊必須項目</span>
                         住所
+                        {errors.address && (
+                            <span validation-error>
+                                {errors.address}
+                            </span>
+                        )}
                     </label>
 
                     <input
@@ -215,17 +235,18 @@ function AdminApplicantEdit() {
                         defaultValue={applicant.address}
                     />
 
-                    {errors.address && (
-                        <p className="text-error mt-1 text-xs">
-                            {errors.address}
-                        </p>
-                    )}
                 </div>
 
                 {/* 電話番号 */}
                 <div className="mb-5">
-                    <label className="block font-bold mb-2">
+                    <label>
+                        <span className="required">＊必須項目</span>
                         連絡先電話番号
+                        {errors.tel && (
+                            <span validation-error>
+                                {errors.tel}
+                            </span>
+                        )}
                     </label>
 
                     <input
@@ -235,17 +256,18 @@ function AdminApplicantEdit() {
                         defaultValue={applicant.tel}
                     />
 
-                    {errors.tel && (
-                        <p className="text-error mt-1 text-xs">
-                            {errors.tel}
-                        </p>
-                    )}
                 </div>
 
                 {/* メールアドレス */}
                 <div className="mb-5">
-                    <label className="block font-bold mb-2">
+                    <label>
+                        <span className="required">＊必須項目</span>
                         メールアドレス
+                        {errors.email && (
+                            <span validation-error>
+                                {errors.email}
+                            </span>
+                        )}
                     </label>
 
                     <input
@@ -255,11 +277,6 @@ function AdminApplicantEdit() {
                         defaultValue={applicant.email}
                     />
 
-                    {errors.email && (
-                        <p className="text-error mt-1 text-xs">
-                            {errors.email}
-                        </p>
-                    )}
                 </div>
 
                 {/* 学生 */}
@@ -303,65 +320,65 @@ function AdminApplicantEdit() {
                             学校情報
                         </p>
                         {schoolError && (
-                            <p className="text-error mt-1 text-xs">
+                            <p validation-error>
                                 {errors.message}
                             </p>
                         )}
 
                         <div className="mb-4">
                             <label className="block mb-2">
+                                <span className="required">＊小中高生の場合は必須項目</span>
                                 学校名
                             </label>
 
                             <input
                                 type="text"
                                 name="schoolName"
-                                className="input input-bordered w-full"
                                 defaultValue={applicant.schoolName}
                             />
 
                         </div>
 
                         <div className="mb-4">
-                            <label className="block mb-2">
+                            <label>
+                                <span className="required">＊小中高生の場合は必須項目</span>
                                 学年
+                                {errors.schoolGrade && (
+                                    <span className="text-error mt-1">
+                                        {errors.schoolGrade}
+                                    </span>
+                                )}
                             </label>
 
                             <input
                                 type="text"
                                 name="schoolGrade"
-                                className="input input-bordered w-full"
+                                className="short-text"
                                 defaultValue={applicant.schoolGrade
                                 }
                             />
                             <span>年</span>
 
-                            {errors.schoolGrade && (
-                                <p className="text-error mt-1">
-                                    {errors.schoolGrade}
-                                </p>
-                            )}
-
                         </div>
 
                         <div>
-                            <label className="block mb-2">
+                            <label>
+                                <span className="required">＊小中高生の場合は必須項目</span>
                                 クラス
+                                {errors.schoolClass && (
+                                    <span className="text-error mt-1">
+                                        {errors.schoolClass}
+                                    </span>
+                                )}
                             </label>
 
                             <input
                                 type="text"
                                 name="schoolClass"
-                                className="input input-bordered w-full"
+                                className="short-text"
                                 defaultValue={applicant.schoolClass}
                             />
                             <span>組</span>
-
-                            {errors.schoolClass && (
-                                <p className="text-error mt-1">
-                                    {errors.schoolClass}
-                                </p>
-                            )}
 
                         </div>
 
@@ -370,7 +387,7 @@ function AdminApplicantEdit() {
 
                 {/* 連絡事項 */}
                 <div className="mb-6">
-                    <label className="block font-bold mb-2">
+                    <label>
                         連絡事項
                     </label>
                     <textarea
@@ -383,7 +400,7 @@ function AdminApplicantEdit() {
 
                 {/* 担当者メモ */}
                 <div className="mb-6">
-                    <label className="block font-bold mb-2">
+                    <label>
                         担当者メモ
                     </label>
                     <p>申込者からの問い合わせ対応履歴など、山車組内で共有したい情報があれば入力してください</p>
@@ -395,25 +412,31 @@ function AdminApplicantEdit() {
                     />
                 </div>
 
-                <button
-                    type="button"
-                    onClick={() => navigate(`/admin/applicants/${applicant.applicantId}/`)}
-                    className="btn btn-primary"
-                >
-                    申込者詳細へ戻る
-                </button>
-
-                <div className="mt-8">
+                <div className="flex justify-center my-10">
                     <button
                         type="submit"
-                        className="btn btn-primary w-full"
+                        className="submit-btn"
                     >
                         変更を保存
                     </button>
                 </div>
 
+                <button
+                    type="button"
+                    className="back-to-btn"
+                    onClick={() => {
+                        if (location.state?.from === "detail") {
+                            navigate(`/admin/applicants/${applicantId}`);
+                        } else {
+                            navigate("/admin/applicants");
+                        }
+                    }}
+                >
+                    ← {backTo}
+                </button>
+
             </form>
-        </>
+        </section>
     );
 }
 export default AdminApplicantEdit;

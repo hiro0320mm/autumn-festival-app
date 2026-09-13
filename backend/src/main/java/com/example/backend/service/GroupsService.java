@@ -109,7 +109,11 @@ public class GroupsService {
                 group.getOfficeTel(),
                 group.getContactName(),
                 group.getContactTel(),
-                group.getDescription()
+                group.getDescription(),
+                group.getCreatedBy(),
+                group.getCreatedAt(),
+                group.getUpdatedBy(),
+                group.getUpdatedAt()
         );
     }
 

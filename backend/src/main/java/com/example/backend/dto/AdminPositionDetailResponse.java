@@ -10,6 +10,8 @@ public record AdminPositionDetailResponse(
         Integer maxCapacity,
         LocalDateTime deadline,
         Boolean recruitmentStatus,
+        String createdBy,
+        LocalDateTime createdAt,
         String updatedBy,
         LocalDateTime updatedAt
 ) {

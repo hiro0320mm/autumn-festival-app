@@ -1,5 +1,7 @@
 package com.example.backend.dto;
 
+import java.time.LocalDateTime;
+
 public record AdminGroupDetailResponse(
         Long groupId,
         String groupName,
@@ -8,5 +10,9 @@ public record AdminGroupDetailResponse(
         String officeTel,
         String contactName,
         String contactTel,
-        String description
+        String description,
+        String createdBy,
+        LocalDateTime createdAt,
+        String updatedBy,
+        LocalDateTime updatedAt
 ) {}

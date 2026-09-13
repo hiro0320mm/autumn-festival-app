@@ -102,8 +102,10 @@ public class ApplicantsService {
         }
 
         return new AdminApplicantDetailResponse(
+                applicant.getGroup().getGroupId(),
                 applicant.getApplicantId(),
                 applicant.getReceptionNumber(),
+                applicant.getGroup().getGroupName(),
                 applicant.getApplicantName(),
                 applicant.getKana(),
                 applicant.getAge(),
@@ -118,7 +120,11 @@ public class ApplicantsService {
                 applicant.getSchoolClass(),
                 applicant.getNote(),
                 applicant.getStaffMemo(),
-                applicant.getCancelStatus()
+                applicant.getCancelStatus(),
+                applicant.getCreatedBy(),
+                applicant.getCreatedAt(),
+                applicant.getUpdatedBy(),
+                applicant.getUpdatedAt()
         );
     }
 

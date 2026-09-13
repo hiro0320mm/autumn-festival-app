@@ -6,6 +6,8 @@ function AdminLogin() {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
 
+    const [showPassword, setShowPassword] = useState(false)
+
     const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
@@ -46,11 +48,13 @@ function AdminLogin() {
     };
 
     return (
-        <div>
+        <section className="w-fit mx-auto">
             <h1>管理者ログイン</h1>
 
             <form onSubmit={handleSubmit}>
-
+                {error && (
+                    <p className="text-error font-medium mb-5">{error}</p>
+                )}
                 <div>
                     <label>
                         ユーザー名
@@ -65,24 +69,34 @@ function AdminLogin() {
                 <div>
                     <label>
                         パスワード
-                        <input
-                            type="password"
-                            value={password}
-                            onChange={(event) => setPassword(event.target.value)}
-                        />
+                        <div className="relative">
+                            <input
+                                type={showPassword ? 'text' : 'password'}
+                                autoComplete="current-password"
+                                value={password}
+                                onChange={(event) => setPassword(event.target.value)}
+                                requied
+                            />
+                            <span
+                                className={
+                                    showPassword ? "show-password-toggle" : "show-password-toggle hide"
+                                }
+                                onClick={() => setShowPassword(!showPassword)}
+                            >
+                                {showPassword ? '非表示' : '表示'}
+                            </span>
+                        </div>
                     </label>
                 </div>
 
-                {error && (
-                    <p>{error}</p>
-                )}
-
-                <button type="submit">
-                    ログイン
-                </button>
+                <div className="flex justify-center">
+                    <button type="submit" className="submit-btn">
+                        ログイン
+                    </button>
+                </div>
 
             </form>
-        </div>
+        </section>
     );
 }
 

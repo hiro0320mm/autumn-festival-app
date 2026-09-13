@@ -198,7 +198,10 @@ function AdminPositionEdit() {
                 {/* 特権管理者のみ山車組を選択 */}
                 {role === "ROLE_SUPER_ADMIN" && (
                     <div>
-                        <label>山車組</label>
+                        <label>
+                            <span className="required">＊必須項目</span>
+                            山車組
+                        </label>
                         <select
                             value={formData.groupId}
                             onChange={(e) =>
@@ -221,8 +224,14 @@ function AdminPositionEdit() {
 
                 {/* ポジション名 */}
                 <div className="mb-5">
-                    <label className="block font-bold mb-2">
+                    <label>
+                        <span className="required">＊必須項目</span>
                         ポジション名
+                        {errors.positionName && (
+                            <span className="validation-error">
+                                {errors.positionName}
+                            </span>
+                        )}
                     </label>
 
                     <input
@@ -230,20 +239,20 @@ function AdminPositionEdit() {
                         name="positionName"
                         value={formData.positionName}
                         onChange={handleChange}
-                        className="input input-bordered w-full"
                     />
 
-                    {errors.positionName && (
-                        <p className="text-error mt-1 text-xs">
-                            {errors.positionName}
-                        </p>
-                    )}
                 </div>
 
                 {/* 対象者 */}
                 <div className="mb-5">
-                    <label className="block font-bold mb-2">
+                    <label>
+                        <span className="required">＊必須項目</span>
                         対象者
+                        {errors.target && (
+                            <span className="validation-error">
+                                {errors.target}
+                            </span>
+                        )}
                     </label>
 
                     <input
@@ -251,22 +260,21 @@ function AdminPositionEdit() {
                         name="target"
                         value={formData.target}
                         onChange={handleChange}
-                        className="input input-bordered w-full"
                         placeholder="例）未就学児、小学生、中学生、○○歳以上 など"
                     />
-
-                    {errors.target && (
-                        <p className="text-error mt-1 text-xs">
-                            {errors.target}
-                        </p>
-                    )}
 
                 </div>
 
                 {/* 定員 */}
                 <div className="mb-5">
-                    <label className="block font-bold mb-2">
+                    <label>
+                        <span className="required">＊必須項目</span>
                         定員
+                        {errors.maxCapacity && (
+                            <span className="validation-error">
+                                {errors.maxCapacity}
+                            </span>
+                        )}
                     </label>
 
                     <div className="flex items-center gap-2">
@@ -275,62 +283,77 @@ function AdminPositionEdit() {
                             name="maxCapacity"
                             value={formData.maxCapacity}
                             onChange={handleChange}
-                            className="input input-bordered w-32"
                             min="1"
                         />
                         <span>人</span>
                     </div>
 
-                    {errors.maxCapacity && (
-                        <p className="text-error mt-1 text-xs">
-                            {errors.maxCapacity}
-                        </p>
-                    )}
-
                 </div>
 
                 {/* 募集締切日時 */}
                 <div>
-                    <label>募集締切日</label>
+                    <label>
+                        <span className="required">＊必須項目</span>
+                        募集締切日
+                        {errors.deadline && (
+                            <span className="validation-error">
+                                {errors.deadline}
+                            </span>
+                        )}
+                    </label>
                     <input
                         type="date"
                         value={deadlineDate}
+                        className="medium-text"
                         onChange={(e) => setDeadlineDate(e.target.value)}
                     />
                 </div>
 
                 <div>
-                    <label>募集締切時刻</label>
+                    <label>
+                        <span className="required">＊必須項目</span>
+                        募集締切時刻
+                    </label>
                     <input
                         type="time"
                         value={deadlineTime}
+                        className="medium-text"
                         onChange={(e) => setDeadlineTime(e.target.value)}
                     />
                 </div>
-                {errors.deadline && (
-                    <p className="text-error mt-1 text-xs">
-                        {errors.deadline}
-                    </p>
-                )}
 
                 {/* 募集状況 */}
                 <div className="mb-5">
-                    <label className="block font-bold mb-2">
+                    <label>
+                        <span className="required">＊必須項目</span>
                         募集状況
+                        {errors.recruitmentStatus && (
+                            <span className="validation-error">
+                                {errors.recruitmentStatus}
+                            </span>
+                        )}
                     </label>
 
                     <input
                         type="checkbox"
+                        className="toggle toggle-lg toggle-info"
                         name="recruitmentStatus"
                         checked={formData.recruitmentStatus}
                         onChange={handleChange}
                     />
+                    <span className="p-3">
+                        {formData.recruitmentStatus ? "募集中" : "募集停止"}
+                    </span>
+                    
+                </div>
 
-                    {errors.recruitmentStatus && (
-                        <p className="text-error mt-1 text-xs">
-                            {errors.recruitmentStatus}
-                        </p>
-                    )}
+                <div className="flex justify-center my-10">
+                    <button
+                        type="submit"
+                        className="submit-btn"
+                    >
+                        変更を保存
+                    </button>
                 </div>
 
                 <button
@@ -342,22 +365,13 @@ function AdminPositionEdit() {
                             navigate("/admin/positions");
                         }
                     }}
-                    className="btn btn-primary"
+                    className="back-to-btn"
                 >
                     {from === "detail"
                         ? "ポジション詳細へ戻る"
                         : "ポジション管理トップへ戻る"
                     }
                 </button>
-
-                <div className="mt-8">
-                    <button
-                        type="submit"
-                        className="btn btn-primary w-full"
-                    >
-                        更新する
-                    </button>
-                </div>
 
             </form>
         </div>

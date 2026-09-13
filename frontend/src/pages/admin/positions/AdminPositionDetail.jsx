@@ -43,44 +43,74 @@ function AdminPositionDetail() {
     };
 
     return (
-        <div>
+        <section>
             <h1>ポジション情報</h1>
-
-            {error && <p>{error}</p>}
-            {message && <p>{message}</p>}
+            <header>
+                <></>
+                <div className="message-box">
+                    {error && <p>{error}</p>}
+                    {message && <p>{message}</p>}
+                </div>
+                {position &&(
+                    <div className="update-history">
+                        <p>登録日時：{formatDateTime(position.createdAt)}</p>
+                        <p>登録者：{position.createdBy}</p>
+                        <p>最終更新日：{formatDateTime(position.updatedAt)}</p>
+                        <p>最終更新者：{position.updatedBy}</p>
+                    </div>
+                )}
+            </header>
 
             {position && (
-                <div>
-                    <p>ポジション名：{position.positionName}</p>
-                    <p>対象者：{position.target}</p>
-                    <p>定員：{position.maxCapacity} 人</p>
-                    <p>募集締切日時：{formatDateTime(position.deadline)}</p>
-                    <p>
-                        募集状況：
-                        {position.recruitmentStatus ? "募集中" : "募集終了"}
-                    </p>
+                <>
+                    <table className="table">
+                        <tbody>
+                            <tr>
+                                <th className="w-50">ポジション名</th>
+                                <td>{position.positionName}</td>
+                            </tr>
+                            <tr>
+                                <th>対象者</th>
+                                <td>{position.target}</td>
+                            </tr>
+                            <tr>
+                                <th>定員</th>
+                                <td>{position.maxCapacity} 人</td>
+                            </tr>
+                            <tr>
+                                <th>募集締切日時</th>
+                                <td>{formatDateTime(position.deadline)}</td>
+                            </tr>
+                            <tr>
+                                <th>募集状況</th>
+                                <td>{position.recruitmentStatus ? "募集中" : "募集終了"}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div className="flex justify-center my-10">
+                        <button
+                            className="submit-btn"
+                            onClick={() =>
+                                navigate(`/admin/positions/${position.positionId}/edit`, {
+                                    state: { from: "detail" }
+                                })
+                            }
+                        >
+                            編集
+                        </button>
+                    </div>
 
-                    <button
-                        className="btn btn-primary"
-                        onClick={() =>
-                            navigate(`/admin/positions/${position.positionId}/edit`, {
-                                state: { from: "detail" }
-                            })
-                        }
-                    >
-                        編集
-                    </button>
 
                     <button
                         type="button"
-                        className="btn btn-primary"
+                        className="back-to-btn"
                         onClick={() => navigate("/admin/positions")}
                     >
                         一覧に戻る
                     </button>
-                </div>
+                </>
             )}
-        </div>
+        </section>
     );
 }
 

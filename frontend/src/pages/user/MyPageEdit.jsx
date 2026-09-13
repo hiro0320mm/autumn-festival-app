@@ -93,19 +93,22 @@ function MyPageEdit() {
     }
 
     return(
-        <main>
+        <section>
             <h1>申込情報の編集</h1>
 
-            <p>参加山車組：{applicant.groupName}</p>
-            <p>参加ポジション：{applicant.positionName}</p>
-            <p>※参加する山車組およびポジションはマイページからの変更はできません。<br />
+            <div className="text-center mb-5">
+            <p>参加山車組・ポジション</p>
+            <p className="text-2xl font-semibold">{applicant.groupName}・{applicant.positionName}</p>
+            <p className="complements mt-5">参加する山車組およびポジションはマイページからの変更はできません。<br />
             キャンセル後改めてお申込みをお願いします。</p>
+            </div>
 
             <form onSubmit = {handleSubmit}>
 
                 {/* お名前 */}
                 <div className="mb-5">
                     <label className="block font-bold mb-2">
+                        <span className="required">＊必須項目</span>
                         参加される方のお名前
                     </label>
 
@@ -125,6 +128,7 @@ function MyPageEdit() {
                 {/* よみがな */}
                 <div className="mb-5">
                     <label className="block font-bold mb-2">
+                        <span className="required">＊必須項目</span>
                         お名前のよみがな
                     </label>
 
@@ -145,6 +149,7 @@ function MyPageEdit() {
                 {/* 年齢 */}
                 <div className="mb-5">
                     <label className="block font-bold mb-2">
+                        <span className="required">＊必須項目</span>
                         参加される方の年齢
                     </label>
 
@@ -172,6 +177,7 @@ function MyPageEdit() {
                 {age !== "" && Number(age) < 18 && (
                     <div className="mb-5">
                         <label className="block font-bold mb-2">
+                            <span className="required">＊18歳未満の場合は必須項目</span>
                             保護者のお名前
                         </label>
 
@@ -194,6 +200,7 @@ function MyPageEdit() {
                 {/* 住所 */}
                 <div className="mb-5">
                     <label className="block font-bold mb-2">
+                        <span className="required">＊必須項目</span>
                         住所
                     </label>
 
@@ -214,6 +221,7 @@ function MyPageEdit() {
                 {/* 電話番号 */}
                 <div className="mb-5">
                     <label className="block font-bold mb-2">
+                        <span className="required">＊必須項目</span>
                         連絡先電話番号
                     </label>
 
@@ -234,6 +242,7 @@ function MyPageEdit() {
                 {/* メールアドレス */}
                 <div className="mb-5">
                     <label className="block font-bold mb-2">
+                        <span className="required">＊必須項目</span>
                         メールアドレス
                     </label>
 
@@ -299,6 +308,7 @@ function MyPageEdit() {
 
                         <div className="mb-4">
                             <label className="block mb-2">
+                                <span className="required">＊小中高生の場合は必須項目</span>
                                 学校名
                             </label>
 
@@ -313,6 +323,7 @@ function MyPageEdit() {
 
                         <div className="mb-4">
                             <label className="block mb-2">
+                                <span className="required">＊小中高生の場合は必須項目</span>
                                 学年
                             </label>
 
@@ -335,6 +346,7 @@ function MyPageEdit() {
 
                         <div>
                             <label className="block mb-2">
+                                <span className="required">＊小中高生の場合は必須項目</span>
                                 クラス
                             </label>
 
@@ -376,24 +388,24 @@ function MyPageEdit() {
                     />
                 </div>
 
-                <button
-                    onClick={() => navigate('/mypage')}
-                    className="btn btn-primary"
-                >
-                    マイページ<br />トップへ戻る
-                </button>
-
-                <div className="mt-8">
+                <div className="flex justify-center my-10">
                     <button
                         type="submit"
-                        className="btn btn-primary w-full"
+                        className="submit-btn"
                     >
                         変更を保存
                     </button>
                 </div>
 
+                <button
+                    onClick={() => navigate('/mypage')}
+                    className="back-to-btn"
+                >
+                    マイページ<br />トップへ戻る
+                </button>
+
             </form>
-        </main>
+        </section>
     );
 
 }

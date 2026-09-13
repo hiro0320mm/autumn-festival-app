@@ -17,7 +17,7 @@ public class AdminApplicantForm {
     @NotBlank(message = "よみがなは必須項目です")
     @Pattern(
             regexp = "^[ぁ-んー]+$",
-            message = "お名前のよみがなはひらがなで入力してください"
+            message = "お名前のよみがなをひらがなで入力してください"
     )
     private String kana;
 
@@ -30,7 +30,7 @@ public class AdminApplicantForm {
     @NotBlank(message = "連絡先電話番号は必須項目です")
     @Pattern(
             regexp = "^\\d{10,11}$",
-            message = "電話番号は10桁または11桁の数字で入力してください"
+            message = "電話番号はハイフンなしの10桁または11桁の数字で入力してください"
     )
     private String tel;
 

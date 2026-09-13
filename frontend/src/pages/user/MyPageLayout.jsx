@@ -5,7 +5,7 @@ function MyPageLayout({ children }) {
         <>
             <MyPageHeader />
 
-            <main>
+            <main id="myPage">
                 {children}
             </main>
         </>

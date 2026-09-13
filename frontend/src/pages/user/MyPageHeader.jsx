@@ -13,7 +13,7 @@ function MyPageHeader() {
 
     return (
         <header>
-            <h1>秋まつり参加申込システム</h1>
+            <h1>秋まつり参加申込システム マイページ</h1>
 
             <button
                 onClick={handleLogout}

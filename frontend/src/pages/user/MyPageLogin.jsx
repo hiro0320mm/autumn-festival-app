@@ -45,7 +45,7 @@ function MyPageLogin() {
     };
 
     return (
-        <main>
+        <section className="w-fit mx-auto">
             <h1>マイページログイン</h1>
             <p> お名前・電話番号・申込受付番号を入力してください。 </p>
 
@@ -56,18 +56,22 @@ function MyPageLogin() {
             }
 
                 <label>お名前
-                    <input name="applicantName" type="text" placeholder="お名前を入力してください" required />
+                    <input name="applicantName" type="text" placeholder="お名前を入力してください" required/>
                 </label>
                 <label>電話番号
-                    <input name="tel" type="tel" placeholder="電話番号を入力してください" required />
+                    <input name="tel" type="tel" placeholder="電話番号を入力してください" required/>
                 </label>
                 <label>申込受付番号
-                    <input name="receptionNumber" type="text" placeholder="申込受付番号を入力してください" required />
+                    <input name="receptionNumber" type="text" placeholder="申込受付番号を入力してください" required/>
+                    <span
+                        className="block text-sm font-normal mb-10">申込受付番号は、申込完了画面または申込完了メールをご確認ください</span>
                 </label>
-                <button type="submit" className="btn btn-primary">ログイン</button>
+                <div className="flex justify-center">
+                    <button type="submit">ログイン</button>
+                </div>
             </form>
-        </main>
-    );
+        </section>
+);
 }
 
 export default MyPageLogin;

@@ -29,7 +29,6 @@ function ApplyConfirm() {
 
         if (!response.ok) {
             const text = await response.text()
-            console.log(text)
             return
         }
 
@@ -43,58 +42,78 @@ function ApplyConfirm() {
             officeTel: group.officeTel,
         }
 
-        console.log("completeへ渡すstate:", completeState)
-
         navigate('/apply/complete', {
             state: completeState,
         })
     }
 
     return (
-        <div>
+        <section>
             <h1>参加申込内容の確認</h1>
 
-            <h2>申し込む山車組：{group?.groupName}</h2>
-            <h3>希望ポジション：{position?.positionName}</h3>
+            <div className="my-5">
+                <h2 className="text-2xl font-bold mb-2">申し込む山車組：{group?.groupName}</h2>
+                <h3 className="text-lg font-semibold mb-1">希望ポジション：{position?.positionName}</h3>
+            </div>
 
-            <section>
-                <h2>参加される方の情報</h2>
-            <dl>
-                <dt>お名前</dt>
-                <dd>{formData?.applicantName}</dd>
-
-                <dt>よみがな</dt>
-                <dd>{formData?.kana}</dd>
-
-                <dt>年齢</dt>
-                <dd>{formData?.age}</dd>
-
-                <dt>住所</dt>
-                <dd>{formData?.address}</dd>
-
-                <dt>連絡先電話番号</dt>
-                <dd>{formData?.tel}</dd>
-
-                <dt>メールアドレス</dt>
-                <dd>{formData?.email}</dd>
-
-                <dt>保護者名</dt>
-                <dd>{formData?.parentName}</dd>
-
-                <dt>学校名</dt>
-                <dd>{formData?.schoolName}</dd>
-
-                <dt>学年</dt>
-                <dd>{formData?.schoolGrade}<span>年</span></dd>
-
-                <dt>クラス</dt>
-                <dd>{formData?.schoolClass}<span>組</span></dd>
-
-                <dt>連絡事項</dt>
-                <dd>{formData?.note}</dd>
-            </dl>
-            </section>
-
+                <table className="table">
+                    <caption className="text-left text-base">参加される方の情報</caption>
+                    <tbody>
+                    <tr>
+                        <th className="w-50">お名前</th>
+                        <td>{formData?.applicantName}</td>
+                    </tr>
+                    <tr>
+                        <th>よみがな</th>
+                        <td>{formData?.kana}</td>
+                    </tr>
+                    <tr>
+                        <th>年齢</th>
+                        <td>{formData?.age}</td>
+                    </tr>
+                    <tr>
+                        <th>住所</th>
+                        <td>{formData?.address}</td>
+                    </tr>
+                    <tr>
+                        <th>連絡先電話番号</th>
+                        <td>{formData?.tel}</td>
+                    </tr>
+                    <tr>
+                        <th>メールアドレス</th>
+                        <td>{formData?.email}</td>
+                    </tr>
+                    <tr>
+                        <th>保護者名</th>
+                        <td>{formData?.parentName}</td>
+                    </tr>
+                    <tr>
+                        <th>学校名</th>
+                        <td>{formData?.schoolName}</td>
+                    </tr>
+                    <tr>
+                        <th>学年</th>
+                        <td>{formData?.schoolGrade}<span>年</span></td>
+                    </tr>
+                    <tr>
+                        <th>クラス</th>
+                        <td>{formData?.schoolClass}<span>組</span></td>
+                    </tr>
+                    <tr>
+                        <th>連絡事項</th>
+                        <td>{formData?.note}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            <div className="flex justify-center my-10">
+                <button
+                    type="submit"
+                    className="submit-btn"
+                    onClick={handleSubmit}
+                >
+                    この内容で申し込みます
+                </button>
+            </div>
             {/* フォームに戻る */}
             <button
                 onClick={() =>
@@ -105,21 +124,11 @@ function ApplyConfirm() {
                         },
                     })
                 }
-                className="btn btn-primary"
+                className="back-to-btn"
             >
                 修正する
             </button>
-
-            {/* 確認画面へ */}
-            <div className="mt-8">
-                <button
-                    onClick={handleSubmit}
-                    className="btn btn-primary w-full"
-                >
-                    この内容で申込みます
-                </button>
-            </div>
-        </div>
+        </section>
     )
 }
 

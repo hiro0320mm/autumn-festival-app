@@ -2,6 +2,7 @@ package com.example.backend.service;
 
 import com.example.backend.dto.*;
 import com.example.backend.entity.*;
+import com.example.backend.repository.ApplicantsRepository;
 import com.example.backend.repository.GroupsRepository;
 import com.example.backend.repository.PositionsRepository;
 import com.example.backend.repository.StaffsRepository;
@@ -13,16 +14,18 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class PositionsService {
+public class PositionsService<ApplicantRepository> {
 
     private final PositionsRepository positionsRepository;
     private final GroupsRepository groupsRepository;
     private final StaffsRepository staffsRepository;
+    private final ApplicantsRepository applicantsRepository;
 
-    public PositionsService(PositionsRepository positionsRepository, GroupsRepository groupsRepository, StaffsRepository staffsRepository) {
+    public PositionsService(PositionsRepository positionsRepository, GroupsRepository groupsRepository, StaffsRepository staffsRepository, ApplicantsRepository applicantsRepository) {
         this.positionsRepository = positionsRepository;
         this.groupsRepository = groupsRepository;
         this.staffsRepository = staffsRepository;
+        this.applicantsRepository = applicantsRepository;
     }
 
     // 一般ユーザー向け：一覧取得用
@@ -65,15 +68,25 @@ public class PositionsService {
         }
 
         return positions.stream()
-                .map(position -> new AdminPositionListResponse(
-                        position.getPositionId(),
-                        position.getPositionName(),
-                        position.getTarget(),
-                        position.getMaxCapacity(),
-                        position.getDeadline(),
-                        position.getRecruitmentStatus(),
-                        position.getGroup().getGroupId()
-                ))
+                .map(position -> {
+
+                    long applicantCount =
+                            applicantsRepository.countByPosition_PositionIdAndCancelStatusNot(
+                                    position.getPositionId(),
+                                    CancelStatus.CANCELED
+                            );
+
+                    return new AdminPositionListResponse(
+                            position.getPositionId(),
+                            position.getPositionName(),
+                            position.getTarget(),
+                            position.getMaxCapacity(),
+                            position.getDeadline(),
+                            position.getRecruitmentStatus(),
+                            position.getGroup().getGroupId(),
+                            applicantCount
+                    );
+                })
                 .toList();
     }
 
@@ -112,6 +125,8 @@ public class PositionsService {
                 position.getMaxCapacity(),
                 position.getDeadline(),
                 position.getRecruitmentStatus(),
+                position.getCreatedBy(),
+                position.getUpdatedAt(),
                 position.getUpdatedBy(),
                 position.getUpdatedAt()
         );

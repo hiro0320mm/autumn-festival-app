@@ -34,32 +34,50 @@ function CancelConfirm() {
     };
 
     return (
-        <>
+        <section>
             <h1>下記の申込をキャンセルします</h1>
 
-            <p>参加山車組：{applicant.groupName}</p>
-            <p>ポジション：{applicant.positionName}</p>
-            <p>お名前：{applicant.applicantName}</p>
-            <p>フリガナ：{applicant.kana}</p>
-            <p>年齢：{applicant.age}歳</p>
+            <div className="text-center mb-5">
+                <p>参加山車組・ポジション</p>
+                <p className="text-2xl font-semibold">{applicant.groupName}・{applicant.positionName}</p>
+            </div>
 
-            <h2>キャンセル前にご確認ください（注意事項）</h2>
-            <ul>
-                <li>キャンセルは取り消すことができません。</li>
-                <li>再度参加申込を行う場合は<Link to={"/"}>「秋祭り参加申込システム」トップページ</Link>から改めてお手続きをお願いします。</li>
-            </ul>
+            <table className="table">
+                <tbody>
+                    <tr>
+                        <th>お名前</th>
+                        <td>{applicant.applicantName}</td>
+                    </tr>
+                    <tr>
+                        <th>よみがな</th>
+                        <td>{applicant.kana}</td>
+                    </tr>
+                    <tr>
+                        <th>年齢</th>
+                        <td>{applicant.age} 歳</td>
+                    </tr>
+                </tbody>
+            </table>
 
-            <button onClick={handleCancel} className="btn btn-primary">
+            <div className="mb-5 text-error">
+                <h2 className="font-medium text-lg">キャンセル前にご確認ください（注意事項）</h2>
+                <ul>
+                    <li>キャンセルは取り消すことができません。</li>
+                    <li>再度参加申込を行う場合は<Link to={"/"} className="decoration-solid"><u>「秋祭り参加申込システム」トップページ</u></Link>から改めてお手続きをお願いします。</li>
+                </ul>
+            </div>
+
+            <button onClick={handleCancel} className="warning-btn mb-7">
                 キャンセルを確定
             </button>
 
             <button
                 onClick={() => navigate("/mypage")}
-                className="btn btn-primary"
+                className="back-to-btn"
             >
-                キャンセルしない
+                キャンセルせずに戻る
             </button>
-        </>
+        </section>
     );
 }
 

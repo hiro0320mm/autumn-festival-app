@@ -92,7 +92,7 @@ function AdminGroupEdit() {
     }
 
     return (
-        <>
+        <section>
             <h1>山車組情報の編集</h1>
 
             {errors.message && (
@@ -103,7 +103,12 @@ function AdminGroupEdit() {
 
             <form onSubmit={handleSubmit}>
 
-                <p>山車組名：{group.groupName}</p>
+                <div className="mb-5">
+                    <p>
+                        <span className="block font-semibold mb-3">山車組名</span>
+                        {group.groupName}
+                    </p>
+                </div>
 
                 {/* 主要エリア */}
                 <div className="mb-5">
@@ -220,26 +225,26 @@ function AdminGroupEdit() {
                     )}
                 </div>
 
-                <button
-                    type="button"
-                    onClick={() => navigate(`/admin/groups/${groupId}`)}
-                    className="btn btn-primary"
-                >
-                    山車組詳細へ戻る
-                </button>
-
-                <div className="mt-8">
+                <div className="flex justify-center my-10">
                     <button
                         type="submit"
-                        className="btn btn-primary w-full"
+                        className="submit-btn"
                     >
                         変更を保存
                     </button>
                 </div>
 
+                <button
+                    type="button"
+                    onClick={() => navigate(`/admin/groups/${groupId}`)}
+                    className="back-to-btn"
+                >
+                    山車組詳細へ戻る
+                </button>
+
             </form>
 
-        </>
+        </section>
     )
 }
 

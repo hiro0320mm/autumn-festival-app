@@ -1,114 +1,234 @@
 @import 'tailwindcss';
 @plugin "daisyui";
 
-:root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+@theme {
+  --color-app-base: #fcf9ef;
+  --color-app-primary: #c14b00;
+  --color-app-secondary: #4A896F;
+  --color-app-accent: #BB3E3E;
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+  --color-app-bg: #F3C66B;
+  --color-app-bg-sub: #E5D0AD;
+  --color-app-border: #7a5b54;
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
+  --color-app-text: #563b3a;
+  --color-app-sub: #666666;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
+:root {
+  --color-base: #fcf9ef;
+  --color-primary: #c14b00;
+  --color-secondary: #4A896F;
+  --color-accent: #BB3E3E;
 }
 
 body {
-  margin: 0;
+  @apply text-app-text border-app-text font-sans;
 }
 
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-}
-
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
+section {
+  @apply md:p-10 sm:p-2;
+  h1 {
+    @apply mb-5;
+  }
+  &.confirm-box{
+    @apply container w-fit md:p-10 sm:p-2 md:mx-auto md:my-10 md:shadow grid justify-items-center gap-y-5 rounded-lg;
+    h1 {
+      @apply mt-10;
+    }
+    h2 {
+      @apply text-2xl font-semibold text-secondary/80;
+    }
+    dt {
+      @apply font-medium mb-1;
+    }
+    dd {
+      @apply mb-2;
+    }
+    p {
+      @apply py-2 px-10 w-full;
+    }
+  }
 }
 
 h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
-}
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
-}
-p {
-  margin: 0;
+  @apply inline-block text-xl font-semibold text-app-text;
 }
 
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
+ul {
+  @apply list-disc pb-0.5 list-inside my-5;
 }
 
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+button {
+  @apply btn btn-primary text-white font-medium transition-all duration-300;
+  &:hover {
+    @apply opacity-80;
+  }
+  &.logout-btn, &.add-data-btn, &.edit-btn {
+    @apply btn-secondary;
+  }
+  &.filter-btn {
+    @apply btn rounded-full border-none bg-app-bg-sub text-app-text;
+  }
+  &.filter-btn-active {
+    @apply btn rounded-full border-none bg-app-accent text-white;
+  }
+  &.back-to-btn  {
+    @apply btn btn-outline bg-white text-app-sub;
+  }
+  &.cancel-btn {
+    @apply btn btn-outline bg-white text-app-sub text-sm;
+    &.requested {
+      @apply bg-app-bg;
+    }
+    &.canceled {
+      @apply btn-ghost;
+    }
+  }
+  &.submit-btn {
+    @apply btn btn-secondary min-w-1/2 p-7;
+  }
+  &.warning-btn {
+    @apply btn btn-accent;
+  }
+}
+
+/*管理画面共通ヘッダー*/
+#root > header {
+  @apply flex items-center justify-between px-2 py-2.5 shadow bg-app-base;
+  box-shadow: 0 7px 5px -3px rgba(193, 75, 0, .2);
+}
+
+/*管理画面各ページヘッダー*/
+main header {
+  @apply flex items-center justify-between;
+  .update-history {
+    @apply block border p-2 text-sm;
+  }
+}
+
+table {
+  @apply my-10 rounded-md overflow-hidden;
+    th {
+      @apply text-center bg-app-bg-sub text-app-text;
+    }
+}
+
+form {
+  @apply mx-auto p-6 bg-white shadow-md;
+  input[type="text"], input[type="tel"], input[type="password"], input[type="time"], input[type="date"], textarea, select {
+    @apply w-full px-3 py-2 mb-5 border border-app-border/30 rounded-md focus:outline-none focus:ring-2 focus:ring-app-secondary/30 focus:border-app-secondary/30;
+    &.short-text {
+      @apply w-30 mr-3;
+    }
+    &.medium-text {
+      @apply w-50 mr-3;
+    }
+  }
+  input[type="number"] {
+    @apply px-3 py-2 mb-5 border border-app-border/30 rounded-md focus:outline-none focus:ring-2 focus:ring-app-secondary/30 focus:border-app-secondary/30;
+  }
+  label {
+    @apply block font-bold mb-2;
+    span.required {
+      @apply block text-xs font-normal;
+    }
+  }
+}
+
+/*管理画面トップ*/
+.dashboard-card {
+  @apply block p-6 rounded-xl bg-app-bg-sub transition-all duration-300;
+  &:hover {
+   @apply bg-app-bg shadow;
+  }
+  h2 {
+    @apply block text-2xl font-semibold text-center text-app-secondary pb-2;
+  }
+  p {
+    @apply text-center py-2 font-semibold;
+  }
+}
+
+.show-password-toggle {
+  @apply block absolute top-1/2 right-2 min-h-2 min-w-12 py-1 px-2 bg-app-bg text-app-text text-center text-sm -translate-y-4/5 rounded-lg;
+  &.hide {
+    @apply bg-app-primary text-white;
+  }
+}
+
+.edit-icon {
+  @apply btn btn-ghost btn-sm rounded-full border-none text-app-text hover:text-app-secondary hover:bg-app-secondary/20;
+}
+
+.delete-icon {
+  @apply btn btn-ghost btn-sm rounded-full border-none text-app-text hover:text-app-accent hover:bg-app-accent/20;
+}
+
+.message-box {
+  @apply text-error;
+  h2 {
+    @apply text-2xl font-bold mb-2;
+  }
+  strong {
+    @apply text-lg mb-2 bg-app-accent text-white py-2 px-5 rounded-lg;
+  }
+}
+
+.validation-error {
+  @apply text-sm text-error ml-3 font-medium;
+}
+
+.complements {
+  @apply list-none before:content-['※'] before:mr-1 pl-4 -indent-4 text-sm mb-2;
+}
+
+/*トップページ：山車組選択画面*/
+#groupList {
+    @apply relative p-0 flex flex-col bg-app-base min-h-screen md:w-full;
+  h1 {
+    @apply block font-serif text-5xl mx-10 my-15 text-center text-primary;
+  }
+  h1 + div {
+    @apply mx-auto mb-10;
+  }
+  article {
+    @apply container mx-auto grid grid-cols-2 gap-10;
+    .group-list-item {
+      @apply grid grid-cols-2 gap-y-2 bg-white p-0 items-center rounded-lg overflow-hidden;
+      h2 {
+        @apply col-span-2 text-3xl font-serif font-bold bg-primary p-3 text-white grid h-20 items-center;
+      }
+      .position-list {
+        @apply py-4 px-10;
+        h3 {
+          @apply text-xl font-semibold;
+        }
+      }
+      .apply-btn {
+        @apply btn bg-secondary p-7 w-50 text-white rounded-md m-auto;
+      }
+    }
+  }
+}
+
+#myPage {
+  section {
+    @apply md:w-fit md:min-w-1/2 sm:w-full mx-auto my-10 shadow grid gap-3;
+    h1 {
+      @apply mb-0 text-center;
+      &+p {
+        @apply text-center;
+      }
+    }
+    th {
+      @apply bg-white;
+    }
+    form {
+      @apply shadow-none;
+    }
+    button {
+      @apply w-fit;
+    }
+  }
 }
