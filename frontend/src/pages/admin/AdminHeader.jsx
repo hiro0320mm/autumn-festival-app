@@ -24,6 +24,11 @@ function AdminHeader() {
             <button onClick={() => navigate("/admin/positions")} className="btn btn-primary">
                 ポジション管理
             </button>
+
+            <button onClick={() => navigate("/admin/groups")} className="btn btn-primary">
+                山車組情報管理
+            </button>
+
             <span>{admin.staffName}さん</span>
             <button
                 onClick={handleLogout}

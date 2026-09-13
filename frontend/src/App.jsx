@@ -24,6 +24,7 @@ import AdminPositionNew from "./pages/admin/positions/AdminPositionNew.jsx";
 import AdminPositionEdit from "./pages/admin/positions/AdminPositionEdit.jsx";
 import AdminGroupDetail from "./pages/admin/groups/AdminGroupDetail.jsx";
 import AdminGroupEdit from "./pages/admin/groups/AdminGroupEdit.jsx";
+import AdminGroups from "./pages/admin/groups/AdminGroups.jsx";
 
 function App() {
     const [groups, setGroups] = useState([])
@@ -221,6 +222,18 @@ function App() {
                         <AdminProtectedRoute>
                             <AdminLayout>
                                 <AdminPositionEdit />
+                            </AdminLayout>
+                        </AdminProtectedRoute>
+                    }
+                />
+
+                // 管理画面：特権管理者用・山車組一覧
+                <Route
+                    path="/admin/groups/"
+                    element={
+                        <AdminProtectedRoute>
+                            <AdminLayout>
+                                <AdminGroups />
                             </AdminLayout>
                         </AdminProtectedRoute>
                     }

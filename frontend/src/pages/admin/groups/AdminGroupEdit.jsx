@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAdmin } from "../../../components/admin/AdminContext";
 
 function AdminGroupEdit() {
 
     const admin = useAdmin();
     const navigate = useNavigate();
+    const { groupId } = useParams();
 
     const [group, setGroup] = useState(null);
     const [error, setError] = useState("");
@@ -13,20 +14,9 @@ function AdminGroupEdit() {
 
     useEffect(() => {
 
-        // 管理者情報がまだ取得できていない場合
-        if (!admin) {
-            return;
-        }
-
-        // groupIdがない場合
-        if (admin.groupId === null) {
-            setError("山車組情報を取得できません");
-            return;
-        }
-
         const getGroup = async () => {
             try {
-                const response = await fetch(`/api/admin/groups/${admin.groupId}`, {
+                const response = await fetch(`/api/admin/groups/${groupId}`, {
                     credentials: "include",
                 });
 
@@ -45,7 +35,7 @@ function AdminGroupEdit() {
 
         getGroup();
 
-    },[admin]);
+    },[groupId]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -232,7 +222,7 @@ function AdminGroupEdit() {
 
                 <button
                     type="button"
-                    onClick={() => navigate(`/admin/groups/${admin.groupId}`)}
+                    onClick={() => navigate(`/admin/groups/${groupId}`)}
                     className="btn btn-primary"
                 >
                     山車組詳細へ戻る

@@ -1,6 +1,7 @@
 package com.example.backend.service;
 
 import com.example.backend.dto.AdminGroupDetailResponse;
+import com.example.backend.dto.AdminGroupListResponse;
 import com.example.backend.dto.AdminGroupUpdateRequest;
 import com.example.backend.dto.GroupListResponse;
 import com.example.backend.entity.*;
@@ -39,6 +40,36 @@ public class GroupsService {
                         group.getGroupName(),
                         group.getOfficeTel(),
                         positionsService.findByGroupId(group.getGroupId())
+                ))
+                .toList();
+    }
+
+    // 管理画面：山車組一覧取得（特権管理者用）
+    public List<AdminGroupListResponse> findAllForAdmin(
+            Authentication authentication
+    ) {
+        String staffName = authentication.getName();
+
+        Staffs staff = staffsRepository.findByStaffName(staffName)
+                .orElseThrow(() ->
+                        new UsernameNotFoundException("管理者が見つかりません")
+                );
+
+        if (staff.getRole() != Role.ROLE_SUPER_ADMIN) {
+            throw new IllegalArgumentException("一覧を閲覧する権限がありません");
+        }
+
+        return groupsRepository.findAll()
+                .stream()
+                .map(group -> new AdminGroupListResponse(
+                        group.getGroupId(),
+                        group.getGroupName(),
+                        group.getDistrict(),
+                        group.getOfficeAddress(),
+                        group.getOfficeTel(),
+                        group.getContactName(),
+                        group.getContactTel(),
+                        group.getDescription()
                 ))
                 .toList();
     }

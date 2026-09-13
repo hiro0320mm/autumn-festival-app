@@ -1,12 +1,15 @@
 package com.example.backend.controller;
 
 import com.example.backend.dto.AdminGroupDetailResponse;
+import com.example.backend.dto.AdminGroupListResponse;
 import com.example.backend.dto.AdminGroupUpdateRequest;
 import com.example.backend.service.GroupsService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/admin/groups")
@@ -16,6 +19,14 @@ public class AdminGroupsController {
 
     public AdminGroupsController(GroupsService groupsService) {
         this.groupsService = groupsService;
+    }
+
+    // 管理画面：山車組一覧取得
+    @GetMapping
+    public List<AdminGroupListResponse> findAll(
+            Authentication authentication
+    ) {
+        return groupsService.findAllForAdmin(authentication);
     }
 
     // 管理画面：山車組詳細取得
