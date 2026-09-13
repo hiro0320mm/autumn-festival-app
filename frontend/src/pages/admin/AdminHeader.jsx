@@ -1,7 +1,9 @@
 import { useNavigate } from "react-router-dom";
+import { useAdmin } from "../../components/admin/AdminContext.jsx";
 
 function AdminHeader() {
     const navigate = useNavigate();
+    const admin = useAdmin();
 
     const handleLogout = async () => {
         await fetch("/api/logout", {
@@ -19,6 +21,10 @@ function AdminHeader() {
                 申込者管理
             </button>
 
+            <button onClick={() => navigate("/admin/positions")} className="btn btn-primary">
+                ポジション管理
+            </button>
+            <span>{admin.staffName}さん</span>
             <button
                 onClick={handleLogout}
                 className="btn btn-primary"

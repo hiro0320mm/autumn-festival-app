@@ -24,4 +24,11 @@ public interface PositionsRepository extends JpaRepository<Positions, Long> {
             Long positionId,
             Long groupId
     );
+
+    // 管理画面：編集時のポジション名重複チェック
+    boolean existsByGroup_GroupIdAndPositionNameAndPositionIdNot(
+            Long groupId,
+            String positionName,
+            Long positionId
+    );
 }

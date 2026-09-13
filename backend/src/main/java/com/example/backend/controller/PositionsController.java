@@ -47,4 +47,16 @@ public class PositionsController {
         return ResponseEntity.ok("ポジションを登録しました");
     }
 
+    // 管理画面：ポジション更新
+    @PutMapping("/{positionId}")
+    public ResponseEntity<?> updatePosition(
+            @PathVariable Long positionId,
+            @Valid @RequestBody AdminPositionUpdateRequest form,
+            Authentication authentication) {
+
+        positionsService.updatePosition(positionId, form, authentication);
+
+        return ResponseEntity.ok().build();
+    }
+
 }

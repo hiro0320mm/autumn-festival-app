@@ -21,6 +21,7 @@ import AdminApplicantNew from "./pages/admin/applicants/AdminApplicantNew.jsx";
 import AdminPositions from "./pages/admin/positions/AdminPositions.jsx";
 import AdminPositionDetail from "./pages/admin/positions/AdminPositionDetail.jsx";
 import AdminPositionNew from "./pages/admin/positions/AdminPositionNew.jsx";
+import AdminPositionEdit from "./pages/admin/positions/AdminPositionEdit.jsx";
 
 function App() {
     const [groups, setGroups] = useState([])
@@ -206,6 +207,18 @@ function App() {
                         <AdminProtectedRoute>
                             <AdminLayout>
                                 <AdminPositionNew />
+                            </AdminLayout>
+                        </AdminProtectedRoute>
+                    }
+                />
+
+                // 管理画面：ポジション編集
+                <Route
+                    path="/admin/positions/:positionId/edit"
+                    element={
+                        <AdminProtectedRoute>
+                            <AdminLayout>
+                                <AdminPositionEdit />
                             </AdminLayout>
                         </AdminProtectedRoute>
                     }

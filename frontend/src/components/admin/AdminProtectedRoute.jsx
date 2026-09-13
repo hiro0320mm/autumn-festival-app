@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 
+import AdminContext from "./AdminContext.jsx";
+
 function AdminProtectedRoute({ children }) {
+    const [admin, setAdmin] = useState(null);
     const [isAuthenticated, setIsAuthenticated] = useState(null);
 
     useEffect(() => {
@@ -9,11 +12,15 @@ function AdminProtectedRoute({ children }) {
             credentials: "include",
         })
             .then(response => {
-                if (response.ok) {
-                    setIsAuthenticated(true);
-                } else {
-                    setIsAuthenticated(false);
+                if (!response.ok) {
+                    throw new Error("管理者情報の取得に失敗しました");
                 }
+
+                return response.json();
+            })
+            .then(data => {
+                setAdmin(data);
+                setIsAuthenticated(true);
             })
             .catch(() => {
                 setIsAuthenticated(false);
@@ -31,7 +38,11 @@ function AdminProtectedRoute({ children }) {
     }
 
     // ログイン済みなら管理画面を表示
-    return children;
+    return (
+        <AdminContext.Provider value={admin}>
+            {children}
+        </AdminContext.Provider>
+    );
 }
 
 export default AdminProtectedRoute;

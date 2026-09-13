@@ -1,23 +1,24 @@
 import { useEffect, useState } from "react";
-import {useLocation, useNavigate} from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
-
-function AdminPositionNew() {
-
-    const location = useLocation();
+function AdminPositionEdit() {
     const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from;
+
+    const { positionId } = useParams();
+    const [position, setPosition] = useState(null);
 
     const [role, setRole] = useState("");
     const [groups, setGroups] = useState([]);
 
+    const [ error, setError ] = useState(false);
+    const [ errors, setErrors ] = useState({});
+
     const [deadlineDate, setDeadlineDate] = useState("");
     const [deadlineTime, setDeadlineTime] = useState("23:59");
 
-    const [error, setError] = useState("");
-    const [errors, setErrors] = useState({})
-
-    const [formData, setFormData] = useState(
-        location.state?.formData || {
+    const [formData, setFormData] = useState({
             groupId: '',
             positionName: '',
             target: '',
@@ -87,6 +88,48 @@ function AdminPositionNew() {
         })
     }
 
+    useEffect(() => {
+        const getPosition = async () => {
+            try {
+                const response = await fetch(`/api/admin/positions/${positionId}`, {
+                    credentials: "include",
+                });
+
+                if (!response.ok) {
+                    setError(true);
+                    return;
+                }
+
+                const data = await response.json();
+
+                setPosition(data);
+
+                setFormData({
+                    groupId: Number(data.groupId),
+                    positionName: data.positionName,
+                    target: data.target,
+                    maxCapacity: data.maxCapacity,
+                    deadline: data.deadline,
+                    recruitmentStatus: data.recruitmentStatus,
+                });
+
+                // 締切日時を日付と時間に分解
+                if (data.deadline) {
+                    const [date, time] = data.deadline.split("T");
+
+                    setDeadlineDate(date.replaceAll("/", "-"));
+                    setDeadlineTime(time.slice(0, 5));
+                }
+
+            } catch {
+                setError(true);
+            }
+        };
+
+        getPosition();
+
+    }, [positionId]);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -103,38 +146,46 @@ function AdminPositionNew() {
         };
 
         try {
-            const response = await fetch("/api/admin/positions", {
-                method: "POST",
-                credentials: "include",
+            const response = await fetch(`/api/admin/positions/${positionId}`, {
+                method: "PUT",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
                 },
-                body: JSON.stringify(submitData)
+                credentials: "include",
+                body: JSON.stringify(submitData),
             });
 
             if (!response.ok) {
                 const data = await response.json();
+
                 setErrors(data);
+
                 return;
             }
 
-            navigate("/admin/positions", {
-                state: {
-                    message: "ポジションを登録しました",
-                },
+            // 成功時は詳細画面に戻る
+            navigate(`/admin/positions/${positionId}`, {
+                state: { message: "ポジション情報を更新しました" }
             });
 
-        } catch (error) {
-            console.error(error);
-            setError("ポジションの登録に失敗しました");
+        } catch {
+            setError(true);
         }
     };
+
+    if (error) {
+        return <p>ポジション情報を取得・更新できませんでした。</p>;
+    }
+
+    if (!position) {
+        return <p>読み込み中...</p>
+    }
 
     return (
         <div className="max-w-2xl mx-auto p-6">
 
             <h1 className="text-2xl font-bold mb-6">
-                ポジション新規登録
+                ポジション編集
             </h1>
 
             {error && (
@@ -153,7 +204,7 @@ function AdminPositionNew() {
                             onChange={(e) =>
                                 setFormData({
                                     ...formData,
-                                    groupId: e.target.value
+                                    groupId: Number(e.target.value)
                                 })
                             }
                         >
@@ -282,11 +333,21 @@ function AdminPositionNew() {
                     )}
                 </div>
 
-                <button type="button"
-                        onClick={() => navigate('/admin/positions')}
-                        className="btn btn-primary"
+                <button
+                    type="button"
+                    onClick={() => {
+                        if (from === "detail") {
+                            navigate(`/admin/positions/${positionId}`);
+                        } else {
+                            navigate("/admin/positions");
+                        }
+                    }}
+                    className="btn btn-primary"
                 >
-                    ポジション管理トップへ戻る
+                    {from === "detail"
+                        ? "ポジション詳細へ戻る"
+                        : "ポジション管理トップへ戻る"
+                    }
                 </button>
 
                 <div className="mt-8">
@@ -294,14 +355,12 @@ function AdminPositionNew() {
                         type="submit"
                         className="btn btn-primary w-full"
                     >
-                        登録する
+                        更新する
                     </button>
                 </div>
 
             </form>
         </div>
-    )
-
+    );
 }
-
-export default AdminPositionNew;
+export default AdminPositionEdit;

@@ -132,9 +132,13 @@ function AdminApplicantDetail() {
                     <p>学年・クラス：{applicant.schoolGrade} 年 {applicant.schoolClass} 組</p>
                     <p>特記事項：{applicant.note}</p>
                     <p>担当者メモ：{applicant.staffMemo}</p>
-                    <Link to={`/admin/applicants/${applicant.applicantId}/edit`}>
-                        編集
-                    </Link>
+                    <button
+                        type="button"
+                        className="btn btn-primary"
+                        onClick={() => navigate(`/admin/applicants/${applicant.applicantId}/edit`)}
+                    >
+                        編集する
+                    </button>
 
                     {applicant.cancelStatus === "NONE" && (
                         <button type="button" onClick={handleCancel}>

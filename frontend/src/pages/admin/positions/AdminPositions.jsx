@@ -56,9 +56,15 @@ function AdminPositions() {
                     <p>定員：{position.maxCapacity} 人</p>
                     <p>募集締切日時：{formatDateTime(position.deadline)}</p>
 
-                    <Link to={`/admin/positions/${position.positionId}/edit`}>
+                    <button
+                        onClick={() =>
+                            navigate(`/admin/positions/${position.positionId}/edit`, {
+                                state: { from: "list" }
+                            })
+                        }
+                    >
                         編集
-                    </Link>
+                    </button>
 
                     <hr />
                 </div>

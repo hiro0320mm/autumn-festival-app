@@ -61,9 +61,12 @@ function AdminPositionDetail() {
                     </p>
 
                     <button
-                        type="button"
                         className="btn btn-primary"
-                        onClick={() => navigate(`/admin/positions/${position.positionId}/edit`)}
+                        onClick={() =>
+                            navigate(`/admin/positions/${position.positionId}/edit`, {
+                                state: { from: "detail" }
+                            })
+                        }
                     >
                         編集
                     </button>

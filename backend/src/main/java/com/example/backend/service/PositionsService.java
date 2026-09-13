@@ -105,6 +105,7 @@ public class PositionsService {
         }
 
         return new AdminPositionDetailResponse(
+                position.getGroup().getGroupId(),
                 position.getPositionId(),
                 position.getPositionName(),
                 position.getTarget(),
@@ -168,5 +169,74 @@ public class PositionsService {
 
         positionsRepository.save(position);
 
+    }
+
+    // 管理画面：編集
+    public void updatePosition(
+            Long positionId,
+            AdminPositionUpdateRequest form,
+            Authentication authentication
+    ) {
+
+        // ログイン中の管理者を取得
+        String staffName = authentication.getName();
+
+        Staffs staff = staffsRepository.findByStaffName(staffName)
+                .orElseThrow(() ->
+                        new UsernameNotFoundException("管理者名が見つかりません")
+                );
+
+        // 編集対象のポジションを取得
+        Positions position = positionsRepository.findById(positionId)
+                .orElseThrow(() ->
+                        new IllegalArgumentException("指定されたポジションが見つかりません")
+                );
+
+        Groups group;
+
+        if (staff.getRole() == Role.ROLE_ADMIN) {
+
+            // 一般管理者：ログイン情報に紐づいた山車組
+            group = staff.getGroup();
+
+        } else if (staff.getRole() == Role.ROLE_SUPER_ADMIN) {
+
+            // 特権管理者：指定された山車組
+            if (form.groupId() == null) {
+                throw new IllegalArgumentException("山車組を指定してください");
+            }
+
+            group = groupsRepository.findById(form.groupId())
+                    .orElseThrow(() ->
+                            new IllegalArgumentException("指定された山車組が見つかりません")
+                    );
+
+        } else {
+            throw new IllegalArgumentException("権限が不正です");
+        }
+
+        // ポジション名の重複チェック
+        // ※自分自身は除外する
+        if (positionsRepository
+                .existsByGroup_GroupIdAndPositionNameAndPositionIdNot(
+                        group.getGroupId(),
+                        form.positionName(),
+                        positionId
+                )) {
+
+            throw new IllegalArgumentException(
+                    "同じ山車組に同じポジション名が既に登録されています"
+            );
+        }
+
+        // ポジション情報を更新
+        position.setGroup(group);
+        position.setPositionName(form.positionName());
+        position.setTarget(form.target());
+        position.setMaxCapacity(form.maxCapacity());
+        position.setDeadline(form.deadline());
+        position.setRecruitmentStatus(form.recruitmentStatus());
+
+        positionsRepository.save(position);
     }
 }

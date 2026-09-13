@@ -44,6 +44,7 @@ public class AdminController {
                         ? staff.getGroup().getGroupId()
                         : null
         );
+        response.put("staffName", staff.getStaffName());
 
         return ResponseEntity.ok(response);
     }
