@@ -25,12 +25,7 @@ function MyPageLogin() {
                 body: JSON.stringify(body),
             });
 
-            console.log("status:", response.status);
-            console.log("url:", response.url);
-            console.log("type:", response.type);
-
             const data = await response.json();
-            console.log(data);
 
             if (!response.ok) {
                 setLoginError(true);

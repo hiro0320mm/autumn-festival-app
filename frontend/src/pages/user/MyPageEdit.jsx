@@ -57,8 +57,6 @@ function MyPageEdit() {
             note: formData.get("note"),
         };
 
-        console.log(body);
-
         try {
             const response = await fetch("/api/mypage", {
                 method: "PUT",
