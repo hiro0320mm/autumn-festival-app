@@ -325,25 +325,27 @@ function AdminPositionEdit() {
                 {/* 募集状況 */}
                 <div className="mb-5">
                     <div>
-                        <span className="required">＊必須項目</span>
-                        <h3>募集状況</h3>
+                        <span className="required text-sm">＊必須項目</span>
+                        <h3 className="font-semibold mb-5">募集状況</h3>
                         {errors.recruitmentStatus && (
                             <span className="validation-error">
                                 {errors.recruitmentStatus}
                             </span>
                         )}
                     </div>
-                    <label class="toggle-btn">
-                        <input
-                            type="checkbox"
-                            name="recruitmentStatus"
-                            checked={formData.recruitmentStatus}
-                            onChange={handleChange}
-                        />
-                    </label>
-                    <span className="p-3">
-                        {formData.recruitmentStatus ? "募集中" : "募集停止"}
-                    </span>
+                    <div className="grid w-fit gap-2">
+                        <label class="toggle-btn">
+                            <input
+                                type="checkbox"
+                                name="recruitmentStatus"
+                                checked={formData.recruitmentStatus}
+                                onChange={handleChange}
+                            />
+                        </label>
+                        <span className="p-3">
+                            {formData.recruitmentStatus ? "募集中" : "募集停止"}
+                        </span>
+                    </div>
                 </div>
 
                 <div className="flex justify-center my-10">
