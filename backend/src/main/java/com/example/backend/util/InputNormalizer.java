@@ -9,6 +9,6 @@ public final class InputNormalizer {
             return null;
         }
 
-        return value.replaceAll("[\\s\\u3000]", "");
+        return value.replaceAll("[ \\u3000]", "");
     }
 }

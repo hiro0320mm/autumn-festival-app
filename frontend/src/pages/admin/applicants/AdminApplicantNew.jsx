@@ -155,6 +155,8 @@ function AdminApplicantNew() {
             positionId: formData.positionId === '' ? null : Number(formData.positionId),
         }
 
+        console.log(JSON.stringify(formData.get("kana")));
+
         try {
             const response = await fetch("/api/admin/applicants", {
                 method: "POST",
