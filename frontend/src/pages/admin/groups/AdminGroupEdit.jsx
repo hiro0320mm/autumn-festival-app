@@ -49,11 +49,11 @@ function AdminGroupEdit() {
             contactName: formData.get("contactName"),
             contactTel: formData.get("contactTel"),
             description: formData.get("description"),
-        }
+        };
 
         try {
-            const response = await fetch(`/api/admin/groups/${admin.groupId}`, {
-                method: 'PUT',
+            const response = await fetch(`/api/admin/groups/${groupId}`, {
+                method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -69,15 +69,14 @@ function AdminGroupEdit() {
                 return;
             }
 
-            // 成功時は詳細画面に戻る
-            navigate(`/admin/groups/${admin.groupId}`, {
+            navigate(`/admin/groups/${groupId}`, {
                 state: { message: "情報を更新しました" }
             });
+
         } catch {
             setError("山車組情報の更新に失敗しました");
         }
-
-    }
+    };
 
     if (!admin) {
         return <p>管理者情報を取得中...</p>;
