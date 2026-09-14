@@ -47,16 +47,9 @@ public class ApplicantsService {
 
         } else if (staff.getRole() == Role.ROLE_ADMIN) {
 
-            System.out.println("staffName = " + staff.getStaffName());
-            System.out.println("role = " + staff.getRole());
-            System.out.println("groupId = " + staff.getGroup().getGroupId());
-            System.out.println("groupName = " + staff.getGroup().getGroupName());
-
             // 一般管理者：ログインユーザーに紐づいている山車組の申込者のみ取得
             applicants = applicantsRepository
                     .findByGroup_GroupId(staff.getGroup().getGroupId());
-
-            System.out.println("applicants size = " + applicants.size());
 
         } else {
             throw new IllegalArgumentException("権限が不正です");

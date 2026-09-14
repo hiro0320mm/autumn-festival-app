@@ -12,7 +12,7 @@ public record AdminApplicantUpdateRequest(
 
         @NotBlank(message = "よみがなは必須項目です")
         @Pattern(
-                regexp = "^[ぁ-んー]+$",
+                regexp = "^[ぁ-んー 　]+$",
                 message = "お名前のよみがなをひらがなで入力してください"
         )
         String kana,
