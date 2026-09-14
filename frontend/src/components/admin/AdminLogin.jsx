@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Eye, EyeOff } from "lucide-react";
 
 function AdminLogin() {
     const [staffName, setStaffName] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
 
-    const [showPassword, setShowPassword] = useState(false)
+    const [showPassword, setShowPassword] = useState(false);
 
     const navigate = useNavigate();
 
@@ -73,18 +74,22 @@ function AdminLogin() {
                             <input
                                 type={showPassword ? 'text' : 'password'}
                                 autoComplete="current-password"
+                                placeholder="********"
                                 value={password}
+                                className="relative"
                                 onChange={(event) => setPassword(event.target.value)}
                                 requied
                             />
-                            <span
-                                className={
-                                    showPassword ? "show-password-toggle" : "show-password-toggle hide"
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword((prev) => !prev)}
+                                className="show-password-toggle"
+                                aria-label={
+                                    showPassword ? "パスワードを隠す" : "パスワードを表示"
                                 }
-                                onClick={() => setShowPassword(!showPassword)}
                             >
-                                {showPassword ? '非表示' : '表示'}
-                            </span>
+                                {showPassword ? (<EyeOff className="size-4" />) : (<Eye className="size-4" />)}
+                            </button>
                         </div>
                     </label>
                 </div>

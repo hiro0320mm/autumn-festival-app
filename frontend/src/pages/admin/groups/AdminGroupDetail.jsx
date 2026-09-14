@@ -103,22 +103,22 @@ function AdminGroupDetail() {
                 </tbody>
             </table>
             <div className="flex justify-center my-10">
+                {admin?.role === "ROLE_SUPER_ADMIN" && (
+                    <button
+                        className="back-to-btn"
+                        onClick={() => navigate("/admin/groups")}
+                    >
+                        山車組一覧へ戻る
+                    </button>
+                )}
+
                 <button
-                    className="submit-btn"
+                    className="add-data-btn"
                     onClick={() => navigate(`/admin/groups/${groupId}/edit`)}
                 >
                     編集する
                 </button>
             </div>
-
-            {admin?.role === "ROLE_SUPER_ADMIN" && (
-                <button
-                    className="back-to-btn"
-                    onClick={() => navigate("/admin/groups")}
-                >
-                    山車組一覧へ戻る
-                </button>
-            )}
 
         </section>
     );
