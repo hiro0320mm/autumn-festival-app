@@ -336,7 +336,7 @@ function AdminPositionEdit() {
 
                     <input
                         type="checkbox"
-                        className="toggle toggle-lg toggle-scondary"
+                        className="toggle toggle-lg toggle-info"
                         name="recruitmentStatus"
                         checked={formData.recruitmentStatus}
                         onChange={handleChange}
