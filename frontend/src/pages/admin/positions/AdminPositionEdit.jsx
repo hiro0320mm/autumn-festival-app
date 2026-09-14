@@ -333,7 +333,7 @@ function AdminPositionEdit() {
                             </span>
                         )}
                     </div>
-                    <div className="grid w-fit gap-2 grid-flow-row">
+                    <div className="flex justify-between w-fit gap-3">
                         <label className="toggle-btn">
                             <input
                                 type="checkbox"
