@@ -2,5 +2,15 @@
 <project version="4">
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/backend/src/main/resources/db/migration/V5__create_positions_table.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/backend/src/main/resources/migration-postgresql/V10__rename_applicant_application_number.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/backend/src/main/resources/migration-postgresql/V1__create_groups_table.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/backend/src/main/resources/migration-postgresql/V2__insert_initial_groups.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/backend/src/main/resources/migration-postgresql/V3__create_staffs_table.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/backend/src/main/resources/migration-postgresql/V4__insert_initial_staffs.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/backend/src/main/resources/migration-postgresql/V5__create_positions_table.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/backend/src/main/resources/migration-postgresql/V6__insert_initial_positions.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/backend/src/main/resources/migration-postgresql/V7__create_applicants_table.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/backend/src/main/resources/migration-postgresql/V8__insert_initial_applicants.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/backend/src/main/resources/migration-postgresql/V9__alter_applicants_staff_memo.sql" dialect="GenericSQL" />
   </component>
 </project>
