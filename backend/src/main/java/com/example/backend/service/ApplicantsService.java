@@ -92,10 +92,6 @@ public class ApplicantsService {
                         new UsernameNotFoundException("管理者が見つかりません")
                 );
 
-
-        System.out.println("staffName = " + staff.getStaffName());
-        System.out.println("role = " + staff.getRole());
-
         if (staff.getRole() == Role.ROLE_ADMIN) {
 
             if (!applicant.getGroup().getGroupId()
@@ -246,12 +242,19 @@ public class ApplicantsService {
         Groups group;
 
         if (staff.getRole() == Role.ROLE_ADMIN) {
-            // 一般管理者：ログイン情報に紐づいた山車組に申込者を登録
+            // 一般管理者：ログイン情報に紐づいた山車組
             group = staff.getGroup();
 
-            if (!applicant.getGroup().getGroupId().equals(group.getGroupId())) {
-                throw new IllegalArgumentException("この申込者を編集する権限がありません");
+            if (!applicant.getGroup().getGroupId()
+                    .equals(group.getGroupId())) {
+                throw new IllegalArgumentException(
+                        "この申込者を編集する権限がありません"
+                );
             }
+
+        } else if (staff.getRole() == Role.ROLE_SUPER_ADMIN) {
+            // 特権管理者：全山車組を編集可能
+            group = applicant.getGroup();
 
         } else {
             throw new IllegalArgumentException("権限が不正です");
