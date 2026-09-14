@@ -59,10 +59,6 @@ ul {
   @apply list-disc pb-0.5 list-inside my-5;
 }
 
-.show-password-toggle {
-  @apply btn btn-ghost absolute bg-transparent text-app-sub border-none shadow-none hover:bg-transparent right-2 top-1/2 -translate-y-3/4;
-}
-
 button {
   @apply btn btn-primary text-white font-medium transition-all duration-300;
   &:hover {
@@ -96,6 +92,43 @@ button {
     @apply btn btn-accent;
   }
 }
+
+.toggle-btn {
+  display: inline-block;
+  position: relative;
+  width: 50px;
+  height: 25px;
+  border-radius: 25px;
+  background-color: #dddddd;
+  cursor: pointer;
+  transition: background-color .4s;
+}
+
+.toggle-btn:has(:checked) {
+  background-color: #50b98d;
+}
+
+.toggle-btn::after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  box-shadow: 0 0 5px rgb(0 0 0 / 20%);
+  background-color: #fff;
+  content: '';
+  transition: left .4s;
+}
+
+.toggle-btn:has(:checked)::after {
+  left: 25px;
+}
+
+.toggle-btn input {
+  display: none;
+}
+.
 
 /*管理画面共通ヘッダー*/
 #root > header {
