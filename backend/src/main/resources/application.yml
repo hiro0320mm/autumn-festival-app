@@ -25,7 +25,7 @@ spring:
 
   flyway:
     enabled: true
-    locations: classpath:db/migration-postgresql
+    locations: classpath:migration-postgresql
 #    default-schema: PUBLIC
     table: FLYWAY_SCHEMA_HISTORY
     baseline-on-migrate: true
