@@ -212,6 +212,10 @@ form {
   @apply list-none before:content-['※'] before:mr-1 pl-4 -indent-4 text-sm mb-2;
 }
 
+.show-password-toggle {
+  @apply btn btn-ghost absolute bg-transparent text-app-sub border-none shadow-none hover:bg-transparent right-2 top-1/2 -translate-y-3/4;
+}
+
 /*トップページ：山車組選択画面*/
 #groupList {
     @apply relative p-0 flex flex-col bg-app-base min-h-screen md:w-full;
