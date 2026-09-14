@@ -29,6 +29,7 @@ spring:
     default-schema: PUBLIC
     table: FLYWAY_SCHEMA_HISTORY
     baseline-on-migrate: true
+    baseline-version: 0
 
 logging:
   level:
