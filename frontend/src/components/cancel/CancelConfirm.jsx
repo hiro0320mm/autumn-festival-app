@@ -66,10 +66,11 @@ function CancelConfirm() {
                     <li>再度参加申込を行う場合は<Link to={"/"} className="decoration-solid"><u>「秋祭り参加申込システム」トップページ</u></Link>から改めてお手続きをお願いします。</li>
                 </ul>
             </div>
-
-            <button onClick={handleCancel} className="warning-btn mb-7">
-                キャンセルを確定
-            </button>
+            <div className="flex justify-center">
+                <button onClick={handleCancel} className="warning-btn mb-7">
+                    キャンセルを確定
+                </button>
+            </div>
 
             <button
                 onClick={() => navigate("/mypage")}

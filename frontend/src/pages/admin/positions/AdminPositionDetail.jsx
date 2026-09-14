@@ -87,9 +87,17 @@ function AdminPositionDetail() {
                             </tr>
                         </tbody>
                     </table>
-                    <div className="flex justify-center my-10">
+                    <div className="flex justify-between my-10">
                         <button
-                            className="submit-btn"
+                            type="button"
+                            className="back-to-btn"
+                            onClick={() => navigate("/admin/positions")}
+                        >
+                            一覧に戻る
+                        </button>
+
+                        <button
+                            className="add-data-btn"
                             onClick={() =>
                                 navigate(`/admin/positions/${position.positionId}/edit`, {
                                     state: { from: "detail" }
@@ -99,15 +107,6 @@ function AdminPositionDetail() {
                             編集
                         </button>
                     </div>
-
-
-                    <button
-                        type="button"
-                        className="back-to-btn"
-                        onClick={() => navigate("/admin/positions")}
-                    >
-                        一覧に戻る
-                    </button>
                 </>
             )}
         </section>

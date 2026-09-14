@@ -102,7 +102,7 @@ function AdminGroupDetail() {
                 </tr>
                 </tbody>
             </table>
-            <div className="flex justify-center my-10">
+            <div className="flex justify-between my-10">
                 {admin?.role === "ROLE_SUPER_ADMIN" && (
                     <button
                         className="back-to-btn"

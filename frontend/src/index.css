@@ -120,7 +120,7 @@ table {
 
 form {
   @apply mx-auto p-6 bg-white shadow-md;
-  input[type="text"], input[type="tel"], input[type="password"], input[type="time"], input[type="date"], textarea, select {
+  input[type="text"], input[type="tel"], input[type="password"], input[type="time"], input[type="date"], input[type="checkbox"], textarea, select {
     @apply w-full px-3 py-2 mb-5 border border-app-border/30 rounded-md focus:outline-none focus:ring-2 focus:ring-app-secondary/30 focus:border-app-secondary/30;
     &.short-text {
       @apply w-30 mr-3;
@@ -163,7 +163,7 @@ form {
 }
 
 .message-box {
-  @apply text-error;
+  @apply text-accent;
   h2 {
     @apply text-2xl font-bold mb-2;
   }
@@ -173,7 +173,7 @@ form {
 }
 
 .validation-error {
-  @apply text-sm text-error ml-3 font-medium;
+  @apply text-sm text-accent ml-3 font-medium;
 }
 
 .complements {
