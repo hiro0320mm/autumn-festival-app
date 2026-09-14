@@ -325,7 +325,7 @@ function AdminPositionEdit() {
                 {/* 募集状況 */}
                 <div className="mb-5">
                     <div>
-                        <span className="required text-sm">＊必須項目</span>
+                        <span className="required text-xs">＊必須項目</span>
                         <h3 className="font-semibold mb-5">募集状況</h3>
                         {errors.recruitmentStatus && (
                             <span className="validation-error">
@@ -333,7 +333,7 @@ function AdminPositionEdit() {
                             </span>
                         )}
                     </div>
-                    <div className="grid w-fit gap-2">
+                    <div className="grid w-fit gap-2 grid-flow-row">
                         <label className="toggle-btn">
                             <input
                                 type="checkbox"
