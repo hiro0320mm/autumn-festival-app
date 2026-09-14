@@ -1,10 +1,13 @@
 package com.example.backend.service;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-@Service
+// 実装見送りのため無効化
+//@Service
+@ConditionalOnProperty(name = "app.mail.enabled", havingValue = "true", matchIfMissing = false)
 public class MailService {
 
     private final JavaMailSender mailSender;

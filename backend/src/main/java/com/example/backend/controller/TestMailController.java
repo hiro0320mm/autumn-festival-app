@@ -5,7 +5,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+
+// 実装見送りのため無効化
+//@RestController
 @RequestMapping("/api/test-mail")
 public class TestMailController {
 
