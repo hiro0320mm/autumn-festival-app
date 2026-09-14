@@ -85,7 +85,6 @@ public class Applicants extends BaseEntity {
     private String note;
 
     @JsonIgnore
-    @Lob
     @Column(name = "staff_memo", columnDefinition = "TEXT")
     private String staffMemo;
 
