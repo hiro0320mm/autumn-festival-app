@@ -92,6 +92,10 @@ public class ApplicantsService {
                         new UsernameNotFoundException("管理者が見つかりません")
                 );
 
+
+        System.out.println("staffName = " + staff.getStaffName());
+        System.out.println("role = " + staff.getRole());
+
         if (staff.getRole() == Role.ROLE_ADMIN) {
 
             if (!applicant.getGroup().getGroupId()
