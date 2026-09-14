@@ -334,7 +334,7 @@ function AdminPositionEdit() {
                         )}
                     </div>
                     <div className="grid w-fit gap-2">
-                        <label class="toggle-btn">
+                        <label className="toggle-btn">
                             <input
                                 type="checkbox"
                                 name="recruitmentStatus"
