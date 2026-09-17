@@ -1,12 +1,19 @@
 import { useEffect, useState } from "react";
 import {Link, useNavigate} from "react-router-dom";
 import { Pencil, Trash2 } from "lucide-react";
+import { useAdmin } from "../../../components/admin/AdminContext";
 
 function AdminApplicants() {
-    const [applicants, setApplicants] = useState([]);
+    const admin = useAdmin();
     const navigate = useNavigate();
 
+    const [applicants, setApplicants] = useState([]);
+
     const [searchText, setSearchText] = useState("");
+    const [groupFilter, setGroupFilter] = useState("");
+    const groups = [
+        ...new Set(applicants.map((applicant) => applicant.groupName))
+    ];
     const [positionFilter, setPositionFilter] = useState("");
     const positions = [
         ...new Set(applicants.map((applicant) => applicant.positionName))
@@ -18,25 +25,34 @@ function AdminApplicants() {
     const [selectedApplicant, setSelectedApplicant] = useState(null);
 
     useEffect(() => {
-        fetch("/api/admin/applicants", {
-            credentials: "include",
-        })
-            .then(response => {
+
+        if (!admin) {
+            return <p>管理者情報を取得中...</p>;
+        }
+
+        const getApplicants = async () => {
+            try {
+                const response = await fetch("/api/admin/applicants", {
+                    credentials: "include",
+                });
+
                 if (!response.ok) {
                     throw new Error("申込者一覧の取得に失敗しました");
                 }
 
-                return response.json();
-            })
-            .then(data => {
+                const data = await response.json();
                 setApplicants(data);
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    }, []);
 
-    // 検索・ポジション絞込
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        getApplicants();
+
+    }, [admin]);
+
+    // 検索・山車組・ポジション絞込
     const filteredApplicants = applicants.filter((applicant) => {
         const keyword = searchText.trim().toLowerCase();
 
@@ -47,6 +63,10 @@ function AdminApplicants() {
                 applicant.address?.toLowerCase().includes(keyword) ||
                 String(applicant.receptionNumber).includes(keyword) ||
                 applicant.tel?.includes(keyword)
+            ) &&
+            (
+                groupFilter === "" ||
+                applicant.groupName === groupFilter
             ) &&
             (
                 positionFilter === "" ||
@@ -195,7 +215,8 @@ function AdminApplicants() {
                 </div>
             </div>
 
-            <div className="flex gap-2 flex-wrap my-5">
+            <div className="flex gap-2 flex-wrap my-5 items-center">
+                <p className="font-semibold pr-3 w-40">ポジションを選択</p>
                 <button
                     type="button"
                     className={`${
@@ -220,6 +241,34 @@ function AdminApplicants() {
                 ))}
             </div>
 
+
+            {admin.role === "ROLE_SUPER_ADMIN" && (
+                <div className="flex gap-2 flex-wrap my-5 items-center">
+                    <p className="font-semibold pr-3 w-40">山車組を選択</p>
+                    <button
+                        type="button"
+                        className={`${
+                            positionFilter === "" ? "filter-btn-active" : "filter-btn"
+                        }`}
+                        onClick={() => setGroupFilter("")}
+                    >
+                        すべて
+                    </button>
+                    {groups.map((group) => (
+                        <button
+                            key={group}
+                            type="button"
+                            className={`${
+                                positionFilter === group ? "filter-btn-active" : "filter-btn"
+                            }`}
+                            onClick={() => setGroupFilter(group)}
+                        >
+                            {group}
+                        </button>
+                    ))}
+                </div>
+            )}
+
             <div className="overflow-x-auto">
                 <div className="float-right mb-5">
                     <button type="button"
@@ -233,6 +282,7 @@ function AdminApplicants() {
                     <thead>
                         <tr>
                             <th>受付番号</th>
+                            {admin.role === "ROLE_SUPER_ADMIN" && <th>山車組</th>}
                             <th>お名前</th>
                             <th>よみがな</th>
                             <th>年齢</th>
@@ -252,7 +302,7 @@ function AdminApplicants() {
                         {filteredApplicants.map((applicant) => (
                             <tr
                                 key={applicant.applicantId}
-                                className={`hover:bg-base-200 cursor-pointer ${
+                                className={`hover:bg-green-200 cursor-pointer ${
                                     applicant.cancelStatus === "CANCELED"
                                         ? "bg-base-300"
                                         : ""
@@ -261,12 +311,17 @@ function AdminApplicants() {
                             >
                                 {/*受付番号*/}
                                 <td className="text-center">{applicant.receptionNumber}</td>
+                                {/*山車組：特権管理者の一覧のみ表示*/}
+                                {admin.role === "ROLE_SUPER_ADMIN" && (
+                                    <td>{applicant.groupName}</td>
+                                )}
                                 {/*お名前*/}
                                 <td>{applicant.applicantName}</td>
                                 {/*よみがな*/}
                                 <td>{applicant.kana}</td>
                                 {/*年齢*/}
                                 <td className="text-center">{applicant.age}</td>
+
                                 {/*ポジション*/}
                                 <td className="text-center">{applicant.positionName}</td>
                                 {/*住所*/}

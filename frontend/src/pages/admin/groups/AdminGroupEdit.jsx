@@ -14,6 +14,10 @@ function AdminGroupEdit() {
 
     useEffect(() => {
 
+        if (!admin) {
+            return <p>管理者情報を取得中...</p>;
+        }
+
         const getGroup = async () => {
             try {
                 const response = await fetch(`/api/admin/groups/${groupId}`, {

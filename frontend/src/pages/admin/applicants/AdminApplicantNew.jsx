@@ -1,14 +1,12 @@
 import { useEffect, useState } from "react";
-import {useLocation, useNavigate} from "react-router-dom";
-
+import { useLocation, useNavigate } from "react-router-dom";
+import { useAdmin } from "../../../components/admin/AdminContext";
 
 function AdminApplicantNew() {
-
+    const admin = useAdmin();
     const location = useLocation();
     const navigate = useNavigate();
 
-    const [role, setRole] = useState("");
-    const [groupId, setGroupId] = useState(null);
     const [groups, setGroups] = useState([]);
     const [positions, setPositions] = useState([]);
 
@@ -38,35 +36,22 @@ function AdminApplicantNew() {
     )
 
     useEffect(() => {
-        fetch("/api/admin/me", {
-            credentials: "include",
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("管理者情報の取得に失敗しました");
-                }
 
-                return response.json();
-            })
-            .then(data => {
-                setRole(data.role);
-                setGroupId(data.groupId);
+        if (!admin) {
+            return <p>管理者情報を取得中...</p>;
+        }
 
-                if (data.role === "ROLE_ADMIN") {
-                    setFormData(prev => ({
-                        ...prev,
-                        groupId: data.groupId
-                    }));
-                }
-            })
-            .catch(error => {
-                setError(error.message);
-            });
-    }, [])
+        if (admin.role === "ROLE_ADMIN") {
+            setFormData(prev => ({
+                ...prev,
+                groupId: admin.groupId
+            }));
+        }
+    }, [admin]);
 
     // 特権管理者のときグループ情報を取得
     useEffect(() => {
-        if (role !== "ROLE_SUPER_ADMIN") {
+        if (admin.role !== "ROLE_SUPER_ADMIN") {
             return;
         }
 
@@ -155,8 +140,6 @@ function AdminApplicantNew() {
             positionId: formData.positionId === '' ? null : Number(formData.positionId),
         }
 
-        console.log(JSON.stringify(formData.get("kana")));
-
         try {
             const response = await fetch("/api/admin/applicants", {
                 method: "POST",
@@ -194,7 +177,7 @@ function AdminApplicantNew() {
 
             <form onSubmit={handleSubmit}>
                 {/* 特権管理者のみ山車組を選択 */}
-                {role === "ROLE_SUPER_ADMIN" && (
+                {admin.role === "ROLE_SUPER_ADMIN" && (
                     <div>
                         <label>
                             <span className="required">＊必須項目</span>

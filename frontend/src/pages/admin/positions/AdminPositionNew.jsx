@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import {useLocation, useNavigate} from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useAdmin } from "../../../components/admin/AdminContext";
 
 
 function AdminPositionNew() {
-
+    const admin = useAdmin();
     const location = useLocation();
     const navigate = useNavigate();
 
-    const [role, setRole] = useState("");
     const [groups, setGroups] = useState([]);
 
     const [deadlineDate, setDeadlineDate] = useState("");
@@ -29,35 +29,23 @@ function AdminPositionNew() {
 
     // 管理者情報を取得
     useEffect(() => {
-        fetch("/api/admin/me", {
-            credentials: "include",
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("管理者情報の取得に失敗しました");
-                }
+        if (!admin) {
+            return;
+        }
 
-                return response.json();
-            })
-            .then(data => {
-                setRole(data.role);
-
-                if (data.role === "ROLE_ADMIN") {
-                    setFormData(prev => ({
-                        ...prev,
-                        groupId: data.groupId
-                    }));
-                }
-            })
-            .catch(error => {
-                setError(error.message);
-            });
-    }, [])
+        if (admin.role === "ROLE_ADMIN") {
+            setFormData(prev => ({
+                ...prev,
+                groupId: admin.groupId
+            }));
+        }
+    }, [admin]);
 
     // 特権管理者のときグループ情報を取得
     useEffect(() => {
-        if (role !== "ROLE_SUPER_ADMIN") {
-            return;
+
+        if (!admin) {
+            return <p>管理者情報を取得中...</p>;
         }
 
         fetch("/api/groups", {
@@ -76,7 +64,7 @@ function AdminPositionNew() {
             .catch(error => {
                 setError(error.message);
             });
-    }, [role]);
+    }, [admin]);
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target
@@ -145,7 +133,7 @@ function AdminPositionNew() {
 
             <form onSubmit={handleSubmit}>
                 {/* 特権管理者のみ山車組を選択 */}
-                {role === "ROLE_SUPER_ADMIN" && (
+                {admin.role === "ROLE_SUPER_ADMIN" && (
                     <div>
                         <label>山車組</label>
                         <select
@@ -273,27 +261,26 @@ function AdminPositionNew() {
 
                 {/* 募集状況 */}
                 <div className="mb-5">
-                    <label>
-                        <span className="required">＊必須項目</span>
-                        募集状況
+                    <div>
+                        <span className="required text-xs">＊必須項目</span>
+                        <h3 className="font-semibold mb-5">募集状況</h3>
                         {errors.recruitmentStatus && (
                             <span className="validation-error">
                                 {errors.recruitmentStatus}
                             </span>
                         )}
-                    </label>
-
-                    <input
-                        type="checkbox"
-                        className="toggle toggle-lg toggle-info"
-                        name="recruitmentStatus"
-                        checked={formData.recruitmentStatus}
-                        onChange={handleChange}
-                    />
-                    <span className="p-3">
-                        {formData.recruitmentStatus ? "募集中" : "募集停止"}
-                    </span>
-
+                    </div>
+                    <div className="flex justify-between w-fit gap-3 items-center">
+                        <label className="toggle-btn">
+                            <input
+                                type="checkbox"
+                                name="recruitmentStatus"
+                                checked={formData.recruitmentStatus}
+                                onChange={handleChange}
+                            />
+                        </label>
+                        {formData.recruitmentStatus ? <p className="p-3">募集中</p> : <p className="p-3 font-semibold text-accent">募集停止中</p>}
+                    </div>
                 </div>
 
                 <div className="flex justify-center my-10">

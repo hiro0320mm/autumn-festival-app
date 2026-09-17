@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import {Link, useLocation, useNavigate, useParams} from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 function AdminApplicantDetail() {
     const { applicantId } = useParams();

@@ -13,7 +13,7 @@ function AdminGroupList() {
     useEffect(() => {
 
         if (!admin) {
-            return;
+            return <p>管理者情報を取得中...</p>;
         }
 
         // 各山車組担当者には一覧画面を表示させない

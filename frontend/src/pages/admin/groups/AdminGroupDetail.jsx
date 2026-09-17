@@ -13,6 +13,10 @@ function AdminGroupDetail() {
 
     useEffect(() => {
 
+        if (!admin) {
+            return <p>管理者情報を取得中...</p>;
+        }
+
         fetch(`/api/admin/groups/${groupId}`, {
             credentials: "include",
         })

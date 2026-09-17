@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useAdmin } from "../../../components/admin/AdminContext";
 
 function AdminPositionEdit() {
+    const admin = useAdmin();
+
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from;
@@ -9,7 +12,6 @@ function AdminPositionEdit() {
     const { positionId } = useParams();
     const [position, setPosition] = useState(null);
 
-    const [role, setRole] = useState("");
     const [groups, setGroups] = useState([]);
 
     const [ error, setError ] = useState(false);
@@ -28,36 +30,23 @@ function AdminPositionEdit() {
         }
     )
 
-    // 管理者情報を取得
     useEffect(() => {
-        fetch("/api/admin/me", {
-            credentials: "include",
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("管理者情報の取得に失敗しました");
-                }
 
-                return response.json();
-            })
-            .then(data => {
-                setRole(data.role);
+        if (!admin) {
+            return <p>管理者情報を取得中...</p>;
+        }
 
-                if (data.role === "ROLE_ADMIN") {
-                    setFormData(prev => ({
-                        ...prev,
-                        groupId: data.groupId
-                    }));
-                }
-            })
-            .catch(error => {
-                setError(error.message);
-            });
-    }, [])
+        if (admin.role === "ROLE_ADMIN") {
+            setFormData(prev => ({
+                ...prev,
+                groupId: admin.groupId
+            }));
+        }
+    }, [admin]);
 
     // 特権管理者のときグループ情報を取得
     useEffect(() => {
-        if (role !== "ROLE_SUPER_ADMIN") {
+        if (!admin || admin.role !== "ROLE_SUPER_ADMIN") {
             return;
         }
 
@@ -77,7 +66,7 @@ function AdminPositionEdit() {
             .catch(error => {
                 setError(error.message);
             });
-    }, [role]);
+    }, [admin]);
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target
@@ -196,7 +185,7 @@ function AdminPositionEdit() {
 
             <form onSubmit={handleSubmit}>
                 {/* 特権管理者のみ山車組を選択 */}
-                {role === "ROLE_SUPER_ADMIN" && (
+                {admin.role === "ROLE_SUPER_ADMIN" && (
                     <div>
                         <label>
                             <span className="required">＊必須項目</span>
@@ -342,9 +331,7 @@ function AdminPositionEdit() {
                                 onChange={handleChange}
                             />
                         </label>
-                        <span className="p-3">
-                            {formData.recruitmentStatus ? "募集中" : "募集停止"}
-                        </span>
+                        {formData.recruitmentStatus ? <p className="p-3">募集中</p> : <p className="p-3 font-semibold text-accent">募集停止中</p>}
                     </div>
                 </div>
 
