@@ -6,8 +6,8 @@ import com.example.backend.dto.AdminGroupUpdateRequest;
 import com.example.backend.dto.GroupListResponse;
 import com.example.backend.entity.*;
 import com.example.backend.repository.GroupsRepository;
-import com.example.backend.repository.PositionsRepository;
 import com.example.backend.repository.StaffsRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -15,22 +15,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class GroupsService {
 
     private final GroupsRepository groupsRepository;
     private final StaffsRepository staffsRepository;
     private final PositionsService positionsService;
-
-    public GroupsService(
-            GroupsRepository groupsRepository,
-            PositionsRepository positionsRepository,
-            StaffsRepository staffsRepository,
-            PositionsService positionsService
-    ){
-        this.groupsRepository = groupsRepository;
-        this.staffsRepository = staffsRepository;
-        this.positionsService = positionsService;
-    }
 
     // 一般ユーザー向け：山車組一覧用
     public List<GroupListResponse> findAll() {

@@ -1,0 +1,2 @@
+ALTER TABLE positions
+    ADD COLUMN practice_required BOOLEAN NOT NULL DEFAULT FALSE;

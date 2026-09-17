@@ -1,0 +1,15 @@
+CREATE TABLE ANNOUNCEMENTS (
+    announcement_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    group_id BIGINT,
+    title VARCHAR(255) NOT NULL,
+    content TEXT NOT NULL,
+    is_published BOOLEAN NOT NULL DEFAULT TRUE,
+    created_by VARCHAR(20),
+    created_at TIMESTAMP NOT NULL,
+    updated_by VARCHAR(20),
+    updated_at TIMESTAMP NOT NULL,
+
+    CONSTRAINT fk_announcements_group
+        FOREIGN KEY (group_id)
+            REFERENCES GROUPS(group_id)
+);
