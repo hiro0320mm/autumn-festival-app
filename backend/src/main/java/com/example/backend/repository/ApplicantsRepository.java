@@ -8,11 +8,12 @@ import java.util.List;
 
 public interface ApplicantsRepository extends JpaRepository<Applicants, Long> {
 
-    boolean existsByApplicantNameAndKanaAndAgeAndTel(
-      String applicantName,
-      String kana,
-      Integer age,
-      String tel
+    boolean existsByApplicantNameAndKanaAndAgeAndTelAndCancelStatusNot(
+            String applicantName,
+            String kana,
+            Integer age,
+            String tel,
+            CancelStatus cancelStatus
     );
 
     boolean existsByApplicantNameAndKanaAndAgeAndTelAndApplicantIdNot(
@@ -30,5 +31,4 @@ public interface ApplicantsRepository extends JpaRepository<Applicants, Long> {
             Long positionId,
             CancelStatus cancelStatus
     );
-
 }

@@ -78,7 +78,7 @@ function AdminLogin() {
                                 value={password}
                                 className="relative"
                                 onChange={(event) => setPassword(event.target.value)}
-                                requied
+                                required
                             />
                             <button
                                 type="button"

@@ -1,29 +1,70 @@
 package com.example.backend.service;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import com.example.backend.entity.Applicants;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-// 実装見送りのため無効化
-//@Service
-@ConditionalOnProperty(name = "app.mail.enabled", havingValue = "true", matchIfMissing = false)
+@Service
 public class MailService {
 
-    private final JavaMailSender mailSender;
+    private final AsyncMailService asyncMailService;
 
-    public MailService(JavaMailSender mailSender) {
-        this.mailSender = mailSender;
+    public MailService(AsyncMailService asyncMailService) {
+        this.asyncMailService = asyncMailService;
     }
 
-    public void sendMail(String to, String subject, String text) {
+    // 申込完了メール
+    public void sendApplicationCompleteMail(Applicants applicant) {
 
-        SimpleMailMessage message = new SimpleMailMessage();
+        String text = """
+            秋祭りへの参加申込を受け付けました。
 
-        message.setTo(to);
-        message.setSubject(subject);
-        message.setText(text);
+            受付番号：%s
+            氏名：%s
+            山車組：%s
+            ポジション：%s
 
-        mailSender.send(message);
+            マイページから申込内容を確認できます。
+
+            """.formatted(
+                applicant.getReceptionNumber(),
+                applicant.getApplicantName(),
+                applicant.getGroup().getGroupName(),
+                applicant.getPosition().getPositionName()
+        );
+
+        asyncMailService.sendMail(
+                applicant.getEmail(),
+                "秋祭り参加申込受付完了のお知らせ",
+                text
+        );
+    }
+
+    // キャンセル確定メール
+    public void sendCancelCompleteMail(Applicants applicant) {
+
+        String text = """
+            秋祭り参加キャンセルのお知らせ
+
+            以下の参加申込について、キャンセルが確定しました。
+
+            受付番号：%s
+            氏名：%s
+            山車組：%s
+            ポジション：%s
+
+            """.formatted(
+                applicant.getReceptionNumber(),
+                applicant.getApplicantName(),
+                applicant.getGroup().getGroupName(),
+                applicant.getPosition().getPositionName()
+        );
+
+        asyncMailService.sendMail(
+                applicant.getEmail(),
+                "秋祭り参加申込キャンセルのお知らせ",
+                text
+        );
     }
 }

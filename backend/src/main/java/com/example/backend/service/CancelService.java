@@ -16,6 +16,7 @@ public class CancelService {
 
     private final ApplicantsRepository applicantsRepository;
     private final StaffsRepository staffsRepository;
+    private final MailService mailService;
 
     // マイページ：キャンセル依頼
     public void requestCancel(Authentication authentication) {
@@ -55,7 +56,9 @@ public class CancelService {
 
         applicant.setCancelStatus(CancelStatus.CANCELED);
 
-        applicantsRepository.save(applicant);
+        Applicants savedApplicant = applicantsRepository.save(applicant);
+
+        mailService.sendCancelCompleteMail(savedApplicant);
     }
 
     // 管理画面：直接キャンセル
@@ -76,7 +79,9 @@ public class CancelService {
 
         applicant.setCancelStatus(CancelStatus.CANCELED);
 
-        applicantsRepository.save(applicant);
+        Applicants savedApplicant = applicantsRepository.save(applicant);
+
+        mailService.sendCancelCompleteMail(savedApplicant);
     }
 
     // 管理画面：申込者取得 + 権限チェック

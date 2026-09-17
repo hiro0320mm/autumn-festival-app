@@ -168,11 +168,12 @@ public class ApplicantsService {
 
         // 重複申込のチェック
         boolean duplicate = applicantsRepository
-                .existsByApplicantNameAndKanaAndAgeAndTel(
+                .existsByApplicantNameAndKanaAndAgeAndTelAndCancelStatusNot(
                         InputNormalizer.removeSpaces(form.getApplicantName()),
                         InputNormalizer.removeSpaces(form.getKana()),
                         form.getAge(),
-                        form.getTel()
+                        form.getTel(),
+                        CancelStatus.NONE
                 );
         if (duplicate) {
             throw new IllegalArgumentException("この参加者はすでに申込済みです");

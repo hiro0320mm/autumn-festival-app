@@ -4,6 +4,7 @@ import com.example.backend.dto.ApplyDetailResponse;
 import com.example.backend.dto.ApplyForm;
 import com.example.backend.dto.MyPageUpdateRequest;
 import com.example.backend.entity.Applicants;
+import com.example.backend.entity.CancelStatus;
 import com.example.backend.entity.Groups;
 import com.example.backend.entity.Positions;
 import com.example.backend.repository.ApplicantsRepository;
@@ -24,6 +25,7 @@ public class ApplyService {
     private final PositionsRepository positionsRepository;
     private final ApplyRepository applyRepository;
     private final ApplicationValidator applicationValidator;
+    private final MailService mailService;
 
     public Applicants create(ApplyForm form) {
 
@@ -134,11 +136,12 @@ public class ApplyService {
 
         // 同一人物の重複申込チェック
         boolean duplicate = applicantsRepository
-                .existsByApplicantNameAndKanaAndAgeAndTel(
+                .existsByApplicantNameAndKanaAndAgeAndTelAndCancelStatusNot(
                         InputNormalizer.removeSpaces(form.getApplicantName()),
                         InputNormalizer.removeSpaces(form.getKana()),
                         form.getAge(),
-                        form.getTel()
+                        form.getTel(),
+                        CancelStatus.CANCELED
                 );
 
         if (duplicate) {
@@ -147,7 +150,12 @@ public class ApplyService {
             );
         }
 
-        return create(form);
+        Applicants applicant = create(form);
+
+        // メール送信
+        mailService.sendApplicationCompleteMail(applicant);
+
+        return applicant;
     }
 
     // マイページ：編集

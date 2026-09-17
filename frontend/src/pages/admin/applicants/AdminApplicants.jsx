@@ -55,6 +55,7 @@ function AdminApplicants() {
         );
     });
 
+    // 申込者を削除
     const handleDelete = async () => {
         if (!selectedApplicant) return;
 
@@ -70,13 +71,10 @@ function AdminApplicants() {
             if (!response.ok) {
                 const data = await response.json();
                 console.error(data);
+                alert("申込者の削除に失敗しました");
                 return;
             }
 
-            setShowDeleteModal(false);
-            setSelectedApplicant(null);
-
-            // 一覧から削除した申込者を除外
             setApplicants((prev) =>
                 prev.filter(
                     (applicant) =>
@@ -84,8 +82,14 @@ function AdminApplicants() {
                 )
             );
 
+            alert("申込者を削除しました");
+
+            setShowDeleteModal(false);
+            setSelectedApplicant(null);
+
         } catch (error) {
             console.error("申込者の削除に失敗しました", error);
+            alert("申込者の削除に失敗しました");
         }
     };
 
@@ -118,7 +122,6 @@ function AdminApplicants() {
             setShowCancelModal(false);
             setSelectedApplicant(null);
 
-            // 対象者のステータスを更新
             setApplicants((prev) =>
                 prev.map((applicant) =>
                     applicant.applicantId === selectedApplicant.applicantId
@@ -127,12 +130,15 @@ function AdminApplicants() {
                 )
             );
 
+            alert("キャンセルに成功しました");
+
         } catch (error) {
             console.error("キャンセルに失敗しました", error);
+            alert("キャンセルに失敗しました");
         }
     };
 
-    // キャンセル承認
+// キャンセル承認
     const handleApproveCancel = async () => {
         if (!selectedApplicant) return;
 
@@ -150,9 +156,7 @@ function AdminApplicants() {
                 return;
             }
 
-            setShowCancelModal(false);
-            setSelectedApplicant(null);
-
+            // 一覧を更新
             setApplicants((prev) =>
                 prev.map((applicant) =>
                     applicant.applicantId === selectedApplicant.applicantId
@@ -161,8 +165,15 @@ function AdminApplicants() {
                 )
             );
 
+            alert("キャンセルを承認しました");
+
+            // モーダルを閉じる
+            setShowCancelModal(false);
+            setSelectedApplicant(null);
+
         } catch (error) {
             console.error("キャンセル承認に失敗しました", error);
+            alert("キャンセル承認に失敗しました");
         }
     };
 
