@@ -52,7 +52,8 @@ public class PositionsController {
     public ResponseEntity<?> updatePosition(
             @PathVariable Long positionId,
             @Valid @RequestBody AdminPositionUpdateRequest form,
-            Authentication authentication) {
+            Authentication authentication
+    ) {
 
         positionsService.updatePosition(positionId, form, authentication);
 
