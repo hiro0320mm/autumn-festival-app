@@ -1,15 +1,20 @@
-import { useEffect, useState } from 'react'
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './App.css'
+
+// 一般ユーザー向け画面
+import GroupList from "./pages/user/GroupList.jsx";
 import ApplyForm from './components/apply/ApplyForm.jsx'
 import ApplyConfirm from "./components/apply/ApplyConfirm.jsx";
 import ApplyComplete from "./components/apply/ApplyComplete.jsx";
+// 申込済みユーザー向けマイページ画面
+import MyPageLayout from "./pages/user/MyPageLayout.jsx";
 import MyPageLogin from "./pages/user/MyPageLogin.jsx";
 import MyPage from "./pages/user/MyPage.jsx";
 import MyPageEdit from "./pages/user/MyPageEdit.jsx";
-import MyPageLayout from "./pages/user/MyPageLayout.jsx";
+import MyPageAnnouncements from "./pages/user/MyPageAnnouncements.jsx";
 import CancelConfirm from "./components/cancel/CancelConfirm.jsx";
 import CancelComplete from "./components/cancel/CancelComplete.jsx";
+// 管理画面
 import AdminLogin from "./components/admin/AdminLogin.jsx";
 import AdminDashboard from "./components/admin/AdminDashboard.jsx";
 import AdminProtectedRoute from "./components/admin/AdminProtectedRoute.jsx";
@@ -25,7 +30,6 @@ import AdminPositionEdit from "./pages/admin/positions/AdminPositionEdit.jsx";
 import AdminGroupDetail from "./pages/admin/groups/AdminGroupDetail.jsx";
 import AdminGroupEdit from "./pages/admin/groups/AdminGroupEdit.jsx";
 import AdminGroups from "./pages/admin/groups/AdminGroups.jsx";
-import GroupList from "./pages/user/GroupList.jsx";
 
 function App() {
     return (
@@ -53,6 +57,16 @@ function App() {
                     element={
                         <MyPageLayout>
                             <MyPage />
+                        </MyPageLayout>
+                    }
+                />
+
+                // マイページ：お知らせ一覧
+                <Route
+                    path="/mypage/announcements"
+                    element={
+                        <MyPageLayout>
+                            <MyPageAnnouncements />
                         </MyPageLayout>
                     }
                 />

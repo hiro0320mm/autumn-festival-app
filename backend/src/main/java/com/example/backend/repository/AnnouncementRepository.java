@@ -16,7 +16,7 @@ public interface AnnouncementRepository extends JpaRepository<Announcements, Lon
         FROM Announcements a
         WHERE a.isPublished = true
           AND (a.group IS NULL OR a.group.groupId = :groupId)
-        ORDER BY a.createdAt DESC
+        ORDER BY a.updatedAt DESC
         """)
     List<Announcements> findPublishedAnnouncementsByGroupId(
             @Param("groupId") Long groupId

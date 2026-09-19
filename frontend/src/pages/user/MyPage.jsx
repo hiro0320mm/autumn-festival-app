@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 function MyPage() {
 
     const [applicant, setApplicant] = useState(null);
+    const [announcements, setAnnouncements] = useState([]);
     const [error, setError] = useState(false);
     const navigate = useNavigate();
+
+    const PREVIEW_LENGTH = 30;
 
     useEffect(() => {
 
@@ -37,6 +40,34 @@ function MyPage() {
         getMyPage();
     }, [navigate]);
 
+    // お知らせを取得
+    useEffect(() => {
+
+        const getAnnouncements = async () => {
+            try {
+                const response = await fetch("/api/mypage/announcements", {
+                    credentials: "include",
+                });
+
+                if (!response.ok) {
+                    setError(true);
+                    return;
+                }
+
+                const data = await response.json();
+
+                setAnnouncements(data);
+                console.log(data);
+
+            } catch {
+                setError(true);
+            }
+        };
+
+        getAnnouncements();
+
+    }, []);
+
     if (error) {
         return <p>申込情報を取得できませんでした。</p>;
     }
@@ -53,13 +84,59 @@ function MyPage() {
         }
     };
 
+    // 更新日表示用に整形
+    const formatDate = (dateTime) => {
+        if (!dateTime) {
+            return "";
+        }
+
+        return dateTime.replaceAll("-", "/").slice(0, 10);
+    };
+
+    // 長いお知らせを省略表示
+    const isLongContent = (content) => {
+        return content.length > PREVIEW_LENGTH;
+    };
+    const getPreviewContent = (content) => {
+        if (content.length <= PREVIEW_LENGTH) {
+            return content;
+        }
+
+        return `${content.slice(0, PREVIEW_LENGTH)}...`;
+    };
+
     return (
         <section>
             <h1>参加者マイページ</h1>
-            <p>お申込み内容は下記の通りです</p>
+
             {applicant?.cancelStatus === "REQUESTED" && (
                 <p className="text-error text-center font-lg font-medium mb-5">キャンセル承認待ちです</p>
             )}
+
+            <div id="AnnoucementList">
+                {announcements.map((announcement) => (
+                    <details key={announcement.announcementId}>
+                        <summary>
+                            <span>{formatDate(announcement.updatedAt)}</span>
+                            <strong className="pl-3">{announcement.title}</strong>
+                            <span className="text-sm"> — {announcement.updatedBy}</span>
+                        </summary>
+                        <div>
+                            {getPreviewContent(announcement.content)}
+                            {isLongContent(announcement.content) && (
+                                <Link
+                                    to="/mypage/announcements"
+                                    state={{ announcementId: announcement.announcementId }}
+                                >
+                                    続きを見る
+                                </Link>
+                            )}
+                        </div>
+                    </details>
+                ))}
+                <Link to="/mypage/announcements">一覧を見る</Link>
+            </div>
+            <p className="my-5 text-center">お申込み内容は下記の通りです</p>
 
             {applicant && (
                 <div className="grid gap-3">
@@ -107,7 +184,7 @@ function MyPage() {
                         </tr>
                         <tr>
                             <th>電話番号</th>
-                            <td>{applicant.address}</td>
+                            <td>{applicant.tel}</td>
                         </tr>
                         <tr>
                             <th>メールアドレス</th>

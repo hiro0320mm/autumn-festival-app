@@ -37,7 +37,6 @@ h2data/
 *.sublime-workspace
 nbproject
 thumbs.db
-../.idea/
 *iml
 
 # Folders to ignore
