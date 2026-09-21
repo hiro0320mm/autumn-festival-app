@@ -30,6 +30,10 @@ import AdminPositionEdit from "./pages/admin/positions/AdminPositionEdit.jsx";
 import AdminGroupDetail from "./pages/admin/groups/AdminGroupDetail.jsx";
 import AdminGroupEdit from "./pages/admin/groups/AdminGroupEdit.jsx";
 import AdminGroups from "./pages/admin/groups/AdminGroups.jsx";
+import AdminAnnouncements from "./pages/admin/announcements/AdminAnnouncements.jsx";
+import AdminAnnouncementDetail from "./pages/admin/announcements/AdminAnnouncementDetail.jsx";
+import AdminAnnouncementEdit from "./pages/admin/announcements/AdminAnnouncementEdit.jsx";
+import AdminAnnouncementNew from "./pages/admin/announcements/AdminAnnouncementNew.jsx";
 
 function App() {
     return (
@@ -243,6 +247,54 @@ function App() {
                         <AdminProtectedRoute>
                             <AdminLayout>
                                 <AdminGroupEdit />
+                            </AdminLayout>
+                        </AdminProtectedRoute>
+                    }
+                />
+
+                // 管理画面：お知らせ一覧取得
+                <Route
+                    path="/admin/announcements"
+                    element={
+                        <AdminProtectedRoute>
+                            <AdminLayout>
+                                <AdminAnnouncements />
+                            </AdminLayout>
+                        </AdminProtectedRoute>
+                    }
+                />
+
+                // 管理画面：お知らせ詳細
+                <Route
+                    path="/admin/announcements/:announcementId"
+                    element={
+                        <AdminProtectedRoute>
+                            <AdminLayout>
+                                <AdminAnnouncementDetail />
+                            </AdminLayout>
+                        </AdminProtectedRoute>
+                    }
+                />
+
+                // 管理画面：お知らせ登録
+                <Route
+                    path="/admin/announcements/register"
+                    element={
+                        <AdminProtectedRoute>
+                            <AdminLayout>
+                                <AdminAnnouncementNew />
+                            </AdminLayout>
+                        </AdminProtectedRoute>
+                    }
+                />
+
+                // 管理画面：お知らせ修正
+                <Route
+                    path="/admin/announcements/:announcementId/edit"
+                    element={
+                        <AdminProtectedRoute>
+                            <AdminLayout>
+                                <AdminAnnouncementEdit />
                             </AdminLayout>
                         </AdminProtectedRoute>
                     }

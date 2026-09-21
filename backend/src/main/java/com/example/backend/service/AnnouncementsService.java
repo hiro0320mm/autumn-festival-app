@@ -1,8 +1,6 @@
 package com.example.backend.service;
 
-import com.example.backend.dto.AdminAnnounceListResponse;
-import com.example.backend.dto.AdminAnnouncementForm;
-import com.example.backend.dto.MyPageAnnouncementResponse;
+import com.example.backend.dto.*;
 import com.example.backend.entity.*;
 import com.example.backend.repository.AnnouncementRepository;
 import com.example.backend.repository.ApplicantsRepository;
@@ -59,6 +57,9 @@ public class AnnouncementsService {
                         announcement.getGroup() != null
                                 ? announcement.getGroup().getGroupId()
                                 : null,
+                        announcement.getGroup() != null
+                                ? announcement.getGroup().getGroupName()
+                                : null,
                         announcement.getTitle(),
                         announcement.getContent(),
                         announcement.getIsPublished(),
@@ -87,10 +88,12 @@ public class AnnouncementsService {
 
         Groups group;
 
+        // 山車組管理者は自分の所属する山車組のお知らせとして登録
         if (staff.getRole() == Role.ROLE_ADMIN) {
 
             group = staff.getGroup();
 
+            // 特権管理者は全体向けのお知らせとして登録
         } else if (staff.getRole() == Role.ROLE_SUPER_ADMIN) {
 
             group = null;
@@ -109,29 +112,12 @@ public class AnnouncementsService {
         announcementRepository.save(announcement);
     }
 
-    //　管理画面：お知らせ編集
-    public void updateAnnouncement(
-            Long announcementId,
-            AdminAnnouncementForm form,
-            Authentication authentication
+    // 権限チェック
+    private void checkAnnouncementEditPermission(
+            Staffs staff,
+            Announcements announcement
     ) {
 
-        // ログイン中の管理者を取得
-        String staffName = authentication.getName();
-
-        Staffs staff = staffsRepository.findByStaffName(staffName)
-                .orElseThrow(() ->
-                        new UsernameNotFoundException("管理者名が見つかりません")
-                );
-
-        // 編集対象のお知らせを取得
-        Announcements announcement =
-                announcementRepository.findById(announcementId)
-                        .orElseThrow(() ->
-                                new IllegalArgumentException("お知らせが見つかりません")
-                        );
-
-        // 権限チェック
         if (staff.getRole() == Role.ROLE_ADMIN) {
 
             // 山車組担当者は所属する山車組のお知らせだけ編集可能
@@ -160,10 +146,146 @@ public class AnnouncementsService {
         } else {
             throw new IllegalArgumentException("権限が不正です");
         }
+    }
+
+    // 管理画面：お知らせ詳細
+    public AdminAnnouncementDetailResponse findById(
+            Long announcementId,
+            Authentication authentication
+    ) {
+        Announcements announcement =
+                announcementRepository.findById(announcementId)
+                        .orElseThrow(() ->
+                                new IllegalArgumentException("お知らせが見つかりません")
+                        );
+
+        String staffName = authentication.getName();
+
+        Staffs staff = staffsRepository.findByStaffName(staffName)
+                .orElseThrow(() ->
+                        new UsernameNotFoundException("管理者名が見つかりません")
+                );
+
+        // 閲覧権限チェック
+        if (staff.getRole() == Role.ROLE_ADMIN) {
+
+            // 山車組向けのお知らせの場合だけ所属グループをチェック
+            if (announcement.getGroup() != null
+                    && !announcement.getGroup().getGroupId()
+                    .equals(staff.getGroup().getGroupId())) {
+
+                throw new IllegalArgumentException(
+                        "このお知らせを閲覧する権限がありません"
+                );
+            }
+
+        } else if (staff.getRole() != Role.ROLE_SUPER_ADMIN) {
+
+            throw new IllegalArgumentException("権限が不正です");
+        }
+
+        return new AdminAnnouncementDetailResponse(
+                announcement.getGroup() != null
+                        ? announcement.getGroup().getGroupId()
+                        : null,
+                announcement.getGroup() != null
+                        ? announcement.getGroup().getGroupName()
+                        : null,
+                announcement.getTitle(),
+                announcement.getContent(),
+                announcement.getIsPublished(),
+                announcement.getCreatedBy(),
+                announcement.getCreatedAt(),
+                announcement.getUpdatedBy(),
+                announcement.getUpdatedAt()
+        );
+    }
+
+    //　管理画面：お知らせ編集
+    public void updateAnnouncement(
+            Long announcementId,
+            AdminAnnouncementForm form,
+            Authentication authentication
+    ) {
+
+        // ログイン中の管理者を取得
+        String staffName = authentication.getName();
+
+        Staffs staff = staffsRepository.findByStaffName(staffName)
+                .orElseThrow(() ->
+                        new UsernameNotFoundException("管理者名が見つかりません")
+                );
+
+        // 編集対象のお知らせを取得
+        Announcements announcement =
+                announcementRepository.findById(announcementId)
+                        .orElseThrow(() ->
+                                new IllegalArgumentException("お知らせが見つかりません")
+                        );
+
+        // 権限チェック
+        checkAnnouncementEditPermission(staff, announcement);
 
         announcement.setTitle(form.getTitle());
         announcement.setContent(form.getContent());
         announcement.setIsPublished(form.getIsPublished());
+
+        announcementRepository.save(announcement);
+    }
+
+    // 管理画面：お知らせ公開状態変更
+    public void updateAnnouncementPublished(
+            Long announcementId,
+            Boolean isPublished,
+            Authentication authentication
+    ) {
+
+        // ログイン中の管理者を取得
+        String staffName = authentication.getName();
+
+        Staffs staff = staffsRepository.findByStaffName(staffName)
+                .orElseThrow(() ->
+                        new UsernameNotFoundException("管理者名が見つかりません")
+                );
+
+        // 編集対象のお知らせを取得
+        Announcements announcement =
+                announcementRepository.findById(announcementId)
+                        .orElseThrow(() ->
+                                new IllegalArgumentException("お知らせが見つかりません")
+                        );
+
+        // 権限チェック
+        if (staff.getRole() == Role.ROLE_ADMIN) {
+
+            // 山車組担当者は所属する山車組のお知らせだけ変更可能
+            if (announcement.getGroup() == null) {
+                throw new IllegalArgumentException(
+                        "このお知らせを変更する権限がありません"
+                );
+            }
+
+            if (!staff.getGroup().getGroupId()
+                    .equals(announcement.getGroup().getGroupId())) {
+                throw new IllegalArgumentException(
+                        "このお知らせを変更する権限がありません"
+                );
+            }
+
+        } else if (staff.getRole() == Role.ROLE_SUPER_ADMIN) {
+
+            // 特権管理者は全体向けのお知らせだけ変更可能
+            if (announcement.getGroup() != null) {
+                throw new IllegalArgumentException(
+                        "全体向けのお知らせのみ変更できます"
+                );
+            }
+
+        } else {
+            throw new IllegalArgumentException("権限が不正です");
+        }
+
+        announcement.setIsPublished(isPublished);
 
         announcementRepository.save(announcement);
     }

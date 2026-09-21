@@ -60,4 +60,21 @@ public class PositionsController {
         return ResponseEntity.ok().build();
     }
 
+    // 管理画面：一覧ポジション募集状態変更
+    @PatchMapping("/{positionId}/recruitment-status")
+    public ResponseEntity<?> updatePositionRecruitmentStatus(
+            @PathVariable Long positionId,
+            @RequestBody AdminPositionRecruitmentStatusForm form,
+            Authentication authentication
+    ) {
+
+        positionsService.updatePositionRecruitmentStatus(
+                positionId,
+                form.getRecruitmentStatus(),
+                authentication
+        );
+
+        return ResponseEntity.ok().build();
+    }
+
 }

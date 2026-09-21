@@ -10,6 +10,7 @@ public record AdminPositionListResponse(
         LocalDateTime deadline,
         Boolean recruitmentStatus,
         Long groupId,
+        String groupName,
         Long applicantCount
 ) {
 }

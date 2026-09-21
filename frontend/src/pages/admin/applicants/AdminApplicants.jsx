@@ -214,60 +214,62 @@ function AdminApplicants() {
                     </button>
                 </div>
             </div>
-
-            <div className="flex gap-2 flex-wrap my-5 items-center">
-                <p className="font-semibold pr-3 w-40">ポジションを選択</p>
-                <button
-                    type="button"
-                    className={`${
-                        positionFilter === "" ? "filter-btn-active" : "filter-btn"
-                    }`}
-                    onClick={() => setPositionFilter("")}
-                >
-                    すべて
-                </button>
-
-                {positions.map((position) => (
-                    <button
-                        key={position}
-                        type="button"
-                        className={`${
-                            positionFilter === position ? "filter-btn-active" : "filter-btn"
-                        }`}
-                        onClick={() => setPositionFilter(position)}
-                    >
-                        {position}
-                    </button>
-                ))}
-            </div>
-
-
-            {admin.role === "ROLE_SUPER_ADMIN" && (
+            <div className="border-1 w-fit my-3 p-3">
+                <h2>絞込表示</h2>
                 <div className="flex gap-2 flex-wrap my-5 items-center">
-                    <p className="font-semibold pr-3 w-40">山車組を選択</p>
+                    <h3 className="font-semibold pr-3 w-40">ポジションで絞込み</h3>
                     <button
                         type="button"
                         className={`${
                             positionFilter === "" ? "filter-btn-active" : "filter-btn"
                         }`}
-                        onClick={() => setGroupFilter("")}
+                        onClick={() => setPositionFilter("")}
                     >
                         すべて
                     </button>
-                    {groups.map((group) => (
+
+                    {positions.map((position) => (
                         <button
-                            key={group}
+                            key={position}
                             type="button"
                             className={`${
-                                positionFilter === group ? "filter-btn-active" : "filter-btn"
+                                positionFilter === position ? "filter-btn-active" : "filter-btn"
                             }`}
-                            onClick={() => setGroupFilter(group)}
+                            onClick={() => setPositionFilter(position)}
                         >
-                            {group}
+                            {position}
                         </button>
                     ))}
                 </div>
-            )}
+
+
+                {admin.role === "ROLE_SUPER_ADMIN" && (
+                    <div className="flex gap-2 flex-wrap my-5 items-center">
+                        <h3 className="font-semibold pr-3 w-40">山車組で絞込み</h3>
+                        <button
+                            type="button"
+                            className={`${
+                                groupFilter === "" ? "filter-btn-active" : "filter-btn"
+                            }`}
+                            onClick={() => setGroupFilter("")}
+                        >
+                            すべて
+                        </button>
+                        {groups.map((group) => (
+                            <button
+                                key={group}
+                                type="button"
+                                className={`${
+                                    groupFilter === group ? "filter-btn-active" : "filter-btn"
+                                }`}
+                                onClick={() => setGroupFilter(group)}
+                            >
+                                {group}
+                            </button>
+                        ))}
+                    </div>
+                )}
+            </div>
 
             <div className="overflow-x-auto">
                 <div className="float-right mb-5">

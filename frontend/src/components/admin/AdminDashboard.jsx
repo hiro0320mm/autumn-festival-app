@@ -6,7 +6,7 @@ function AdminDashboard() {
     const admin = useAdmin();
 
     return (
-        <section className="grid grid-cols-3 gap-6">
+        <section className="grid grid-cols-4 gap-6">
             <Link to="/admin/applicants" className="dashboard-card">
                 <div>
                     <h2>参加申込者管理</h2>
@@ -30,6 +30,18 @@ function AdminDashboard() {
                         <li>登録済みポジションの確認</li>
                         <li>ポジション登録</li>
                         <li>ポジション情報編集</li>
+                    </ul>
+                </div>
+            </Link>
+
+            <Link to="/admin/announcements" className="dashboard-card">
+                <div>
+                    <h2>お知らせ管理</h2>
+                    <p>お知らせの管理を行います</p>
+                    <ul>
+                        <li>投稿済みのお知らせ確認</li>
+                        <li>お知らせ新規登録</li>
+                        <li>お知らせ編集</li>
                     </ul>
                 </div>
             </Link>

@@ -1,9 +1,11 @@
 package com.example.backend.dto;
 
+import jakarta.validation.constraints.NotBlank;
+
 import java.time.LocalDateTime;
 
-public record AdminAnnounceListResponse(
-        Long announcementId,
+public record AdminAnnouncementDetailResponse(
+
         Long groupId,
         String groupName,
         String title,
@@ -13,5 +15,6 @@ public record AdminAnnounceListResponse(
         LocalDateTime createdAt,
         String updatedBy,
         LocalDateTime updatedAt
+
 ) {
 }

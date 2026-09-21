@@ -6,7 +6,6 @@ import com.example.backend.repository.ApplicantsRepository;
 import com.example.backend.repository.GroupsRepository;
 import com.example.backend.repository.PositionsRepository;
 import com.example.backend.repository.StaffsRepository;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -84,6 +83,7 @@ public class PositionsService<ApplicantRepository> {
                             position.getDeadline(),
                             position.getRecruitmentStatus(),
                             position.getGroup().getGroupId(),
+                            position.getGroup().getGroupName(),
                             applicantCount
                     );
                 })
@@ -186,7 +186,7 @@ public class PositionsService<ApplicantRepository> {
 
     }
 
-    // 管理画面：編集
+    // 管理画面：ポジション編集
     public void updatePosition(
             Long positionId,
             AdminPositionUpdateRequest form,
@@ -251,6 +251,55 @@ public class PositionsService<ApplicantRepository> {
         position.setMaxCapacity(form.maxCapacity());
         position.setDeadline(form.deadline());
         position.setRecruitmentStatus(form.recruitmentStatus());
+
+        positionsRepository.save(position);
+    }
+
+    // 管理画面：一覧ポジション募集状況変更
+    public void updatePositionRecruitmentStatus (
+            Long positionId,
+            Boolean recruitmentStatus,
+            Authentication authentication
+    ) {
+
+        // ログイン中の管理者を取得
+        String staffName = authentication.getName();
+
+        Staffs staff = staffsRepository.findByStaffName(staffName)
+                .orElseThrow(() ->
+                        new UsernameNotFoundException("管理者名が見つかりません")
+                );
+
+        // 編集対象のお知らせを取得
+        Positions position =
+                positionsRepository.findById(positionId)
+                        .orElseThrow(() ->
+                                new IllegalArgumentException("お知らせが見つかりません")
+                        );
+
+        // 権限チェック
+        if (staff.getRole() == Role.ROLE_ADMIN) {
+
+            // 山車組担当者は所属する山車組のポジションだけ変更可能
+            if (position.getGroup() == null ||
+                    !staff.getGroup().getGroupId()
+                            .equals(position.getGroup().getGroupId())) {
+
+                throw new IllegalArgumentException(
+                        "このポジションを変更する権限がありません"
+                );
+            }
+
+        } else if (staff.getRole() == Role.ROLE_SUPER_ADMIN) {
+
+            // システム担当者はすべての山車組のポジションを変更可能
+
+        } else {
+
+            throw new IllegalArgumentException("権限が不正です");
+        }
+
+        position.setRecruitmentStatus(recruitmentStatus);
 
         positionsRepository.save(position);
     }

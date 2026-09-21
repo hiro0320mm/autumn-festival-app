@@ -1,7 +1,6 @@
 package com.example.backend.controller;
 
-import com.example.backend.dto.AdminAnnounceListResponse;
-import com.example.backend.dto.AdminAnnouncementForm;
+import com.example.backend.dto.*;
 import com.example.backend.service.AnnouncementsService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +36,19 @@ public class AdminAnnouncementsController {
         announcementService.registerAnnouncement(form, authentication);
     }
 
+    // 管理画面：ポジション詳細取得
+    @GetMapping("/{announcementId}")
+    public AdminAnnouncementDetailResponse findById(
+            @PathVariable Long announcementId,
+            Authentication authentication
+    ) {
+        return announcementService.findById(
+                announcementId,
+                authentication
+        );
+    }
+
+    // 管理画面：お知らせ編集
     @PutMapping("/{announcementId}")
     public ResponseEntity<?> updateAnnouncement(
             @PathVariable Long announcementId,
@@ -47,6 +59,23 @@ public class AdminAnnouncementsController {
         announcementService.updateAnnouncement(
                 announcementId,
                 form,
+                authentication
+        );
+
+        return ResponseEntity.ok().build();
+    }
+
+    // 管理画面：一覧お知らせ公開状態変更
+    @PatchMapping("/{announcementId}/publish")
+    public ResponseEntity<?> updateAnnouncementPublished(
+            @PathVariable Long announcementId,
+            @RequestBody AdminAnnouncementPublishedForm form,
+            Authentication authentication
+    ) {
+
+        announcementService.updateAnnouncementPublished(
+                announcementId,
+                form.getIsPublished(),
                 authentication
         );
 

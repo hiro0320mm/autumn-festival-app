@@ -26,6 +26,10 @@ function AdminHeader() {
                     ポジション管理
                 </button>
 
+                <button onClick={() => navigate("/admin/announcements")}>
+                    お知らせ管理
+                </button>
+
                 <button onClick={() => navigate("/admin/groups")}>
                     山車組情報管理
                 </button>

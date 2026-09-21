@@ -122,6 +122,7 @@ function MyPage() {
                             <span className="text-sm"> — {announcement.updatedBy}</span>
                         </summary>
                         <div>
+                            <p className="whitespace-pre-wrap">
                             {getPreviewContent(announcement.content)}
                             {isLongContent(announcement.content) && (
                                 <Link
@@ -131,6 +132,7 @@ function MyPage() {
                                     続きを見る
                                 </Link>
                             )}
+                            </p>
                         </div>
                     </details>
                 ))}

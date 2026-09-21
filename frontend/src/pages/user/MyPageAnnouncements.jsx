@@ -56,7 +56,9 @@ function MyPageAnnouncements() {
                         <span className="text-sm"> — {announcement.updatedBy}</span>
                     </summary>
                     <div>
-                        {announcement.content}
+                        <p className="whitespace-pre-wrap">
+                            {announcement.content}
+                        </p>
                     </div>
                 </details>
             ))}
