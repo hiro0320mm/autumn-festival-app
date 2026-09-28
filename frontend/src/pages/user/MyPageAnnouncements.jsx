@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import {ChevronDown} from "lucide-react";
 
 function MyPageAnnouncements() {
 
@@ -47,26 +48,28 @@ function MyPageAnnouncements() {
     };
 
     return(
-        <section>
-            {announcements.map((announcement) => (
-                <details key={announcement.announcementId} open={announcement.announcementId === announcementId}>
-                    <summary>
-                        <span>{formatDate(announcement.updatedAt)}</span>
-                        <strong className="pl-3">{announcement.title}</strong>
-                        <span className="text-sm"> — {announcement.updatedBy}</span>
-                    </summary>
-                    <div>
+        <section className="mypage-container">
+            <h1 className="contents-title">お知らせ一覧</h1>
+            <div className="announcements-list">
+                {announcements.map((announcement) => (
+                    <details key={announcement.announcementId} open={announcement.announcementId === announcementId}>
+                        <summary>
+                            <span className="date">{formatDate(announcement.updatedAt)}</span>
+                            <span className="author"> — {announcement.updatedBy}</span>
+                            <strong className="title">{announcement.title}</strong>
+                            <span className="icon"><ChevronDown /></span>
+                        </summary>
                         <p className="whitespace-pre-wrap">
                             {announcement.content}
                         </p>
-                    </div>
-                </details>
-            ))}
+                    </details>
+                ))}
+            </div>
             <button
                 onClick={() => navigate('/mypage')}
-                className="back-to-btn"
+                className="btn-back mt-2"
             >
-                マイページ<br />トップへ戻る
+                マイページトップへ戻る
             </button>
         </section>
     )

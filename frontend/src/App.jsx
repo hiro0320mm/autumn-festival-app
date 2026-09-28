@@ -34,13 +34,22 @@ import AdminAnnouncements from "./pages/admin/announcements/AdminAnnouncements.j
 import AdminAnnouncementDetail from "./pages/admin/announcements/AdminAnnouncementDetail.jsx";
 import AdminAnnouncementEdit from "./pages/admin/announcements/AdminAnnouncementEdit.jsx";
 import AdminAnnouncementNew from "./pages/admin/announcements/AdminAnnouncementNew.jsx";
+import MyPageFooter from "./pages/user/MyPageFooter.jsx";
 
 function App() {
     return (
         <BrowserRouter>
             <Routes>
                 // **** 一般ユーザー用画面 ****
-                <Route path="/" element={<GroupList />} />
+                <Route
+                    path="/"
+                    element={
+                    <>
+                        <GroupList />
+                        <MyPageFooter />
+                    </>
+                }
+                />
 
                 // 参加申込フォーム
                 <Route path="/apply/:groupId" element={<ApplyForm />} />

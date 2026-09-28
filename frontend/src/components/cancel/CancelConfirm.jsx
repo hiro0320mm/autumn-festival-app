@@ -34,7 +34,7 @@ function CancelConfirm() {
     };
 
     return (
-        <section>
+        <section className="mypage-container">
             <h1>下記の申込をキャンセルします</h1>
 
             <div className="text-center mb-5">
@@ -59,24 +59,26 @@ function CancelConfirm() {
                 </tbody>
             </table>
 
-            <div className="mb-5 text-error">
-                <h2 className="font-medium text-lg">キャンセル前にご確認ください（注意事項）</h2>
-                <ul>
+            <div>
+                <h2 className="text-center">キャンセル前にご確認ください<br className="sp_only" />（注意事項）</h2>
+                <ul className="complement">
                     <li>キャンセルは取り消すことができません。</li>
                     <li>再度参加申込を行う場合は<Link to={"/"} className="decoration-solid"><u>「秋祭り参加申込システム」トップページ</u></Link>から改めてお手続きをお願いします。</li>
+                    <li className="text-warn">下のボタンを押した時点ではまだキャンセル完了とはなりません。山車組担当者が確認後、キャンセル完了となります。</li>
+                    <li className="text-warn">キャンセル完了後はマイページへログインできなくなります</li>
                 </ul>
             </div>
-            <div className="flex justify-center">
-                <button onClick={handleCancel} className="warning-btn mb-7">
-                    キャンセルを確定
+            <div>
+                <button onClick={handleCancel} className="btn-apply">
+                    キャンセルする
                 </button>
             </div>
 
             <button
                 onClick={() => navigate("/mypage")}
-                className="back-to-btn"
+                className="btn-back mt-2"
             >
-                キャンセルせずに戻る
+                ← キャンセルせずに戻る
             </button>
         </section>
     );

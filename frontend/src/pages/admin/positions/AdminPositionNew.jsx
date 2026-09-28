@@ -119,14 +119,12 @@ function AdminPositionNew() {
     };
 
     return (
-        <div className="max-w-2xl mx-auto p-6">
+        <section className="admin-container">
 
-            <h1 className="text-2xl font-bold mb-6">
-                ポジション新規登録
-            </h1>
+            <h1>ポジション新規登録</h1>
 
             {error && (
-                <p className="text-error mb-4">
+                <p className="message-box">
                     {error}
                 </p>
             )}
@@ -157,7 +155,7 @@ function AdminPositionNew() {
                 )}
 
                 {/* ポジション名 */}
-                <div className="mb-5">
+                <div>
                     <label>
                         <span className="required">＊必須項目</span>
                         ポジション名
@@ -177,7 +175,7 @@ function AdminPositionNew() {
                 </div>
 
                 {/* 対象者 */}
-                <div className="mb-5">
+                <div>
                     <label>
                         <span className="required">＊必須項目</span>
                         対象者
@@ -199,7 +197,7 @@ function AdminPositionNew() {
                 </div>
 
                 {/* 定員 */}
-                <div className="mb-5">
+                <div>
                     <label>
                         <span className="required">＊必須項目</span>
                         定員
@@ -210,13 +208,14 @@ function AdminPositionNew() {
                         )}
                     </label>
 
-                    <div className="flex items-center gap-2">
+                    <div>
                         <input
                             type="number"
                             name="maxCapacity"
                             value={formData.maxCapacity}
                             onChange={handleChange}
                             min="1"
+                            className="input-short"
                         />
                         <span>人</span>
                     </div>
@@ -236,7 +235,7 @@ function AdminPositionNew() {
                     <input
                         type="date"
                         value={deadlineDate}
-                        className="medium-text"
+                        className="input-medium"
                         onChange={(e) => setDeadlineDate(e.target.value)}
                     />
                 </div>
@@ -254,23 +253,23 @@ function AdminPositionNew() {
                     <input
                         type="time"
                         value={deadlineTime}
-                        className="medium-text"
+                        className="input-medium"
                         onChange={(e) => setDeadlineTime(e.target.value)}
                     />
                 </div>
 
                 {/* 募集状況 */}
-                <div className="mb-5">
+                <div>
                     <div>
-                        <span className="required text-xs">＊必須項目</span>
-                        <h3 className="font-semibold mb-5">募集状況</h3>
+                        <span className="required">＊必須項目</span>
+                        <p className="label">募集状況</p>
                         {errors.recruitmentStatus && (
                             <span className="validation-error">
                                 {errors.recruitmentStatus}
                             </span>
                         )}
                     </div>
-                    <div className="flex justify-between w-fit gap-3 items-center">
+                    <div className="flex-left">
                         <label className="toggle-btn">
                             <input
                                 type="checkbox"
@@ -279,28 +278,25 @@ function AdminPositionNew() {
                                 onChange={handleChange}
                             />
                         </label>
-                        {formData.recruitmentStatus ? <p className="p-3">募集中</p> : <p className="p-3 font-semibold text-accent">募集停止中</p>}
+                        {formData.recruitmentStatus ? <p className="mb-0">募集中</p> : <p className="mb-0 text-warn">募集停止中</p>}
                     </div>
                 </div>
 
-                <div className="flex justify-center my-10">
-                    <button
-                        type="submit"
-                        className="submit-btn"
-                    >
-                        登録する
-                    </button>
-                </div>
-
-                <button type="button"
-                        onClick={() => navigate('/admin/positions')}
-                        className="back-to-btn"
+                <button
+                    type="submit"
+                    className="btn-submit"
                 >
-                    ポジション管理トップへ戻る
+                    登録する
                 </button>
 
             </form>
-        </div>
+            <button type="button"
+                    onClick={() => navigate('/admin/positions')}
+                    className="btn-back"
+            >
+                ポジション管理トップへ戻る
+            </button>
+        </section>
     )
 
 }

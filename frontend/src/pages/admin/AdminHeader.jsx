@@ -14,10 +14,10 @@ function AdminHeader() {
     };
 
     return (
-        <header>
+        <header className="admin-header">
             <Link to="/admin"><h1>秋まつり参加申込システム 管理画面</h1></Link>
 
-            <nav className="flex items-center gap-4">
+            <nav>
                 <button onClick={() => navigate("/admin/applicants")}>
                     申込者管理
                 </button>
@@ -37,7 +37,7 @@ function AdminHeader() {
                 <span>{admin.staffName} でログイン中</span>
                 <button
                     onClick={handleLogout}
-                    className="logout-btn"
+                    className="btn-outline-sub"
                 >
                     ログアウト
                 </button>

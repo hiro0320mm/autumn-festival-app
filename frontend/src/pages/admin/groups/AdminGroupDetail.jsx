@@ -42,7 +42,7 @@ function AdminGroupDetail() {
     }
 
     if (error) {
-        return <p>{error}</p>;
+        return <p className="text-error">{error}</p>;
     }
 
     if (!group) {
@@ -60,9 +60,9 @@ function AdminGroupDetail() {
     };
 
     return (
-        <section>
+        <section className="admin-container">
             <h1>山車組情報</h1>
-            <header>
+            <header className="detail-header">
                 <></>
                 <div className="message-box"></div>
                 {group &&(
@@ -106,24 +106,22 @@ function AdminGroupDetail() {
                 </tr>
                 </tbody>
             </table>
-            <div className="flex justify-between my-10">
-                {admin?.role === "ROLE_SUPER_ADMIN" && (
-                    <button
-                        className="back-to-btn"
-                        onClick={() => navigate("/admin/groups")}
-                    >
-                        山車組一覧へ戻る
-                    </button>
-                )}
 
+            <button
+                className="btn-submit"
+                onClick={() => navigate(`/admin/groups/${groupId}/edit`)}
+            >
+                編集する
+            </button>
+
+            {admin?.role === "ROLE_SUPER_ADMIN" && (
                 <button
-                    className="add-data-btn"
-                    onClick={() => navigate(`/admin/groups/${groupId}/edit`)}
+                    className="btn-back"
+                    onClick={() => navigate("/admin/groups")}
                 >
-                    編集する
+                    ← 山車組一覧へ戻る
                 </button>
-            </div>
-
+            )}
         </section>
     );
 }

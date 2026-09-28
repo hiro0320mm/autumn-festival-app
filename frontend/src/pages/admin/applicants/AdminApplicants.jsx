@@ -198,26 +198,25 @@ function AdminApplicants() {
     };
 
     return (
-        <section>
-            <div className="flex justify-start gap-x-10">
+        <section className="admin-container">
+            <header>
                 <h1>参加申込者一覧</h1>
-                <div className="flex gap-2 mb-4">
+                <div className="search-box">
                     <input
                         type="text"
                         placeholder="検索したい文字列を入力してください"
-                        className="input input-bordered min-w-75"
                         value={searchText}
                         onChange={(e) => setSearchText(e.target.value)}
                     />
-                    <button className="btn btn-primary">
+                    <button className="btn-apply">
                         検索
                     </button>
                 </div>
-            </div>
-            <div className="border-1 w-fit my-3 p-3">
+            </header>
+            <div className="filter-box">
                 <h2>絞込表示</h2>
-                <div className="flex gap-2 flex-wrap my-5 items-center">
-                    <h3 className="font-semibold pr-3 w-40">ポジションで絞込み</h3>
+                <div className="filter-inner-box">
+                    <h3>ポジションで絞込み</h3>
                     <button
                         type="button"
                         className={`${
@@ -244,8 +243,8 @@ function AdminApplicants() {
 
 
                 {admin.role === "ROLE_SUPER_ADMIN" && (
-                    <div className="flex gap-2 flex-wrap my-5 items-center">
-                        <h3 className="font-semibold pr-3 w-40">山車組で絞込み</h3>
+                    <div className="filter-inner-box">
+                        <h3>山車組で絞込み</h3>
                         <button
                             type="button"
                             className={`${
@@ -271,11 +270,11 @@ function AdminApplicants() {
                 )}
             </div>
 
-            <div className="overflow-x-auto">
-                <div className="float-right mb-5">
+            <div className="table-container">
+                <div className="add-btn-area">
                     <button type="button"
                             onClick={() => navigate('/admin/applicants/register')}
-                            className="add-data-btn"
+                            className="btn-sub"
                     >
                         ＋申込者を追加する
                     </button>
@@ -304,15 +303,22 @@ function AdminApplicants() {
                         {filteredApplicants.map((applicant) => (
                             <tr
                                 key={applicant.applicantId}
-                                className={`hover:bg-green-200 cursor-pointer ${
+                                className={`table-row ${
                                     applicant.cancelStatus === "CANCELED"
-                                        ? "bg-base-300"
+                                        ? "is-canceled"
                                         : ""
                                 }`}
                                 onClick={() => navigate(`/admin/applicants/${applicant.applicantId}`)}
                             >
                                 {/*受付番号*/}
-                                <td className="text-center">{applicant.receptionNumber}</td>
+                                <td className={`text-center ${
+                                        applicant.cancelStatus === "CANCELED"
+                                            ? "is-canceled"
+                                            : ""
+                                    }`}
+                                >
+                                    {applicant.receptionNumber}
+                                </td>
                                 {/*山車組：特権管理者の一覧のみ表示*/}
                                 {admin.role === "ROLE_SUPER_ADMIN" && (
                                     <td>{applicant.groupName}</td>
@@ -350,7 +356,7 @@ function AdminApplicants() {
                                     {applicant.cancelStatus === "REQUESTED" && (
                                         <button
                                             type="button"
-                                            className="cancel-btn requested"
+                                            className="btn-cancel requested"
                                             onClick={() => {
                                                 setSelectedApplicant(applicant);
                                                 setShowCancelModal(true);
@@ -361,7 +367,7 @@ function AdminApplicants() {
                                     )}
 
                                     {applicant.cancelStatus === "CANCELED" && (
-                                        <span className="cancel-btn canceled">
+                                        <span className="btn-cancel canceled">
                                             キャンセル済み
                                         </span>
                                     )}
@@ -369,7 +375,7 @@ function AdminApplicants() {
                                     {applicant.cancelStatus === "NONE" && (
                                         <button
                                             type="button"
-                                            className="cancel-btn"
+                                            className="btn-cancel"
                                             onClick={() => {
                                                 setSelectedApplicant(applicant);
                                                 setShowCancelModal(true);
@@ -388,7 +394,7 @@ function AdminApplicants() {
                                     <Link
                                         to={`/admin/applicants/${applicant.applicantId}/edit`}
                                         state={{ from: "list" }}
-                                        className="edit-icon"
+                                        className="icon-edit"
                                     >
                                         <Pencil size={18} />
                                     </Link>
@@ -401,7 +407,7 @@ function AdminApplicants() {
                                 >
                                     <button
                                         type="button"
-                                        className="delete-icon"
+                                        className="icon-delete"
                                         onClick={() => {
                                             setSelectedApplicant(applicant);
                                             setShowDeleteModal(true);
@@ -417,7 +423,7 @@ function AdminApplicants() {
             </div>
             {/*  削除確認モーダル  */}
             {showDeleteModal && (
-                <div className="modal modal-open">
+                <div className="modal-overlay">
                     <div className="modal-box">
 
                         <h2 className="text-lg font-bold">
@@ -426,21 +432,21 @@ function AdminApplicants() {
                             )}
                         </h2>
 
-                        <p className="py-4">
+                        <p>
                             この申込者を削除してもよろしいですか？
                         </p>
 
                         <div className="modal-action">
 
                             <button
-                                className="back-to-btn"
+                                className="btn-back"
                                 onClick={() => setShowDeleteModal(false)}
                             >
                                 戻る
                             </button>
 
                             <button
-                                className="btn btn-error"
+                                className="btn-primary"
                                 onClick={handleDelete}
                             >
                                 削除を実行する
@@ -453,10 +459,10 @@ function AdminApplicants() {
 
             {/*  キャンセル確認モーダル  */}
             {showCancelModal && (
-                <div className="modal modal-open">
+                <div className="modal-overlay">
                     <div className="modal-box">
 
-                        <h2 className="text-lg font-bold">
+                        <h2>
                             {selectedApplicant &&
                                 `${selectedApplicant.applicantName}さんの申込を${
                                     selectedApplicant.cancelStatus === "REQUESTED"
@@ -466,7 +472,7 @@ function AdminApplicants() {
                             }
                         </h2>
 
-                        <p className="py-4">
+                        <p>
                             この申込を
                             {selectedApplicant?.cancelStatus === "REQUESTED"
                                 ? "キャンセル承認"
@@ -478,7 +484,7 @@ function AdminApplicants() {
                         <div className="modal-action">
 
                             <button
-                                className="back-to-btn"
+                                className="btn-back"
                                 onClick={() => {
                                     setShowCancelModal(false);
                                     setSelectedApplicant(null);
@@ -488,7 +494,7 @@ function AdminApplicants() {
                             </button>
 
                             <button
-                                className="btn btn-error"
+                                className="btn-primary"
                                 onClick={handleConfirmCancel}
                             >
                                 {selectedApplicant?.cancelStatus === "REQUESTED"

@@ -87,7 +87,7 @@ function AdminGroupEdit() {
     }
 
     if (error) {
-        return <p>{error}</p>;
+        return <p className="text-error">{error}</p>;
     }
 
     if (!group) {
@@ -95,7 +95,7 @@ function AdminGroupEdit() {
     }
 
     return (
-        <section>
+        <section className="admin-container">
             <h1>山車組情報の編集</h1>
 
             {errors.message && (
@@ -103,18 +103,19 @@ function AdminGroupEdit() {
                     {errors.message}
                 </p>
             )}
+            <div className="optional-box w-fit">
+                <p className="text-large">
+                    <span className="text-block">山車組名</span>
+                    {group.groupName}
+                </p>
+            </div>
 
             <form onSubmit={handleSubmit}>
 
-                <div className="mb-5">
-                    <p>
-                        <span className="block font-semibold mb-3">山車組名</span>
-                        {group.groupName}
-                    </p>
-                </div>
+
 
                 {/* 主要エリア */}
-                <div className="mb-5">
+                <div>
                     <label className="block font-bold mb-2">
                         主要エリア
                     </label>
@@ -133,7 +134,7 @@ function AdminGroupEdit() {
                 </div>
 
                 {/* 事務所所在地 */}
-                <div className="mb-5">
+                <div>
                     <label className="block font-bold mb-2">
                         事務所所在地
                     </label>
@@ -152,7 +153,7 @@ function AdminGroupEdit() {
                 </div>
 
                 {/* 事務所電話番号 */}
-                <div className="mb-5">
+                <div>
                     <label className="block font-bold mb-2">
                         事務所電話番号
                     </label>
@@ -171,7 +172,7 @@ function AdminGroupEdit() {
                 </div>
 
                 {/* その他の窓口 */}
-                <div className="mb-5">
+                <div>
                     <label className="block font-bold mb-2">
                         その他の窓口
                     </label>
@@ -190,7 +191,7 @@ function AdminGroupEdit() {
                 </div>
 
                 {/* その他の窓口電話番号 */}
-                <div className="mb-5">
+                <div>
                     <label className="block font-bold mb-2">
                         その他の窓口電話番号
                     </label>
@@ -209,7 +210,7 @@ function AdminGroupEdit() {
                 </div>
 
                 {/* 説明文 */}
-                <div className="mb-5">
+                <div>
                     <label className="block font-bold mb-2">
                         説明文
                     </label>
@@ -231,22 +232,19 @@ function AdminGroupEdit() {
                 <div className="flex justify-center my-10">
                     <button
                         type="submit"
-                        className="submit-btn"
+                        className="btn-submit"
                     >
                         変更を保存
                     </button>
                 </div>
-
-                <button
-                    type="button"
-                    onClick={() => navigate(`/admin/groups/${groupId}`)}
-                    className="back-to-btn"
-                >
-                    山車組詳細へ戻る
-                </button>
-
             </form>
-
+            <button
+                type="button"
+                onClick={() => navigate(`/admin/groups/${groupId}`)}
+                className="btn-back"
+            >
+                ← 山車組詳細へ戻る
+            </button>
         </section>
     )
 }

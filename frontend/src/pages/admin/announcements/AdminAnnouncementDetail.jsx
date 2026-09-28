@@ -46,13 +46,13 @@ function AdminAnnouncementDetail() {
     };
 
     return(
-        <section>
+        <section className="admin-container">
             <h1>お知らせ詳細</h1>
-            <header>
+            <header className="detail-header">
                 <></>
                 <div className="message-box">
-                    {error && <p>{error}</p>}
-                    {/*{message && <p>{message}</p>}*/}
+                    {error && <p className="text-error">{error}</p>}
+                    {/*{message && <p className="text-error">{message}</p>}*/}
                 </div>
                 {announcement &&(
                     <div className="update-history">
@@ -97,13 +97,6 @@ function AdminAnnouncementDetail() {
                         </tbody>
                     </table>
                     <div className="flex justify-between my-10">
-                        <button
-                            type="button"
-                            className="back-to-btn"
-                            onClick={() => navigate("/admin/announcements")}
-                        >
-                            一覧に戻る
-                        </button>
 
                         {(
                             (admin.role === "ROLE_ADMIN" &&
@@ -113,7 +106,7 @@ function AdminAnnouncementDetail() {
                                 announcement.groupId === null)
                         ) ? (
                             <button
-                                className="add-data-btn"
+                                className="btn-submit"
                                 onClick={() =>
                                     navigate(`/admin/announcements/${announcementId}/edit`, {
                                         state: { from: "detail" }
@@ -126,6 +119,13 @@ function AdminAnnouncementDetail() {
                     </div>
                 </>
             )}
+            <button
+                type="button"
+                className="btn-back"
+                onClick={() => navigate("/admin/announcements")}
+            >
+                一覧に戻る
+            </button>
         </section>
     );
 

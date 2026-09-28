@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { ChevronDown } from 'lucide-react';
 
 function MyPage() {
 
@@ -106,60 +107,49 @@ function MyPage() {
     };
 
     return (
-        <section>
-            <h1>参加者マイページ</h1>
+        <section className="mypage-container">
+            <h1 className="contents-title">参加者マイページ</h1>
 
             {applicant?.cancelStatus === "REQUESTED" && (
-                <p className="text-error text-center font-lg font-medium mb-5">キャンセル承認待ちです</p>
+                <p className="text-error">キャンセル承認待ちです</p>
             )}
 
-            <div id="AnnoucementList">
-                {announcements.map((announcement) => (
+            <div className="announcements-list optional-box">
+                <h3 className="mb-05">新着お知らせ</h3>
+                {announcements.slice(0,3).map((announcement) => (
                     <details key={announcement.announcementId}>
                         <summary>
-                            <span>{formatDate(announcement.updatedAt)}</span>
-                            <strong className="pl-3">{announcement.title}</strong>
-                            <span className="text-sm"> — {announcement.updatedBy}</span>
+                            <span className="date">{formatDate(announcement.updatedAt)}</span>
+                            <span className="author"> — {announcement.updatedBy}</span>
+                            <strong className="title">{announcement.title}</strong>
+                            <span className="icon"><ChevronDown /></span>
                         </summary>
-                        <div>
-                            <p className="whitespace-pre-wrap">
-                            {getPreviewContent(announcement.content)}
-                            {isLongContent(announcement.content) && (
-                                <Link
-                                    to="/mypage/announcements"
-                                    state={{ announcementId: announcement.announcementId }}
-                                >
-                                    続きを見る
-                                </Link>
-                            )}
-                            </p>
-                        </div>
+                        <p className="whitespace-pre-wrap">
+                        {getPreviewContent(announcement.content)}
+                        {isLongContent(announcement.content) && (
+                            <Link
+                                to="/mypage/announcements"
+                                state={{ announcementId: announcement.announcementId }}
+                            >
+                                続きを見る
+                            </Link>
+                        )}
+                        </p>
                     </details>
                 ))}
-                <Link to="/mypage/announcements">一覧を見る</Link>
+                <Link to="/mypage/announcements" className="btn-outline-sub block-right">一覧を見る</Link>
             </div>
-            <p className="my-5 text-center">お申込み内容は下記の通りです</p>
+            <h2 className="text-center">お申込み内容</h2>
 
             {applicant && (
-                <div className="grid gap-3">
-                    <div className="text-center mb-5">
-                        <p>参加山車組・ポジション</p>
-                        <p className="text-2xl font-semibold">{applicant.groupName}・{applicant.positionName}</p>
+                <div>
+                    <div className="group-name">
+                        <h3>参加山車組・ポジション</h3>
+                        <p>{applicant.groupName}・{applicant.positionName}</p>
                     </div>
 
-                    <table className="table">
+                    <table>
                         <tbody>
-                        <tr>
-                            <th className="w-50 border-b text-lg">参加者情報</th>
-                            <td className="border-b text-right">
-                                <button
-                                    onClick={() => window.location.href = "/mypage/edit"}
-                                    className="edit-btn"
-                                >
-                                    編集する
-                                </button>
-                            </td>
-                        </tr>
                         <tr>
                             <th>お名前</th>
                             <td>{applicant.applicantName}</td>
@@ -210,29 +200,33 @@ function MyPage() {
                         </tr>
                         </tbody>
                     </table>
+                    <button
+                        onClick={() => window.location.href = "/mypage/edit"}
+                        className="btn-outline-sub block-right"
+                    >
+                        編集する
+                    </button>
 
-                    <div>
-                        <ul>
-                            <li className="complements">参加する山車組およびポジションはマイページからは変更できません。<br />
-                                山車組・ポジションの変更をご希望の方は、一度キャンセルしてから改めて参加申込をお願いします</li>
-                            <li className="complements text-error font-medium">このページからキャンセルした場合、山車組の担当者が受理した時点でキャンセル確定となります。<br />
-                                直前（開催まで1週間以内）のキャンセルは、山車組の事務所へ直接電話連絡をお願いします</li>
-                        </ul>
-                    </div>
+                    <ul className="complement mt-2">
+                        <li>参加する山車組およびポジションはマイページからは変更できません。<br />
+                            山車組・ポジションの変更をご希望の方は、一度キャンセルしてから改めて参加申込をお願いします</li>
+                        <li className="complements text-warn">このページからキャンセルした場合、山車組の担当者が受理した時点でキャンセル確定となります。<br />
+                            <u>直前（開催まで1週間以内）のキャンセルは、山車組の事務所へ直接電話連絡をお願いします</u></li>
+                    </ul>
 
-                        {/*キャンセル依頼中の場合はキャンセルボタンを非表示*/}
-                        {applicant.cancelStatus === "NONE" && (
-                            <button
-                                onClick={() =>
-                                    navigate("/mypage/cancel", {
-                                        state: {applicant}
-                                    })
-                                }
-                                className="block max-w-3/4 mx-auto"
-                            >
-                                キャンセルする
-                            </button>
-                        )}
+                    {/*キャンセル依頼中の場合はキャンセルボタンを非表示*/}
+                    {applicant.cancelStatus === "NONE" && (
+                        <button
+                            onClick={() =>
+                                navigate("/mypage/cancel", {
+                                    state: {applicant}
+                                })
+                            }
+                            className="btn-apply mt-2"
+                        >
+                            キャンセルする
+                        </button>
+                    )}
 
                 </div>
                 )}

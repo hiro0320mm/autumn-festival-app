@@ -97,32 +97,28 @@ function AdminAnnouncementNew() {
     }
 
     return (
-        <div className="max-w-2xl mx-auto p-6">
+        <section className="admin-container">
 
-            <h1 className="text-2xl font-bold mb-6">
-                お知らせ新規登録
-            </h1>
+            <h1>お知らせ新規登録</h1>
 
             {error && (
-                <p className="text-error mb-4">
+                <p className="message-box">
                     {error}
                 </p>
             )}
 
-            <div className="mb-5">
-                <p>
-                    {admin?.role === "ROLE_SUPER_ADMIN"
-                        ? "全体"
-                        : admin?.groupName
-                    }
-                    <span> ユーザー向けのお知らせを登録します</span>
-                </p>
-            </div>
+            <p>
+                {admin?.role === "ROLE_SUPER_ADMIN"
+                    ? "全体"
+                    : admin?.groupName
+                }
+                <span> ユーザー向けのお知らせを登録します</span>
+            </p>
 
             <form onSubmit={handleSubmit}>
 
                 {/* お知らせタイトル */}
-                <div className="mb-5">
+                <div>
                     <label>
                         <span className="required">＊必須項目</span>
                         お知らせタイトル
@@ -142,7 +138,7 @@ function AdminAnnouncementNew() {
                 </div>
 
                 {/* お知らせ内容 */}
-                <div className="mb-5">
+                <div>
                     <label>
                         <span className="required">＊必須項目</span>
                         内容
@@ -164,17 +160,17 @@ function AdminAnnouncementNew() {
                 </div>
 
                 {/* 表示・非表示*/}
-                <div className="mb-5">
+                <div>
                     <div>
                         <span className="required text-xs">＊必須項目</span>
-                        <h3 className="font-semibold mb-5">表示・非表示</h3>
+                        <p className="label">表示・非表示</p>
                         {errors.isPublished && (
                             <span className="validation-error">
                                 {errors.isPublished}
                             </span>
                         )}
                     </div>
-                    <div className="flex justify-between w-fit gap-3 items-center">
+                    <div className="flex-left">
                         <label className="toggle-btn">
                             <input
                                 type="checkbox"
@@ -183,28 +179,27 @@ function AdminAnnouncementNew() {
                                 onChange={handleChange}
                             />
                         </label>
-                        {formData.isPublished ? <p className="p-3">表示中</p> : <p className="p-3 font-semibold text-accent">非表示中</p>}
+                        {formData.isPublished ? <p className="mb-0">表示中</p> : <p className="mb-0 text-warn">非表示中</p>}
                     </div>
                 </div>
 
                 <div className="flex justify-center my-10">
                     <button
                         type="submit"
-                        className="submit-btn"
+                        className="btn-submit"
                     >
                         登録する
                     </button>
                 </div>
 
-                <button type="button"
-                        onClick={() => navigate('/admin/announcements')}
-                        className="back-to-btn"
-                >
-                    お知らせ管理トップへ戻る
-                </button>
-
             </form>
-        </div>
+            <button type="button"
+                    onClick={() => navigate('/admin/announcements')}
+                    className="btn-back"
+            >
+                お知らせ管理トップへ戻る
+            </button>
+        </section>
     )
 }
 

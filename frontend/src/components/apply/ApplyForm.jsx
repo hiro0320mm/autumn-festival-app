@@ -108,21 +108,17 @@ function ApplyForm() {
     }
 
 return (
-    <section>
+    <section className="mypage-container">
 
-        <h1 className="text-2xl font-bold mb-6 sm:m-2">
-            参加を希望される方は下記にご入力ください
+        <h1 className="content-title">
+            秋まつり参加申込フォーム
         </h1>
+        <span className="text-center text-block">参加を希望される方は下記にご入力ください</span>
 
-        <div className="mb-6 p-4 border rounded">
-            <p className="font-bold mb-2 sm:m-2">
-                参加する山車組
-            </p>
-
-            <p className="text-3xl mb-5 ml-5">
-                {group.groupName}
-            </p>
-            <button onClick={() => navigate('/')} className="btn btn-primary">
+        <div className="group-name">
+            <h3>参加する山車組</h3>
+            <p>{group.groupName}</p>
+            <button onClick={() => navigate('/')} className="btn-back mx-auto">
                 山車組選択画面へ戻る
             </button>
         </div>
@@ -130,7 +126,7 @@ return (
         <form onSubmit={handleSubmit}>
 
             {/* お名前 */}
-            <div className="mb-5">
+            <div>
                 <label>
                     <span className="required">＊必須項目</span>
                     参加される方のお名前
@@ -153,7 +149,7 @@ return (
             </div>
 
             {/* よみがな */}
-            <div className="mb-5">
+            <div>
                 <label>
                     <span className="required">＊必須項目</span>
                     お名前のよみがな
@@ -175,7 +171,7 @@ return (
             </div>
 
             {/* 年齢 */}
-            <div className="mb-5">
+            <div>
                 <label>
                     <span className="required">＊必須項目</span>
                     参加される方の年齢
@@ -192,6 +188,7 @@ return (
                         name="age"
                         value={formData.age}
                         onChange={handleChange}
+                        className="input-short"
                         min="1"
                     />
                     <span>歳</span>
@@ -201,7 +198,7 @@ return (
 
             {/* 保護者名 */}
             {formData.age !== '' && Number(formData.age) < 18 && (
-                <div className="mb-5">
+                <div>
                     <label>
                         <span className="required">＊18歳未満の場合は必須項目</span>
                         保護者のお名前
@@ -223,7 +220,7 @@ return (
             )}
 
             {/* 住所 */}
-            <div className="mb-5">
+            <div>
                 <label>
                     <span className="required">＊必須項目</span>
                     住所
@@ -244,7 +241,7 @@ return (
             </div>
 
             {/* 電話番号 */}
-            <div className="mb-5">
+            <div>
                 <label>
                     <span className="required">＊必須項目</span>
                     連絡先電話番号
@@ -265,7 +262,7 @@ return (
             </div>
 
             {/* メールアドレス */}
-            <div className="mb-5">
+            <div>
                 <label>
                     <span className="required">＊必須項目</span>
                     メールアドレス
@@ -285,52 +282,49 @@ return (
             </div>
 
             {/* 学生 */}
-            <div className="mb-5">
-                <p className="font-bold mb-2">
+            <div>
+                <p className="label">
                     小中高生ですか？
                 </p>
 
-                <div className="flex gap-6">
-                    <label className="flex items-center gap-2">
+                <div className="radio">
+                    <label className={`radio-button ${formData.isStudent === true ? 'selected' : ''}`}>
                         <input
                             type="radio"
                             name="isStudent"
                             value="true"
                             checked={formData.isStudent === true}
                             onChange={handleStudentChange}
-                            className="radio"
                         />
-                        はい
+                        <span>はい</span>
                     </label>
 
-                    <label className="flex items-center gap-2">
+                    <label className={`radio-button ${formData.isStudent === false ? 'selected' : ''}`}>
                         <input
                             type="radio"
                             name="isStudent"
                             value="false"
                             checked={formData.isStudent === false}
                             onChange={handleStudentChange}
-                            className="radio"
                         />
-                        いいえ
+                        <span>いいえ</span>
                     </label>
                 </div>
             </div>
 
             {/* 学校情報 */}
             {formData.isStudent === true && (
-                <div className="mb-5 p-4 border rounded">
+                <div className="optional-box">
 
-                    <p className="font-bold mb-4">
-                        学校情報
-                    </p>
+                    <h3>学校情報</h3>
+
                     {schoolError && (
-                        <p className="validation-error mb-5">
+                        <p className="validation-error">
                             {errors.message}
                         </p>
                     )}
 
-                    <div className="mb-4">
+                    <div>
                         <label>
                             <span className="required">＊小中高生の場合は必須項目</span>
                             学校名
@@ -345,7 +339,7 @@ return (
 
                     </div>
 
-                    <div className="mb-4">
+                    <div>
                         <label>
                             <span className="required">＊小中高生の場合は必須項目</span>
                             学年
@@ -361,7 +355,7 @@ return (
                             name="schoolGrade"
                             value={formData.schoolGrade}
                             onChange={handleChange}
-                            className="short-text"
+                            className="input-short"
                         />
                         <span>年</span>
 
@@ -383,7 +377,7 @@ return (
                             name="schoolClass"
                             value={formData.schoolClass}
                             onChange={handleChange}
-                            className="short-text"
+                            className="input-short"
                         />
                         <span>組</span>
 
@@ -393,7 +387,7 @@ return (
             )}
 
             {/* ポジション */}
-            <div className="mb-5">
+            <div>
                 <label>
                     希望するポジション
                     {errors.positionId && (
@@ -426,14 +420,14 @@ return (
             </div>
 
             {/* 連絡事項 */}
-            <div className="mb-6">
+            <div>
                 <label>
                     連絡事項
                 </label>
-                <ul className="text-xs">
+                <ul className="complement">
                     <li>参加する山車組に伝えておきたいことがあればご入力ください</li>
                     <li>参加できない日が予めわかっている場合や、食べ物等アレルギー情報、体調・体質で不安なことがあればお知らせください</li>
-                    <li className="text-red-700">参加できなくなった場合は申し込んだ山車組の事務所へ直接ご連絡ください</li>
+                    <li className="text-warn">参加できなくなった場合は申し込んだ山車組の事務所へ直接ご連絡ください</li>
                 </ul>
 
                 <textarea
@@ -446,8 +440,7 @@ return (
             </div>
 
             <div>
-
-                <h2 className="font-semibold">
+                <h3 className="label pb-1">
                     <span className="block required font-normal text-xs">＊必須項目</span>
                     個人情報の取り扱いについて
                     {errors.privacyAgreed && (
@@ -455,24 +448,24 @@ return (
                             {errors.privacyAgreed}
                         </span>
                     )}
-                </h2>
+                </h3>
 
-                <ol className="text-left list-decimal list-inside my-5 p-4 border rounded">
+                <ol className="optional-box privacy-policy">
                     <li>
-                        入力された情報は下記の目的でのみ使用します
-                        <ul>
+                        <strong>入力された情報は下記の目的でのみ使用します</strong>
+                        <ul className="mb-1">
                             <li>参加申込者への連絡（イベントに関する各種案内、緊急時の連絡など）</li>
                             <li>関係機関への提出（安全管理・運営連携を目的とした、学校および実行委員会への参加者リストの提出）</li>
                             <li>事務処理（備品の貸出管理、参加料の支払管理、その他運営上必要な事務作業）</li>
                         </ul>
                     </li>
                     <li>
-                        第三者提供について
+                        <strong>第三者提供について</strong>
                         <p>法令に基づく場合、および上記利用目的（学校・実行委員会へのリスト提出）を除き、ご本人の同意なく第三者に個人情報を提供することはありません。</p>
                     </li>
                 </ol>
 
-                <label className="my-5">
+                <label className="check">
                     <input
                         type="checkbox"
                         name="privacyAgreed"
@@ -481,21 +474,19 @@ return (
                     />
                     {" "}個人情報の取り扱いに同意します
                 </label>
-                <div className="flex justify-center my-10">
+                <div>
                     {/* 確認画面へ */}
-                    <div className="mt-8">
-                        <button
-                            type="submit"
-                            className="submit-btn"
-                        >
-                            確認画面へ
-                        </button>
-                    </div>
+                    <button
+                        type="submit"
+                        className="btn-submit"
+                    >
+                        確認画面へ
+                    </button>
                 </div>
 
             </div>
 
-            <button onClick={() => navigate('/')} className="back-to-btn">
+            <button onClick={() => navigate('/')} className="btn-back mx-auto">
                 秋まつり参加申込システム<br />トップへ戻る
             </button>
 

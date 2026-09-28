@@ -5,7 +5,7 @@ function AdminLayout({ children }) {
         <>
             <AdminHeader />
 
-            <main>
+            <main className="admin">
                 {children}
             </main>
         </>

@@ -129,25 +129,25 @@ function AdminAnnouncements() {
     };
 
     return (
-        <section>
-            <div className="flex justify-start gap-x-10">
-                <h1>お知らせ一覧</h1>
+        <section className="admin-container">
+            <h1>お知らせ一覧</h1>
+            <header>
                 {admin.role === "ROLE_ADMIN" && (
-                    <p className="text-sm text-gray-500 mt-2">
+                    <p>
                         全体向けのお知らせは閲覧のみ可能です（編集はできません）
                     </p>
                 )}
 
                 {admin.role === "ROLE_SUPER_ADMIN" && (
-                    <p className="text-sm text-gray-500 mt-2">
+                    <p>
                         各山車組のお知らせは閲覧のみ可能です（編集はできません）
                     </p>
                 )}
-            </div>
-            <div className="border-1 w-fit my-3 p-3">
+            </header>
+            <div className="filter-box">
                 <h2>絞込表示</h2>
-                <div className="flex gap-2 flex-wrap my-5">
-                    <h3 className="block font-semibold pr-3 w-50">表示・非表示で絞込み</h3>
+                <div className="filter-inner-box">
+                    <h3>表示・非表示で絞込み</h3>
                     <button
                         type="button"
                         className={`${
@@ -172,8 +172,8 @@ function AdminAnnouncements() {
                 </div>
 
                 {admin.role === "ROLE_SUPER_ADMIN" && (
-                    <div className="flex gap-2 flex-wrap my-5 items-center">
-                        <h3 className="block font-semibold pr-3 w-50">山車組で絞込み</h3>
+                    <div className="filter-inner-box">
+                        <h3>山車組で絞込み</h3>
 
                         <button
                             type="button"
@@ -201,12 +201,12 @@ function AdminAnnouncements() {
                 )}
             </div>
 
-            <div className="overflow-x-auto">
-                <div className="float-right mb-5">
+            <div className="table-container">
+                <div className="add-btn-area">
                     <button
                         type="button"
                         onClick={() => navigate("/admin/announcements/register")}
-                        className="add-data-btn"
+                        className="btn-sub"
                     >
                         ＋お知らせを追加する
                     </button>
@@ -228,34 +228,36 @@ function AdminAnnouncements() {
                     {filteredAnnouncements.map((announcement) => (
                         <tr
                             key={announcement.announcementId}
-                            className={`hover:bg-base-200 cursor-pointer text-center ${
+                            className={`table-row ${
                                 !announcement.isPublished
-                                    ? "bg-base-300"
+                                    ? "is-canceled"
                                     : ""
                             }`}
                             onClick={() => navigate(`/admin/announcements/${announcement.announcementId}`)}
                         >
                             <td
                                 onClick={(e) => e.stopPropagation()}
-                                className={
+                                className={`toggle-box ${
                                     announcement.isPublished
-                                        ? "text-secondary font-medium text-xs"
-                                        : "text-error font-medium text-xs"
-                                }
+                                        ? "text-secondary font-semibold"
+                                        : "text-warn font-semibold"
+                                }`}
                             >
-                                {canEditPublished(announcement) && (
-                                    <label className="toggle-btn flex flex-col items-center">
-                                        <input
-                                            type="checkbox"
-                                            checked={announcement.isPublished}
-                                            onChange={() => handlePublishedToggle(announcement)}
-                                        />
-                                    </label>
-                                )}
+                                <div className="toggle-content">
+                                    {canEditPublished(announcement) && (
+                                        <label className="toggle-btn">
+                                            <input
+                                                type="checkbox"
+                                                checked={announcement.isPublished}
+                                                onChange={() => handlePublishedToggle(announcement)}
+                                            />
+                                        </label>
+                                    )}
 
-                                <p className="text-xs font-medium">
-                                    {announcement.isPublished ? "表示中" : "非表示中"}
-                                </p>
+                                    <p>
+                                        {announcement.isPublished ? "表示中" : "非表示中"}
+                                    </p>
+                                </div>
                             </td>
                             {/*公開範囲*/}
                             <td>
@@ -283,7 +285,7 @@ function AdminAnnouncements() {
                                     <Link
                                         to={`/admin/announcements/${announcement.announcementId}/edit`}
                                         state={{ from: "list" }}
-                                        className="edit-icon"
+                                        className="icon-edit"
                                     >
                                         <Pencil size={18} />
                                     </Link>
@@ -302,26 +304,26 @@ function AdminAnnouncements() {
 
             {/* 公開状態変更確認モーダル */}
             {showPublishedModal && selectedAnnouncement && (
-                <div className="modal modal-open">
+                <div className="modal-overlay">
                     <div className="modal-box">
 
-                        <h2 className="text-lg font-bold">
-                            お知らせの公開状態を変更します
-                        </h2>
+                        <h2>お知らせの公開状態を変更します</h2>
 
-                        <p className="py-4">
+                        <p>
                             このお知らせを
+                            <strong className="text-warn">
                             {selectedAnnouncement.isPublished
                                 ? "非表示"
                                 : "表示"
                             }
+                            </strong>
                             にしてもよろしいですか？
                         </p>
 
                         <div className="modal-action">
 
                             <button
-                                className="back-to-btn"
+                                className="btn-back"
                                 onClick={() => {
                                     setShowPublishedModal(false);
                                     setSelectedAnnouncement(null);
@@ -331,7 +333,7 @@ function AdminAnnouncements() {
                             </button>
 
                             <button
-                                className="btn btn-primary"
+                                className="btn-primary"
                                 onClick={handlePublishedConfirm}
                             >
                                 {selectedAnnouncement.isPublished

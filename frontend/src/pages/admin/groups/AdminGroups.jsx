@@ -50,58 +50,57 @@ function AdminGroupList() {
     }
 
     if (error) {
-        return <p>{error}</p>;
+        return <p className="text-error">{error}</p>;
     }
 
     return (
-        <section>
-            <div className="flex justify-start gap-x-10">
-                <h1>山車組一覧</h1>
-            </div>
-
-            <table className="table">
-                <thead>
-                    <tr>
-                        <th>山車組名</th>
-                        <th>主要エリア</th>
-                        <th>事務所所在地</th>
-                        <th>事務所電話番号</th>
-                        <th>その他の窓口</th>
-                        <th>その他の窓口電話番号</th>
-                        <th>紹介文</th>
-                        <th>編集</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {groups.map(group => (
-                    <tr
-                        key={group.groupId}
-                        className="hover:bg-base-200 cursor-pointer text-center"
-                        onClick={() => navigate(`/admin/groups/${group.groupId}`)}
-                    >
-                        <td>{group.groupName}</td>
-                        <td>{group.district}</td>
-                        <td>{group.officeAddress}</td>
-                        <td>{group.officeTel}</td>
-                        <td>{group.contactName}</td>
-                        <td>{group.contactTel}</td>
-                        <td>{group.description}</td>
-                        <td
-                            onClick={(e) => e.stopPropagation()}
-                            className="text-center"
+        <section className="admin-container">
+            <h1>山車組一覧</h1>
+            <div className="table-container">
+                <table className="table">
+                    <thead>
+                        <tr>
+                            <th>山車組名</th>
+                            <th>主要エリア</th>
+                            <th>事務所所在地</th>
+                            <th>事務所電話番号</th>
+                            <th>その他の窓口</th>
+                            <th>その他の窓口電話番号</th>
+                            <th>紹介文</th>
+                            <th>編集</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {groups.map(group => (
+                        <tr
+                            key={group.groupId}
+                            className="table-row"
+                            onClick={() => navigate(`/admin/groups/${group.groupId}`)}
                         >
-                            <Link
-                                to={`/admin/groups/${group.groupId}/edit`}
-                                state={{ from: "list" }}
-                                className="edit-icon"
+                            <td>{group.groupName}</td>
+                            <td>{group.district}</td>
+                            <td>{group.officeAddress}</td>
+                            <td>{group.officeTel}</td>
+                            <td>{group.contactName}</td>
+                            <td>{group.contactTel}</td>
+                            <td>{group.description}</td>
+                            <td
+                                onClick={(e) => e.stopPropagation()}
+                                className="text-center"
                             >
-                                <Pencil size={18} />
-                            </Link>
-                        </td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
+                                <Link
+                                    to={`/admin/groups/${group.groupId}/edit`}
+                                    state={{ from: "list" }}
+                                    className="icon-edit"
+                                >
+                                    <Pencil size={18} />
+                                </Link>
+                            </td>
+                        </tr>
+                    ))}
+                    </tbody>
+                </table>
+            </div>
         </section>
     );
 }

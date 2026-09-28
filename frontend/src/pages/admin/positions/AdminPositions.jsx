@@ -56,6 +56,13 @@ function AdminPositions() {
         setShowRecruitmentStatusModal(true);
     };
 
+    // 表示・非表示トグルスイッチの表示出し分け
+    const canEditRecruitmentStatus = (position) =>
+        (admin.role === "ROLE_ADMIN" &&
+            position.groupId === admin.groupId) ||
+        (admin.role === "ROLE_SUPER_ADMIN" &&
+            position.groupId === null);
+
     // 表示・非表示だけ一覧画面から変更する
     const handleRecruitmentStatusConfirm = async () => {
         if (!selectedPosition) return;
@@ -119,14 +126,12 @@ function AdminPositions() {
     });
 
     return (
-        <section>
-            <div className="flex justify-start gap-x-10">
-                <h1>ポジション一覧</h1>
-            </div>
-            <div className="border-1 w-fit my-3 p-3">
+        <section className="admin-container">
+            <h1>ポジション一覧</h1>
+            <div className="filter-box">
                 <h2>絞込表示</h2>
-                <div className="flex gap-2 flex-wrap my-5">
-                    <h3 className="font-semibold pr-3 w-40">募集状況で絞込み</h3>
+                <div className="filter-inner-box">
+                    <h3>募集状況で絞込み</h3>
                     <button
                         type="button"
                         className={`${
@@ -151,8 +156,8 @@ function AdminPositions() {
                 </div>
 
                 {admin.role === "ROLE_SUPER_ADMIN" && (
-                    <div className="flex gap-2 flex-wrap my-5 items-center">
-                        <h3 className="font-semibold pr-3 w-40">山車組で絞込み</h3>
+                    <div className="filter-inner-box">
+                        <h3>山車組で絞込み</h3>
 
                         <button
                             type="button"
@@ -181,12 +186,12 @@ function AdminPositions() {
             </div>
 
 
-            <div className="overflow-x-auto">
-                <div className="float-right mb-5">
+            <div className="table-container">
+                <div className="add-btn-area">
                     <button
                         type="button"
                         onClick={() => navigate("/admin/positions/register")}
-                        className="add-data-btn"
+                        className="btn-sub"
                     >
                         ＋ポジションを追加する
                     </button>
@@ -208,40 +213,44 @@ function AdminPositions() {
                     {filteredPositions.map((position) => (
                         <tr
                             key={position.positionId}
-                            className={`hover:bg-base-200 cursor-pointer text-center ${
+                            className={`table-row ${
                                 !position.recruitmentStatus
-                                    ? "bg-base-300"
+                                    ? "is-canceled"
                                     : ""
                             }`}
                             onClick={() => navigate(`/admin/positions/${position.positionId}`)}
                         >
                             <td
                                 onClick={(e) => e.stopPropagation()}
-                                className={
+                                className={`toggle-box ${
                                     position.recruitmentStatus
-                                        ? "text-secondary font-medium"
-                                        : "text-error font-medium"
-                                }
+                                        ? "text-secondary font-semibold"
+                                        : "text-warn font-semibold"
+                                }`}
                             >
-                                <label className="toggle-btn flex flex-col items-center">
-                                    <input
-                                        type="checkbox"
-                                        checked={position.recruitmentStatus}
-                                        onChange={() => handleRecruitmentStatusToggle(position)}
-                                    />
-                                </label>
-                                <p className="text-xs font-medium">
-                                    {position.recruitmentStatus ? "募集中" : "募集停止中"}
-                                </p>
+                                <div className="toggle-content">
+                                    {canEditRecruitmentStatus(position) && (
+                                    <label className="toggle-btn">
+                                        <input
+                                            type="checkbox"
+                                            checked={position.recruitmentStatus}
+                                            onChange={() => handleRecruitmentStatusToggle(position)}
+                                        />
+                                    </label>
+                                    )}
+                                    <p>
+                                        {position.recruitmentStatus ? "募集中" : "募集停止中"}
+                                    </p>
+                                </div>
                             </td>
                             {/*山車組：特権管理者の一覧のみ表示*/}
                             {admin.role === "ROLE_SUPER_ADMIN" && (
-                                <td>{position.groupName}</td>
+                                <td className="text-center">{position.groupName}</td>
                             )}
-                            <td>{position.positionName}</td>
+                            <td className="text-center">{position.positionName}</td>
                             <td>{position.target}</td>
-                            <td>{position.applicantCount} 人 / {position.maxCapacity} 人</td>
-                            <td>{formatDateTime(position.deadline)}</td>
+                            <td className="text-center">{position.applicantCount} 人 / {position.maxCapacity} 人</td>
+                            <td className="text-center">{formatDateTime(position.deadline)}</td>
                             <td
                                 onClick={(e) => e.stopPropagation()}
                                 className="text-center"
@@ -249,7 +258,7 @@ function AdminPositions() {
                                 <Link
                                     to={`/admin/positions/${position.positionId}/edit`}
                                     state={{ from: "list" }}
-                                    className="edit-icon"
+                                    className="icon-edit"
                                 >
                                     <Pencil size={18} />
                                 </Link>
@@ -263,20 +272,18 @@ function AdminPositions() {
 
             {/* 募集状況変更確認モーダル */}
             {showRecruitmentStatusModal && selectedPosition && (
-                <div className="modal modal-open">
+                <div className="modal-overlay">
                     <div className="modal-box">
 
-                        <h2 className="text-lg font-bold text-center">
-                            ポジションの募集状況を変更します
-                        </h2>
+                        <h2>ポジションの募集状況を変更します</h2>
 
-                        <p className="my-3 text-center">
+                        <p>
                             {selectedPosition.groupName}・{selectedPosition.positionName}
                         </p>
 
-                        <p className="py-4">
+                        <p>
                             このポジションの募集状況を
-                            <strong>
+                            <strong className="text-warn">
                             {selectedPosition.recruitmentStatus
                                 ? "「募集停止」"
                                 : "「募集中」"
@@ -288,7 +295,7 @@ function AdminPositions() {
                         <div className="modal-action">
 
                             <button
-                                className="back-to-btn"
+                                className="btn-back"
                                 onClick={() => {
                                     setShowRecruitmentStatusModal(false);
                                     setSelectedPosition(null);

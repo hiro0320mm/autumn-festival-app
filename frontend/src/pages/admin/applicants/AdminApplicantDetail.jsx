@@ -120,17 +120,18 @@ function AdminApplicantDetail() {
     };
 
     return (
-        <section>
+        <section className="admin-container">
             <h1>参加申込者詳細情報</h1>
-            <header>
+            <header className="detail-header">
+                <></>
                 <div>
                     {applicant &&
-                        <p className="text-2xl font-bold text-app-secondary">申込受付番号：{applicant.receptionNumber}</p>
+                        <p className="reception-number"><span>申込受付番号：</span>{applicant.receptionNumber}</p>
                     }
                 </div>
                 <div className="message-box">
-                    {error && <p>{error}</p>}
-                    {message && <p>{message}</p>}
+                    {error && <p className="text-error">{error}</p>}
+                    {message && <p className="text-error">{message}</p>}
                     {applicant?.cancelStatus === "REQUESTED" && (
                         <>
                             <h2>キャンセル承認待ちの状態です</h2>
@@ -156,7 +157,7 @@ function AdminApplicantDetail() {
 
             {applicant && (
                 <>
-                    <table className="table">
+                    <table>
                         <tbody
                             className={
                                 applicant.cancelStatus === "CANCELED"
@@ -215,9 +216,9 @@ function AdminApplicantDetail() {
                             </tr>
                         </tbody>
                     </table>
-                    <div className="flex justify-center my-10">
+                    <div>
                         <button
-                            className="submit-btn"
+                            className="btn-submit"
                             onClick={() =>
                                 navigate(`/admin/applicants/${applicant.applicantId}/edit`, {
                                     state: { from: "detail" }
@@ -227,16 +228,16 @@ function AdminApplicantDetail() {
                             編集する
                         </button>
                     </div>
-                    <nav className="flex justify-between">
+                    <nav className="btn-box">
                         <button
                             type="button"
-                            className="back-to-btn"
+                            className="btn-back"
                             onClick={() => { navigate("/admin/applicants") }}
                         >
                             ← 申込者一覧に戻る
                         </button>
 
-                        <div className="flex gap-x-10">
+                        <div className="btn-actions">
                             {applicant.cancelStatus === "NONE" && (
                                 <button type="button" onClick={() => setShowCancelModal(true)}>
                                     キャンセル
@@ -256,7 +257,7 @@ function AdminApplicantDetail() {
                             <button
                                 type="button"
                                 onClick={() => setShowDeleteModal(true)}
-                                className="warning-btn"
+                                className="btn-primary"
                             >
                                 削除
                             </button>
@@ -267,28 +268,28 @@ function AdminApplicantDetail() {
 
             {/*  削除確認モーダル  */}
             {showDeleteModal && (
-                <div className="modal modal-open">
+                <div className="modal-overlay">
                     <div className="modal-box">
 
-                        <h2 className="text-lg font-bold">
+                        <h2>
                             {applicant && (`${applicant.applicantName}さんの申込を削除します`)}
                         </h2>
 
-                        <p className="py-4">
+                        <p>
                             この申込者を削除してもよろしいですか？
                         </p>
 
                         <div className="modal-action">
 
                             <button
-                                className="back-to-btn"
+                                className="btn-back"
                                 onClick={() => setShowDeleteModal(false)}
                             >
                                 戻る
                             </button>
 
                             <button
-                                className="btn btn-error"
+                                className="btn-error"
                                 onClick={handleDelete}
                             >
                                 削除を実行する
@@ -313,7 +314,7 @@ function AdminApplicantDetail() {
 
                         <div className="modal-action">
                             <button
-                                className="back-to-btn"
+                                className="btn-back"
                                 onClick={() => setShowCancelModal(false)}
                             >
                                 戻る

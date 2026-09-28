@@ -49,12 +49,12 @@ function AdminLogin() {
     };
 
     return (
-        <section className="w-fit mx-auto">
-            <h1>管理者ログイン</h1>
+        <section className="login-container">
+            <h1 className="contents-title">管理者ログイン</h1>
 
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="optional-box mt-1">
                 {error && (
-                    <p className="text-error font-medium mb-5">{error}</p>
+                    <p className="text-warn text-center">{error}</p>
                 )}
                 <div>
                     <label>
@@ -95,7 +95,7 @@ function AdminLogin() {
                 </div>
 
                 <div className="flex justify-center">
-                    <button type="submit" className="submit-btn">
+                    <button type="submit" className="btn-submit">
                         ログイン
                     </button>
                 </div>

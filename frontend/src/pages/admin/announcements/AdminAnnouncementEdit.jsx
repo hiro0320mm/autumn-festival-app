@@ -152,7 +152,7 @@ function AdminAnnouncementEdit() {
     };
 
     if (error) {
-        return <p>{error}</p>;
+        return <p className="text-error">{error}</p>;
     }
 
     if (!announcement) {
@@ -160,9 +160,9 @@ function AdminAnnouncementEdit() {
     }
 
     return (
-        <div className="max-w-2xl mx-auto p-6">
+        <section className="admin-container">
 
-            <h1 className="text-2xl font-bold mb-6">
+            <h1>
                 お知らせ編集
             </h1>
 
@@ -173,7 +173,7 @@ function AdminAnnouncementEdit() {
             )}
 
             <form onSubmit={handleSubmit}>
-                <div className="mb-5">
+                <div>
                     <label>
                         公開範囲
                     </label>
@@ -189,7 +189,7 @@ function AdminAnnouncementEdit() {
                 </div>
 
                 {/* お知らせタイトル */}
-                <div className="mb-5">
+                <div>
                     <label>
                         <span className="required">＊必須項目</span>
                         お知らせタイトル
@@ -211,7 +211,7 @@ function AdminAnnouncementEdit() {
                 </div>
 
                 {/* お知らせ内容 */}
-                <div className="mb-5">
+                <div>
                     <label>
                         <span className="required">＊必須項目</span>
                         内容
@@ -233,17 +233,17 @@ function AdminAnnouncementEdit() {
                 </div>
 
                 {/* 表示・非表示*/}
-                <div className="mb-5">
+                <div>
                     <div>
-                        <span className="required text-xs">＊必須項目</span>
-                        <h3 className="font-semibold mb-5">表示・非表示</h3>
+                        <span className="required">＊必須項目</span>
+                        <p className="label">表示・非表示</p>
                         {errors.isPublished && (
                             <span className="validation-error">
                                 {errors.isPublished}
                             </span>
                         )}
                     </div>
-                    <div className="flex justify-between w-fit gap-3 items-center">
+                    <div className="flex-left">
                         <label className="toggle-btn">
                             <input
                                 type="checkbox"
@@ -252,38 +252,34 @@ function AdminAnnouncementEdit() {
                                 onChange={handleChange}
                             />
                         </label>
-                        {formData.isPublished ? <p className="p-3">表示中</p> : <p className="p-3 font-semibold text-accent">非表示中</p>}
+                        {formData.isPublished ? <p className="mb-0">表示中</p> : <p className="mb-0 text-warn">非表示中</p>}
                     </div>
                 </div>
 
-                <div className="flex justify-center my-10">
-                    <button
-                        type="submit"
-                        className="submit-btn"
-                    >
-                        変更を保存
-                    </button>
-                </div>
-
                 <button
-                    type="button"
-                    onClick={() => {
-                        if (from === "detail") {
-                            navigate(`/admin/announcements/${announcementId}`);
-                        } else {
-                            navigate("/admin/announcements");
-                        }
-                    }}
-                    className="back-to-btn"
+                    type="submit"
+                    className="btn-submit"
                 >
-                    {from === "detail"
-                        ? "お知らせ詳細へ戻る"
-                        : "お知らせ一覧へ戻る"
-                    }
+                    変更を保存
                 </button>
-
             </form>
-        </div>
+            <button
+                type="button"
+                onClick={() => {
+                    if (from === "detail") {
+                        navigate(`/admin/announcements/${announcementId}`);
+                    } else {
+                        navigate("/admin/announcements");
+                    }
+                }}
+                className="btn-back"
+            >
+                {from === "detail"
+                    ? "お知らせ詳細へ戻る"
+                    : "お知らせ一覧へ戻る"
+                }
+            </button>
+        </section>
     );
 }
 

@@ -91,21 +91,21 @@ function MyPageEdit() {
     }
 
     return(
-        <section>
-            <h1>申込情報の編集</h1>
+        <section className="mypage-container">
+            <h1 className="contents-title">申込情報の編集</h1>
 
-            <div className="text-center mb-5">
-            <p>参加山車組・ポジション</p>
-            <p className="text-2xl font-semibold">{applicant.groupName}・{applicant.positionName}</p>
-            <p className="complements mt-5">参加する山車組およびポジションはマイページからの変更はできません。<br />
+            <div className="group-name">
+            <h3>参加山車組・ポジション</h3>
+            <p className="text-normal text-bigger">{applicant.groupName}・{applicant.positionName}</p>
+            <p className="text-normal complement">参加する山車組およびポジションはマイページからの変更はできません。<br />
             キャンセル後改めてお申込みをお願いします。</p>
             </div>
 
             <form onSubmit = {handleSubmit}>
 
                 {/* お名前 */}
-                <div className="mb-5">
-                    <label className="block font-bold mb-2">
+                <div>
+                    <label>
                         <span className="required">＊必須項目</span>
                         参加される方のお名前
                     </label>
@@ -117,15 +117,15 @@ function MyPageEdit() {
                     />
 
                     {errors.applicantName && (
-                        <p className="text-error mt-1 text-xs">
+                        <p className="validation-error text-xs">
                             {errors.applicantName}
                         </p>
                     )}
                 </div>
 
                 {/* よみがな */}
-                <div className="mb-5">
-                    <label className="block font-bold mb-2">
+                <div>
+                    <label>
                         <span className="required">＊必須項目</span>
                         お名前のよみがな
                     </label>
@@ -137,7 +137,7 @@ function MyPageEdit() {
                     />
 
                     {errors.kana && (
-                        <p className="text-error mt-1 text-xs">
+                        <p className="validation-error text-xs">
                             {errors.kana}
                         </p>
                     )}
@@ -145,8 +145,8 @@ function MyPageEdit() {
                 </div>
 
                 {/* 年齢 */}
-                <div className="mb-5">
-                    <label className="block font-bold mb-2">
+                <div>
+                    <label>
                         <span className="required">＊必須項目</span>
                         参加される方の年齢
                     </label>
@@ -155,7 +155,7 @@ function MyPageEdit() {
                         <input
                             type="number"
                             name="age"
-                            className="input input-bordered w-32"
+                            className="input-short"
                             min="1"
                             value={age}
                             onChange={(e) => setAge(e.target.value)}
@@ -164,7 +164,7 @@ function MyPageEdit() {
                     </div>
 
                     {errors.age && (
-                        <p className="text-error mt-1 text-xs">
+                        <p className="validation-error text-xs">
                             {errors.age}
                         </p>
                     )}
@@ -173,8 +173,8 @@ function MyPageEdit() {
 
                 {/* 保護者名 */}
                 {age !== "" && Number(age) < 18 && (
-                    <div className="mb-5">
-                        <label className="block font-bold mb-2">
+                    <div>
+                        <label>
                             <span className="required">＊18歳未満の場合は必須項目</span>
                             保護者のお名前
                         </label>
@@ -187,7 +187,7 @@ function MyPageEdit() {
                         />
 
                         {parentError && (
-                            <p className="text-error mt-1 text-xs">
+                            <p className="validation-error text-xs">
                                 {errors.message}
                             </p>
                         )}
@@ -196,8 +196,8 @@ function MyPageEdit() {
                 )}
 
                 {/* 住所 */}
-                <div className="mb-5">
-                    <label className="block font-bold mb-2">
+                <div>
+                    <label>
                         <span className="required">＊必須項目</span>
                         住所
                     </label>
@@ -210,15 +210,15 @@ function MyPageEdit() {
                     />
 
                     {errors.address && (
-                        <p className="text-error mt-1 text-xs">
+                        <p className="validation-error text-xs">
                             {errors.address}
                         </p>
                     )}
                 </div>
 
                 {/* 電話番号 */}
-                <div className="mb-5">
-                    <label className="block font-bold mb-2">
+                <div>
+                    <label>
                         <span className="required">＊必須項目</span>
                         連絡先電話番号
                     </label>
@@ -231,15 +231,15 @@ function MyPageEdit() {
                     />
 
                     {errors.tel && (
-                        <p className="text-error mt-1 text-xs">
+                        <p className="validation-error text-xs">
                             {errors.tel}
                         </p>
                     )}
                 </div>
 
                 {/* メールアドレス */}
-                <div className="mb-5">
-                    <label className="block font-bold mb-2">
+                <div>
+                    <label>
                         <span className="required">＊必須項目</span>
                         メールアドレス
                     </label>
@@ -252,20 +252,20 @@ function MyPageEdit() {
                     />
 
                     {errors.email && (
-                        <p className="text-error mt-1 text-xs">
+                        <p className="validation-error text-xs">
                             {errors.email}
                         </p>
                     )}
                 </div>
 
                 {/* 学生 */}
-                <div className="mb-5">
-                    <p className="font-bold mb-2">
+                <div>
+                    <p className="label">
                         小中高生ですか？
                     </p>
 
-                    <div className="flex gap-6">
-                        <label className="flex items-center gap-2">
+                    <div className="radio">
+                        <label className={`radio-button ${applicant.isStudent === true ? 'selected' : ''}`}>
                             <input
                                 type="radio"
                                 name="isStudent"
@@ -277,7 +277,7 @@ function MyPageEdit() {
                             はい
                         </label>
 
-                        <label className="flex items-center gap-2">
+                        <label className={`radio-button ${applicant.isStudent === false ? 'selected' : ''}`}>
                             <input
                                 type="radio"
                                 name="isStudent"
@@ -293,19 +293,18 @@ function MyPageEdit() {
 
                 {/* 学校情報 */}
                 {isStudent === true && (
-                    <div className="mb-5 p-4 border rounded">
+                    <div className="optional-box">
 
-                        <p className="font-bold mb-4">
-                            学校情報
-                        </p>
+                        <h3>学校情報</h3>
+                        
                         {schoolError && (
-                            <p className="text-error mt-1 text-xs">
+                            <p className="validation-error">
                                 {errors.message}
                             </p>
                         )}
 
-                        <div className="mb-4">
-                            <label className="block mb-2">
+                        <div>
+                            <label>
                                 <span className="required">＊小中高生の場合は必須項目</span>
                                 学校名
                             </label>
@@ -313,14 +312,13 @@ function MyPageEdit() {
                             <input
                                 type="text"
                                 name="schoolName"
-                                className="input input-bordered w-full"
                                 defaultValue={applicant.schoolName}
                             />
 
                         </div>
 
-                        <div className="mb-4">
-                            <label className="block mb-2">
+                        <div>
+                            <label>
                                 <span className="required">＊小中高生の場合は必須項目</span>
                                 学年
                             </label>
@@ -328,14 +326,14 @@ function MyPageEdit() {
                             <input
                                 type="text"
                                 name="schoolGrade"
-                                className="input input-bordered w-full"
+                                className="input-short"
                                 defaultValue={applicant.schoolGrade
                             }
                             />
                             <span>年</span>
 
                             {errors.schoolGrade && (
-                                <p className="text-error mt-1">
+                                <p className="validation-error">
                                     {errors.schoolGrade}
                                 </p>
                             )}
@@ -343,7 +341,7 @@ function MyPageEdit() {
                         </div>
 
                         <div>
-                            <label className="block mb-2">
+                            <label>
                                 <span className="required">＊小中高生の場合は必須項目</span>
                                 クラス
                             </label>
@@ -351,13 +349,13 @@ function MyPageEdit() {
                             <input
                                 type="text"
                                 name="schoolClass"
-                                className="input input-bordered w-full"
+                                className="input-short"
                                 defaultValue={applicant.schoolClass}
                             />
                             <span>組</span>
 
                             {errors.schoolClass && (
-                                <p className="text-error mt-1">
+                                <p className="validation-error">
                                     {errors.schoolClass}
                                 </p>
                             )}
@@ -368,19 +366,18 @@ function MyPageEdit() {
                 )}
 
                 {/* 連絡事項 */}
-                <div className="mb-6">
-                    <label className="block font-bold mb-2">
+                <div>
+                    <label>
                         連絡事項
                     </label>
-                    <ul className="text-xs">
-                        <li>※参加する山車組に伝えておきたいことがあればご入力ください</li>
-                        <li>・参加できない日が予めわかっている場合や、食べ物等アレルギー情報、体調・体質で不安なことがあればお知らせください</li>
-                        <li className="text-red-700">・参加できなくなった場合は申し込んだ山車組の事務所へ直接ご連絡ください</li>
+                    <ul className="complement">
+                        <li>参加する山車組に伝えておきたいことがあればご入力ください</li>
+                        <li>参加できない日が予めわかっている場合や、食べ物等アレルギー情報、体調・体質で不安なことがあればお知らせください</li>
+                        <li className="text-warn">参加できなくなった場合は申し込んだ山車組の事務所へ直接ご連絡ください</li>
                     </ul>
 
                     <textarea
                         name="note"
-                        className="textarea textarea-bordered w-full"
                         rows="4"
                         defaultValue={applicant.note ?? ""}
                     />
@@ -389,7 +386,7 @@ function MyPageEdit() {
                 <div className="flex justify-center my-10">
                     <button
                         type="submit"
-                        className="submit-btn"
+                        className="btn-submit"
                     >
                         変更を保存
                     </button>
@@ -397,7 +394,7 @@ function MyPageEdit() {
 
                 <button
                     onClick={() => navigate('/mypage')}
-                    className="back-to-btn"
+                    className="btn-back"
                 >
                     マイページ<br />トップへ戻る
                 </button>

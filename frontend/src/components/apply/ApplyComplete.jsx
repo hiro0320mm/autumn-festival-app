@@ -13,12 +13,12 @@ function ApplyComplete() {
     } = location.state || {}
 
     return (
-        <section className="confirm-box">
-            <h1>参加申込が完了しました</h1>
+        <section className="mypage-container apply-complete">
+            <h1 className="contents-title">参加申込が完了しました</h1>
 
-            <h2>申込受付番号：{receptionNumber}</h2>
+            <h2 className="apply-number">申込受付番号：{receptionNumber}</h2>
 
-            <dl>
+            <dl className="apply-data optional-box">
                 <dt>お名前</dt>
                 <dd>{applicantName} さん</dd>
                 <dt>参加山車組</dt>
@@ -27,21 +27,24 @@ function ApplyComplete() {
                 <dd>{positionName}</dd>
             </dl>
 
-            <p>お申込完了メールを送信しています。<br />
+            <p className="complement">お申込完了メールを送信しています。<br />
                 届かない場合は申込んだ山車組の事務所までお問合せください</p>
 
-            <p className="text-xl text-center bg-secondary text-white p-2 rounded-sm">
+            <p className="text-center">
                 <a href={`tel:${officeTel}`}>
                     {groupName} 事務所：{officeTel}
                 </a>
             </p>
 
-            <p>申込内容はマイページからご確認いただけます。<br />
+            <p className="complement">申込内容はマイページからご確認いただけます。<br />
                 マイページのご利用には、申込受付番号、参加される方のお名前、ご登録の電話番号が必要です<br />
                 この画面をスクリーンショットで保存するか、<br />
                 お申込完了メールを保存されることをおすすめします。</p>
 
-            <button onClick={() => navigate('/')}>
+            <button
+                onClick={() => navigate('/')}
+                className="btn-back mx-auto"
+            >
                 秋まつり参加申込システム<br />トップへ戻る
             </button>
         </section>

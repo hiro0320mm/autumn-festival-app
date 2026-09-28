@@ -108,7 +108,7 @@ function AdminApplicantEdit() {
         : "申込者一覧へ戻る";
 
     return (
-        <section>
+        <section className="admin-container">
             <h1>申込情報の編集</h1>
             <div className="message-box">
                 {errors.message && (
@@ -118,17 +118,17 @@ function AdminApplicantEdit() {
                 )}
             </div>
 
-            <div className="my-5">
-                <h2 className="text-2xl font-bold mb-2">参加山車組：{applicant.groupName}</h2>
-                <h3 className="text-lg font-semibold mb-1">参加ポジション：{applicant.positionName}</h3>
-                <p className="text-sm text-error">※参加する山車組およびポジションは変更できません。<br />
+            <div className="optional-box w-fit">
+                <h2 className="mb-05">参加山車組：{applicant.groupName}</h2>
+                <h3 className="mb-05">参加ポジション：{applicant.positionName}</h3>
+                <p className="complement">※参加する山車組およびポジションは変更できません。<br />
                     {"　"}変更が必要な場合は申込者に確認し、この申込をキャンセルした後で登録し直してください</p>
             </div>
 
             <form onSubmit = {handleSubmit}>
 
                 {/* お名前 */}
-                <div className="mb-5">
+                <div>
                     <label>
 
                         参加される方のお名前
@@ -148,7 +148,7 @@ function AdminApplicantEdit() {
                 </div>
 
                 {/* よみがな */}
-                <div className="mb-5">
+                <div>
                     <label>
                         <span className="required">＊必須項目</span>
                         お名前のよみがな
@@ -168,7 +168,7 @@ function AdminApplicantEdit() {
                 </div>
 
                 {/* 年齢 */}
-                <div className="mb-5">
+                <div>
                     <label>
                         <span className="required">＊必須項目</span>
                         参加される方の年齢
@@ -183,7 +183,7 @@ function AdminApplicantEdit() {
                         <input
                             type="number"
                             name="age"
-                            className="input input-bordered w-32"
+                            className="input-short"
                             min="1"
                             value={age}
                             onChange={(e) => setAge(e.target.value)}
@@ -195,7 +195,7 @@ function AdminApplicantEdit() {
 
                 {/* 保護者名 */}
                 {age !== "" && Number(age) < 18 && (
-                    <div className="mb-5">
+                    <div>
                         <label>
                             <span className="required">＊18歳未満の方は必須項目</span>
                             保護者のお名前
@@ -209,7 +209,6 @@ function AdminApplicantEdit() {
                         <input
                             type="text"
                             name="parentName"
-                            className="input input-bordered w-full"
                             defaultValue={applicant.parentName}
                         />
 
@@ -217,7 +216,7 @@ function AdminApplicantEdit() {
                 )}
 
                 {/* 住所 */}
-                <div className="mb-5">
+                <div>
                     <label>
                         <span className="required">＊必須項目</span>
                         住所
@@ -231,14 +230,13 @@ function AdminApplicantEdit() {
                     <input
                         type="text"
                         name="address"
-                        className="input input-bordered w-full"
                         defaultValue={applicant.address}
                     />
 
                 </div>
 
                 {/* 電話番号 */}
-                <div className="mb-5">
+                <div>
                     <label>
                         <span className="required">＊必須項目</span>
                         連絡先電話番号
@@ -252,14 +250,13 @@ function AdminApplicantEdit() {
                     <input
                         type="tel"
                         name="tel"
-                        className="input input-bordered w-full"
                         defaultValue={applicant.tel}
                     />
 
                 </div>
 
                 {/* メールアドレス */}
-                <div className="mb-5">
+                <div>
                     <label>
                         <span className="required">＊必須項目</span>
                         メールアドレス
@@ -273,60 +270,55 @@ function AdminApplicantEdit() {
                     <input
                         type="text"
                         name="email"
-                        className="input input-bordered w-full"
                         defaultValue={applicant.email}
                     />
 
                 </div>
 
                 {/* 学生 */}
-                <div className="mb-5">
-                    <p className="font-bold mb-2">
+                <div>
+                    <p>
                         小中高生ですか？
                     </p>
 
-                    <div className="flex gap-6">
-                        <label className="flex items-center gap-2">
+                    <div className="radio">
+                        <label className={`radio-button ${isStudent === true ? 'selected' : ''}`}>
                             <input
                                 type="radio"
                                 name="isStudent"
                                 value="true"
-                                className="radio"
                                 checked={isStudent === true}
                                 onChange={() => setIsStudent(true)}
                             />
-                            はい
+                            <span>はい</span>
                         </label>
 
-                        <label className="flex items-center gap-2">
+                        <label className={`radio-button ${isStudent === false ? 'selected' : ''}`}>
                             <input
                                 type="radio"
                                 name="isStudent"
                                 value="false"
-                                className="radio"
                                 checked={isStudent === false}
                                 onChange={() => setIsStudent(false)}
                             />
-                            いいえ
+                            <span>いいえ</span>
                         </label>
                     </div>
                 </div>
 
                 {/* 学校情報 */}
                 {isStudent === true && (
-                    <div className="mb-5 p-4 border rounded">
+                    <div className="optional-box">
 
-                        <p className="font-bold mb-4">
-                            学校情報
-                        </p>
+                        <h3>学校情報</h3>
                         {schoolError && (
-                            <p validation-error>
+                            <p className="validation-error">
                                 {errors.message}
                             </p>
                         )}
 
-                        <div className="mb-4">
-                            <label className="block mb-2">
+                        <div>
+                            <label className="label">
                                 <span className="required">＊小中高生の場合は必須項目</span>
                                 学校名
                             </label>
@@ -339,12 +331,12 @@ function AdminApplicantEdit() {
 
                         </div>
 
-                        <div className="mb-4">
+                        <div>
                             <label>
                                 <span className="required">＊小中高生の場合は必須項目</span>
                                 学年
                                 {errors.schoolGrade && (
-                                    <span className="text-error mt-1">
+                                    <span className="validation-error">
                                         {errors.schoolGrade}
                                     </span>
                                 )}
@@ -353,7 +345,7 @@ function AdminApplicantEdit() {
                             <input
                                 type="text"
                                 name="schoolGrade"
-                                className="short-text"
+                                className="input-short"
                                 defaultValue={applicant.schoolGrade
                                 }
                             />
@@ -366,7 +358,7 @@ function AdminApplicantEdit() {
                                 <span className="required">＊小中高生の場合は必須項目</span>
                                 クラス
                                 {errors.schoolClass && (
-                                    <span className="text-error mt-1">
+                                    <span className="validation-error">
                                         {errors.schoolClass}
                                     </span>
                                 )}
@@ -375,7 +367,7 @@ function AdminApplicantEdit() {
                             <input
                                 type="text"
                                 name="schoolClass"
-                                className="short-text"
+                                className="input-short"
                                 defaultValue={applicant.schoolClass}
                             />
                             <span>組</span>
@@ -386,7 +378,7 @@ function AdminApplicantEdit() {
                 )}
 
                 {/* 連絡事項 */}
-                <div className="mb-6">
+                <div>
                     <label>
                         連絡事項
                     </label>
@@ -399,7 +391,7 @@ function AdminApplicantEdit() {
                 </div>
 
                 {/* 担当者メモ */}
-                <div className="mb-6">
+                <div>
                     <label>
                         担当者メモ
                     </label>
@@ -415,27 +407,25 @@ function AdminApplicantEdit() {
                 <div className="flex justify-center my-10">
                     <button
                         type="submit"
-                        className="submit-btn"
+                        className="btn-submit"
                     >
                         変更を保存
                     </button>
                 </div>
-
-                <button
-                    type="button"
-                    className="back-to-btn"
-                    onClick={() => {
-                        if (location.state?.from === "detail") {
-                            navigate(`/admin/applicants/${applicantId}`);
-                        } else {
-                            navigate("/admin/applicants");
-                        }
-                    }}
-                >
-                    ← {backTo}
-                </button>
-
             </form>
+            <button
+                type="button"
+                className="btn-back"
+                onClick={() => {
+                    if (location.state?.from === "detail") {
+                        navigate(`/admin/applicants/${applicantId}`);
+                    } else {
+                        navigate("/admin/applicants");
+                    }
+                }}
+            >
+                ← {backTo}
+            </button>
         </section>
     );
 }

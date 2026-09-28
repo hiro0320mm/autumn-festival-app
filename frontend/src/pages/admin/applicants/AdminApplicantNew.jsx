@@ -76,7 +76,7 @@ function AdminApplicantNew() {
             .catch(error => {
                 setError(error.message);
             });
-    }, [role]);
+    }, [admin.role]);
 
     // 山車組ごとのポジション取得
     const filteredPositions = positions.filter(
@@ -169,7 +169,7 @@ function AdminApplicantNew() {
     }
 
     return (
-        <section>
+        <section className="admin-container">
 
             <h1>
                 参加申込者 新規登録
@@ -205,7 +205,7 @@ function AdminApplicantNew() {
                 )}
 
                 {/* ポジション */}
-                <div className="mb-5">
+                <div>
                     <label>
                         <span className="required">＊必須項目</span>
                         希望するポジション
@@ -237,7 +237,7 @@ function AdminApplicantNew() {
                 </div>
 
                 {/* お名前 */}
-                <div className="mb-5">
+                <div>
                     <label>
                         <span className="required">＊必須項目</span>
                         参加される方のお名前
@@ -259,7 +259,7 @@ function AdminApplicantNew() {
                 </div>
 
                 {/* よみがな */}
-                <div className="mb-5">
+                <div>
                     <label>
                         <span className="required">＊必須項目</span>
                         お名前のよみがな
@@ -281,7 +281,7 @@ function AdminApplicantNew() {
                 </div>
 
                 {/* 年齢 */}
-                <div className="mb-5">
+                <div>
                     <label>
                         <span className="required">＊必須項目</span>
                         参加される方の年齢
@@ -292,13 +292,14 @@ function AdminApplicantNew() {
                         )}
                     </label>
 
-                    <div className="flex items-center gap-2">
+                    <div>
                         <input
                             type="number"
                             name="age"
                             value={formData.age}
                             onChange={handleChange}
                             min="1"
+                            className="input-short"
                         />
                         <span>歳</span>
                     </div>
@@ -307,7 +308,7 @@ function AdminApplicantNew() {
 
                 {/* 保護者名 */}
                 {formData.age !== '' && Number(formData.age) < 18 && (
-                    <div className="mb-5">
+                    <div>
                         <label>
                             <span className="required">＊18歳未満の場合は必須項目</span>
                             保護者のお名前
@@ -329,7 +330,7 @@ function AdminApplicantNew() {
                 )}
 
                 {/* 住所 */}
-                <div className="mb-5">
+                <div>
                     <label>
                         <span className="required">＊必須項目</span>
                         住所
@@ -351,7 +352,7 @@ function AdminApplicantNew() {
                 </div>
 
                 {/* 電話番号 */}
-                <div className="mb-5">
+                <div>
                     <label>
                         <span className="required">＊必須項目</span>
                         連絡先電話番号
@@ -373,7 +374,7 @@ function AdminApplicantNew() {
                 </div>
 
                 {/* メールアドレス */}
-                <div className="mb-5">
+                <div>
                     <label>
                         <span className="required">＊必須項目</span>
                         メールアドレス
@@ -394,52 +395,49 @@ function AdminApplicantNew() {
                 </div>
 
                 {/* 学生 */}
-                <div className="mb-5">
-                    <p className="font-bold mb-2">
+                <div>
+                    <p className="label">
                         小中高生ですか？
                     </p>
 
-                    <div className="flex gap-6">
-                        <label>
+                    <div className="radio">
+                        <label className={`radio-button ${formData.isStudent === true ? 'selected' : ''}`}>
                             <input
                                 type="radio"
                                 name="isStudent"
                                 value="true"
                                 checked={formData.isStudent === true}
                                 onChange={handleStudentChange}
-                                className="radio"
                             />
-                            はい
+                            <span>はい</span>
                         </label>
 
-                        <label>
+                        <label className={`radio-button ${formData.isStudent === false ? 'selected' : ''}`}>
                             <input
                                 type="radio"
                                 name="isStudent"
                                 value="false"
                                 checked={formData.isStudent === false}
                                 onChange={handleStudentChange}
-                                className="radio"
                             />
-                            いいえ
+                            <span>いいえ</span>
                         </label>
                     </div>
                 </div>
 
                 {/* 学校情報 */}
                 {formData.isStudent === true && (
-                    <div className="mb-5 p-4 border rounded">
+                    <div className="optional-box">
 
-                        <p className="font-bold mb-4">
-                            学校情報
-                        </p>
+                        <h3>学校情報</h3>
+
                         {schoolError && (
-                            <p className="text-error">
+                            <p className="validation-error">
                                 {errors.message}
                             </p>
                         )}
 
-                        <div className="mb-4">
+                        <div>
                             <label>
                                 <span className="required">＊小中高生の場合は必須項目</span>
                                 学校名
@@ -453,7 +451,7 @@ function AdminApplicantNew() {
                             />
                         </div>
 
-                        <div className="mb-4">
+                        <div>
                             <label>
                                 <span className="required">＊小中高生の場合は必須項目</span>
                                 学年
@@ -489,7 +487,7 @@ function AdminApplicantNew() {
                 )}
 
                 {/* 連絡事項 */}
-                <div className="mb-6">
+                <div>
                     <label>
                         連絡事項
                     </label>
@@ -500,43 +498,39 @@ function AdminApplicantNew() {
                         name="note"
                         value={formData.note}
                         onChange={handleChange}
-                        className="textarea textarea-bordered w-full"
                         rows="4"
                     />
                 </div>
 
                 {/* 担当者メモ */}
-                <div className="mb-6">
+                <div>
                     <label>
                         担当者メモ
                     </label>
                     <p>申込者からの問い合わせ対応履歴など、山車組内で共有したい情報があれば入力してください</p>
                     <textarea
                         name="staffMemo"
-                        className="textarea textarea-bordered w-full"
                         rows="4"
                         value={formData.staffMemo}
                         onChange={handleChange}
                     />
                 </div>
 
-                <div className="flex justify-center my-10">
+                <div>
                     <button
                         type="submit"
-                        className="submit-btn"
+                        className="btn-submit"
                     >
                         登録する
                     </button>
                 </div>
-
-                <button type="button"
-                        onClick={() => navigate('/admin/applicants')}
-                        className="back-to-btn"
-                >
-                    ← 申込者管理トップへ戻る
-                </button>
-
             </form>
+            <button type="button"
+                    onClick={() => navigate('/admin/applicants')}
+                    className="btn-back"
+            >
+                ← 申込者管理トップへ戻る
+            </button>
         </section>
     )
 

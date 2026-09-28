@@ -13,11 +13,11 @@ function MyPageHeader() {
 
     return (
         <header>
-            <h1>秋まつり参加申込システム マイページ</h1>
+            <h1>秋まつり参加申込システム<br className="sp_only" />マイページ</h1>
 
             <button
                 onClick={handleLogout}
-                className="btn btn-primary"
+                className="btn-outline"
             >
                 ログアウト
             </button>

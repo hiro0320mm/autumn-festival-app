@@ -43,13 +43,13 @@ function AdminPositionDetail() {
     };
 
     return (
-        <section>
+        <section className="admin-container">
             <h1>ポジション情報</h1>
-            <header>
+            <header className="detail-header">
                 <></>
                 <div className="message-box">
-                    {error && <p>{error}</p>}
-                    {message && <p>{message}</p>}
+                    {error && <p className="text-error">{error}</p>}
+                    {message && <p className="text-error">{message}</p>}
                 </div>
                 {position &&(
                     <div className="update-history">
@@ -83,21 +83,13 @@ function AdminPositionDetail() {
                             </tr>
                             <tr>
                                 <th>募集状況</th>
-                                <td>{position.recruitmentStatus ? "募集中" : "募集終了"}</td>
+                                <td>{position.recruitmentStatus ? "募集中" : "募集停止中"}</td>
                             </tr>
                         </tbody>
                     </table>
-                    <div className="flex justify-between my-10">
+                    <div>
                         <button
-                            type="button"
-                            className="back-to-btn"
-                            onClick={() => navigate("/admin/positions")}
-                        >
-                            一覧に戻る
-                        </button>
-
-                        <button
-                            className="add-data-btn"
+                            className="btn-submit"
                             onClick={() =>
                                 navigate(`/admin/positions/${position.positionId}/edit`, {
                                     state: { from: "detail" }
@@ -107,6 +99,13 @@ function AdminPositionDetail() {
                             編集
                         </button>
                     </div>
+                    <button
+                        type="button"
+                        className="btn-back"
+                        onClick={() => navigate("/admin/positions")}
+                    >
+                        一覧に戻る
+                    </button>
                 </>
             )}
         </section>

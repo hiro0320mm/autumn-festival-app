@@ -48,16 +48,16 @@ function ApplyConfirm() {
     }
 
     return (
-        <section>
-            <h1>参加申込内容の確認</h1>
+        <section className="mypage-container">
+            <h1 className="contents-title">参加申込内容の確認</h1>
 
-            <div className="my-5">
-                <h2 className="text-2xl font-bold mb-2">申し込む山車組：{group?.groupName}</h2>
-                <h3 className="text-lg font-semibold mb-1">希望ポジション：{position?.positionName}</h3>
+            <div className="group-name">
+                <h2>申し込む山車組：{group?.groupName}</h2>
+                <h3 className="pb-1">希望ポジション：{position?.positionName}</h3>
             </div>
 
                 <table className="table">
-                    <caption className="text-left text-base">参加される方の情報</caption>
+                    <caption className="label">参加される方の情報</caption>
                     <tbody>
                     <tr>
                         <th className="w-50">お名前</th>
@@ -69,14 +69,14 @@ function ApplyConfirm() {
                     </tr>
                     <tr>
                         <th>年齢</th>
-                        <td>{formData?.age}</td>
+                        <td>{formData?.age}<span> 歳</span></td>
                     </tr>
                     <tr>
                         <th>住所</th>
                         <td>{formData?.address}</td>
                     </tr>
                     <tr>
-                        <th>連絡先電話番号</th>
+                        <th>電話番号</th>
                         <td>{formData?.tel}</td>
                     </tr>
                     <tr>
@@ -93,11 +93,11 @@ function ApplyConfirm() {
                     </tr>
                     <tr>
                         <th>学年</th>
-                        <td>{formData?.schoolGrade}<span>年</span></td>
+                        <td>{formData?.schoolGrade}<span> 年</span></td>
                     </tr>
                     <tr>
                         <th>クラス</th>
-                        <td>{formData?.schoolClass}<span>組</span></td>
+                        <td>{formData?.schoolClass}<span> 組</span></td>
                     </tr>
                     <tr>
                         <th>連絡事項</th>
@@ -108,7 +108,7 @@ function ApplyConfirm() {
             <div className="flex justify-center my-10">
                 <button
                     type="submit"
-                    className="submit-btn"
+                    className="btn-submit"
                     onClick={handleSubmit}
                 >
                     この内容で申し込みます
@@ -124,7 +124,7 @@ function ApplyConfirm() {
                         },
                     })
                 }
-                className="back-to-btn"
+                className="btn-back"
             >
                 修正する
             </button>

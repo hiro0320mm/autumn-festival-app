@@ -6,7 +6,7 @@ function AdminDashboard() {
     const admin = useAdmin();
 
     return (
-        <section className="grid grid-cols-4 gap-6">
+        <section className="dashboard">
             <Link to="/admin/applicants" className="dashboard-card">
                 <div>
                     <h2>参加申込者管理</h2>
