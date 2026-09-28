@@ -1,4 +1,5 @@
 import AdminHeader from "./AdminHeader.jsx";
+import ScrollTop from "../../components/ScrollTop.jsx";
 
 function AdminLayout({ children }) {
     return (
@@ -8,6 +9,7 @@ function AdminLayout({ children }) {
             <main className="admin">
                 {children}
             </main>
+            <ScrollTop />
         </>
     );
 }

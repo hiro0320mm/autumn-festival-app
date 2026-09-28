@@ -1,5 +1,7 @@
-import {Link, Route} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {useEffect, useState} from "react";
+import {smoothScroll} from "../../utils/smoothScroll";
+import ScrollTop from "../../components/ScrollTop.jsx";
 
 function GroupList() {
     const [groups, setGroups] = useState([])
@@ -42,7 +44,14 @@ function GroupList() {
                         </dl>
                     </div>
                     <div className="scroll-arrow-wrapper">
-                        <a href="#howToJoin" className="scroll-arrow">
+                        <a
+                            href="#howToJoin"
+                            className="scroll-arrow"
+                            onClick={(e) => {
+                            e.preventDefault()
+                                smoothScroll("howToJoin")
+                            }}
+                        >
                             <span className="scroll-arrow-text">Scroll</span>
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -102,6 +111,7 @@ function GroupList() {
                     ))}
                 </div>
             </div>
+            <ScrollTop />
         </section>
     )
 }
