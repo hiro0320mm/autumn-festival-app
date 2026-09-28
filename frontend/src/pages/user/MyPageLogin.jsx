@@ -48,7 +48,7 @@ function MyPageLogin() {
 
             <form onSubmit={login} className="optional-box mt-1"> {
                 loginError && (
-                    <p> 入力された情報が正しくありません。</p>
+                    <p className="text-error text-normal"> 入力された情報が正しくありません。</p>
                 )
             }
 

@@ -143,6 +143,7 @@ return (
                     value={formData.applicantName}
                     onChange={handleChange}
                     placeholder="久慈秋子"
+                    className={errors.applicantName ? "input-error" : ""}
                 />
 
                 
@@ -166,6 +167,7 @@ return (
                     value={formData.kana}
                     onChange={handleChange}
                     placeholder="ひらがなで入力してください"
+                    className={errors.applicantName ? "input-error" : ""}
                 />
 
             </div>
@@ -188,8 +190,8 @@ return (
                         name="age"
                         value={formData.age}
                         onChange={handleChange}
-                        className="input-short"
                         min="1"
+                        className={`input-short ${errors.applicantName ? "input-error" : ""}`}
                     />
                     <span>歳</span>
                 </div>
@@ -214,6 +216,7 @@ return (
                         name="parentName"
                         value={formData.parentName}
                         onChange={handleChange}
+                        className={errors.applicantName ? "input-error" : ""}
                     />
 
                 </div>
@@ -236,7 +239,8 @@ return (
                     name="address"
                     value={formData.address}
                     onChange={handleChange}
-                    placeholder="岩手県久慈市○○町××丁目△△"
+                    placeholder="●●県■■市○○町××丁目△△"
+                    className={errors.applicantName ? "input-error" : ""}
                 />
             </div>
 
@@ -258,6 +262,7 @@ return (
                     value={formData.tel}
                     onChange={handleChange}
                     placeholder="09012345678"
+                    className={errors.applicantName ? "input-error" : ""}
                 />
             </div>
 
@@ -278,6 +283,7 @@ return (
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
+                    className={errors.applicantName ? "input-error" : ""}
                 />
             </div>
 
@@ -335,6 +341,7 @@ return (
                             name="schoolName"
                             value={formData.schoolName}
                             onChange={handleChange}
+                            className={errors.applicantName ? "input-error" : ""}
                         />
 
                     </div>
@@ -355,7 +362,7 @@ return (
                             name="schoolGrade"
                             value={formData.schoolGrade}
                             onChange={handleChange}
-                            className="input-short"
+                            className={`input-short ${errors.applicantName ? "input-error" : ""}`}
                         />
                         <span>年</span>
 
@@ -377,7 +384,7 @@ return (
                             name="schoolClass"
                             value={formData.schoolClass}
                             onChange={handleChange}
-                            className="input-short"
+                            className={`input-short ${errors.applicantName ? "input-error" : ""}`}
                         />
                         <span>組</span>
 
@@ -401,6 +408,7 @@ return (
                     name="positionId"
                     value={formData.positionId}
                     onChange={handleChange}
+                    className={errors.applicantName ? "input-error" : ""}
                 >
                     <option value="">
                         ポジションを選択してください
