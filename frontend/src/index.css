@@ -547,7 +547,7 @@ form {
           line-height: 1.8;
           color: var(--color-background);
           text-align: center;
-          padding: 2rem 0;
+          padding: 1rem 0;
         }
       }
       background-color: color-mix(
@@ -557,14 +557,14 @@ form {
       );
       width: clamp(280px, 33%, 400px);
       height: 100%;
-      padding: 5rem 1.5rem;
+      padding: 3rem 1.5rem;
       color: var(--color-background);
       font-family: var(--font-serif), serif;
       margin: 0 10%;
       position: relative;
 
       .schedule {
-        margin: 4rem auto 0;
+        margin: 2rem auto 0;
         width: 80%;
 
         h2 {
