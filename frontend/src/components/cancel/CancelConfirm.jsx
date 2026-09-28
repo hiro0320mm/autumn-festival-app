@@ -37,9 +37,9 @@ function CancelConfirm() {
         <section className="mypage-container">
             <h1>下記の申込をキャンセルします</h1>
 
-            <div className="text-center mb-5">
+            <div className="text-center">
                 <p>参加山車組・ポジション</p>
-                <p className="text-2xl font-semibold">{applicant.groupName}・{applicant.positionName}</p>
+                <p>{applicant.groupName}・{applicant.positionName}</p>
             </div>
 
             <table className="table">

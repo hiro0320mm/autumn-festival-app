@@ -105,7 +105,6 @@ function ApplyConfirm() {
                     </tr>
                     </tbody>
                 </table>
-            <div className="flex justify-center my-10">
                 <button
                     type="submit"
                     className="btn-submit"
@@ -113,7 +112,6 @@ function ApplyConfirm() {
                 >
                     この内容で申し込みます
                 </button>
-            </div>
             {/* フォームに戻る */}
             <button
                 onClick={() =>

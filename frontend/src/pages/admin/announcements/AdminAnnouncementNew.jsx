@@ -151,7 +151,6 @@ function AdminAnnouncementNew() {
 
                     <textarea
                         name="content"
-                        className="textarea textarea-bordered w-full"
                         rows="10"
                         value={formData.content}
                         onChange={handleChange}
@@ -162,7 +161,7 @@ function AdminAnnouncementNew() {
                 {/* 表示・非表示*/}
                 <div>
                     <div>
-                        <span className="required text-xs">＊必須項目</span>
+                        <span className="required">＊必須項目</span>
                         <p className="label">表示・非表示</p>
                         {errors.isPublished && (
                             <span className="validation-error">
@@ -183,14 +182,12 @@ function AdminAnnouncementNew() {
                     </div>
                 </div>
 
-                <div className="flex justify-center my-10">
-                    <button
-                        type="submit"
-                        className="btn-submit"
-                    >
-                        登録する
-                    </button>
-                </div>
+                <button
+                    type="submit"
+                    className="btn-submit"
+                >
+                    登録する
+                </button>
 
             </form>
             <button type="button"

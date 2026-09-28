@@ -182,7 +182,7 @@ return (
                     )}
                 </label>
 
-                <div className="flex items-center gap-2">
+                <div>
                     <input
                         type="number"
                         name="age"
@@ -401,7 +401,6 @@ return (
                     name="positionId"
                     value={formData.positionId}
                     onChange={handleChange}
-                    className="select select-bordered w-full"
                 >
                     <option value="">
                         ポジションを選択してください
@@ -434,14 +433,13 @@ return (
                     name="note"
                     value={formData.note}
                     onChange={handleChange}
-                    className="textarea textarea-bordered w-full"
                     rows="4"
                 />
             </div>
 
             <div>
                 <h3 className="label pb-1">
-                    <span className="block required font-normal text-xs">＊必須項目</span>
+                    <span className="required">＊必須項目</span>
                     個人情報の取り扱いについて
                     {errors.privacyAgreed && (
                         <span className="validation-error">

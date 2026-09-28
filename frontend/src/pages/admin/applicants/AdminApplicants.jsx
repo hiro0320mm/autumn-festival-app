@@ -341,7 +341,7 @@ function AdminApplicants() {
                                 {/*学年*/}
                                 <td className="text-center">{applicant.schoolGrade}</td>
                                 {/*連絡事項*/}
-                                <td className="text-center font-lg" title={applicant.note || ""}>
+                                <td className="text-center" title={applicant.note || ""}>
                                     {applicant.note ? "●" : ""}
                                 </td>
                                 {/*メモ*/}
@@ -426,7 +426,7 @@ function AdminApplicants() {
                 <div className="modal-overlay">
                     <div className="modal-box">
 
-                        <h2 className="text-lg font-bold">
+                        <h2>
                             {selectedApplicant && (
                                 `${selectedApplicant.applicantName}さんの申込を削除します`
                             )}

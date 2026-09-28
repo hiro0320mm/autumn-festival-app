@@ -167,7 +167,7 @@ function AdminAnnouncementEdit() {
             </h1>
 
             {error && (
-                <p className="text-error mb-4">
+                <p className="text-error">
                     {error}
                 </p>
             )}
@@ -224,7 +224,6 @@ function AdminAnnouncementEdit() {
 
                     <textarea
                         name="content"
-                        className="textarea textarea-bordered w-full"
                         rows="10"
                         value={formData.content}
                         onChange={handleChange}

@@ -116,7 +116,7 @@ function AdminGroupEdit() {
 
                 {/* 主要エリア */}
                 <div>
-                    <label className="block font-bold mb-2">
+                    <label>
                         主要エリア
                     </label>
 
@@ -127,7 +127,7 @@ function AdminGroupEdit() {
                     />
 
                     {errors.district && (
-                        <p className="text-error mt-1 text-xs">
+                        <p className="validation-error">
                             {errors.district}
                         </p>
                     )}
@@ -135,7 +135,7 @@ function AdminGroupEdit() {
 
                 {/* 事務所所在地 */}
                 <div>
-                    <label className="block font-bold mb-2">
+                    <label>
                         事務所所在地
                     </label>
 
@@ -146,7 +146,7 @@ function AdminGroupEdit() {
                     />
 
                     {errors.officeAddress && (
-                        <p className="text-error mt-1 text-xs">
+                        <p className="validation-error">
                             {errors.officeAddress}
                         </p>
                     )}
@@ -154,7 +154,7 @@ function AdminGroupEdit() {
 
                 {/* 事務所電話番号 */}
                 <div>
-                    <label className="block font-bold mb-2">
+                    <label>
                         事務所電話番号
                     </label>
 
@@ -165,7 +165,7 @@ function AdminGroupEdit() {
                     />
 
                     {errors.officeTel && (
-                        <p className="text-error mt-1 text-xs">
+                        <p className="validation-error">
                             {errors.officeTel}
                         </p>
                     )}
@@ -173,7 +173,7 @@ function AdminGroupEdit() {
 
                 {/* その他の窓口 */}
                 <div>
-                    <label className="block font-bold mb-2">
+                    <label>
                         その他の窓口
                     </label>
 
@@ -184,7 +184,7 @@ function AdminGroupEdit() {
                     />
 
                     {errors.contactName && (
-                        <p className="text-error mt-1 text-xs">
+                        <p className="validation-error">
                             {errors.contactName}
                         </p>
                     )}
@@ -192,7 +192,7 @@ function AdminGroupEdit() {
 
                 {/* その他の窓口電話番号 */}
                 <div>
-                    <label className="block font-bold mb-2">
+                    <label>
                         その他の窓口電話番号
                     </label>
 
@@ -203,7 +203,7 @@ function AdminGroupEdit() {
                     />
 
                     {errors.contactTel && (
-                        <p className="text-error mt-1 text-xs">
+                        <p className="validation-error">
                             {errors.contactTel}
                         </p>
                     )}
@@ -211,32 +211,29 @@ function AdminGroupEdit() {
 
                 {/* 説明文 */}
                 <div>
-                    <label className="block font-bold mb-2">
+                    <label>
                         説明文
                     </label>
 
                     <textarea
                         name="description"
-                        className="textarea textarea-bordered w-full"
                         rows="4"
                         defaultValue={group.description ?? ""}
                     />
 
                     {errors.description && (
-                        <p className="text-error mt-1 text-xs">
+                        <p className="validation-error">
                             {errors.description}
                         </p>
                     )}
                 </div>
 
-                <div className="flex justify-center my-10">
-                    <button
-                        type="submit"
-                        className="btn-submit"
-                    >
-                        変更を保存
-                    </button>
-                </div>
+                <button
+                    type="submit"
+                    className="btn-submit"
+                >
+                    変更を保存
+                </button>
             </form>
             <button
                 type="button"

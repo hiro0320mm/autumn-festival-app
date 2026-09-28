@@ -1257,6 +1257,8 @@ footer {
 .w-fit { width: fit-content; }
 .w-50 { width: 50rem; }
 
+.bg-disable { background-color: var(--color-disable); }
+
 .mb-0 { margin-bottom: 0; }
 .mb-05 { margin-bottom: 0.5rem; }
 .mb-1 { margin-bottom: 1em; }

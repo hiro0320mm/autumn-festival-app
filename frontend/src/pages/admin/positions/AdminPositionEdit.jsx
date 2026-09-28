@@ -264,7 +264,7 @@ function AdminPositionEdit() {
                         )}
                     </label>
 
-                    <div className="flex items-center gap-2">
+                    <div>
                         <input
                             type="number"
                             name="maxCapacity"

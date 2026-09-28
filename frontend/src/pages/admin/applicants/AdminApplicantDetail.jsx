@@ -161,7 +161,7 @@ function AdminApplicantDetail() {
                         <tbody
                             className={
                                 applicant.cancelStatus === "CANCELED"
-                                ? "bg-base-300"
+                                ? "bg-disable"
                                     : ""
                             }
                         >
@@ -304,7 +304,7 @@ function AdminApplicantDetail() {
             {showCancelModal && (
                 <div className="modal modal-open">
                     <div className="modal-box">
-                        <h2 className="text-lg font-bold">
+                        <h2>
                             {applicant && (`${applicant.applicantName}さんの申込をキャンセルします`)}
                         </h2>
 

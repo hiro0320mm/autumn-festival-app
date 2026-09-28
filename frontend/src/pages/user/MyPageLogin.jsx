@@ -62,9 +62,8 @@ function MyPageLogin() {
                     <input name="receptionNumber" type="text" placeholder="申込受付番号を入力してください" required/>
                 </label>
                 <p className="complement">※申込受付番号は、申込完了画面または申込完了メールをご確認ください</p>
-                <div className="flex justify-center">
-                    <button type="submit" className="btn-apply">ログイン</button>
-                </div>
+
+                <button type="submit" className="btn-apply">ログイン</button>
             </form>
             <button onClick={() => navigate('/')} className="btn-back mx-auto">
                 山車組選択画面へ戻る

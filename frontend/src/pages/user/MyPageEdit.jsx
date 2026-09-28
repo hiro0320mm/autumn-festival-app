@@ -117,7 +117,7 @@ function MyPageEdit() {
                     />
 
                     {errors.applicantName && (
-                        <p className="validation-error text-xs">
+                        <p className="validation-error">
                             {errors.applicantName}
                         </p>
                     )}
@@ -137,7 +137,7 @@ function MyPageEdit() {
                     />
 
                     {errors.kana && (
-                        <p className="validation-error text-xs">
+                        <p className="validation-error">
                             {errors.kana}
                         </p>
                     )}
@@ -151,7 +151,7 @@ function MyPageEdit() {
                         参加される方の年齢
                     </label>
 
-                    <div className="flex items-center gap-2">
+                    <div>
                         <input
                             type="number"
                             name="age"
@@ -164,7 +164,7 @@ function MyPageEdit() {
                     </div>
 
                     {errors.age && (
-                        <p className="validation-error text-xs">
+                        <p className="validation-error">
                             {errors.age}
                         </p>
                     )}
@@ -182,12 +182,11 @@ function MyPageEdit() {
                         <input
                             type="text"
                             name="parentName"
-                            className="input input-bordered w-full"
                             defaultValue={applicant.parentName}
                         />
 
                         {parentError && (
-                            <p className="validation-error text-xs">
+                            <p className="validation-error">
                                 {errors.message}
                             </p>
                         )}
@@ -205,12 +204,11 @@ function MyPageEdit() {
                     <input
                         type="text"
                         name="address"
-                        className="input input-bordered w-full"
                         defaultValue={applicant.address}
                     />
 
                     {errors.address && (
-                        <p className="validation-error text-xs">
+                        <p className="validation-error">
                             {errors.address}
                         </p>
                     )}
@@ -226,12 +224,11 @@ function MyPageEdit() {
                     <input
                         type="tel"
                         name="tel"
-                        className="input input-bordered w-full"
                         defaultValue={applicant.tel}
                     />
 
                     {errors.tel && (
-                        <p className="validation-error text-xs">
+                        <p className="validation-error">
                             {errors.tel}
                         </p>
                     )}
@@ -247,12 +244,11 @@ function MyPageEdit() {
                     <input
                         type="text"
                         name="email"
-                        className="input input-bordered w-full"
                         defaultValue={applicant.email}
                     />
 
                     {errors.email && (
-                        <p className="validation-error text-xs">
+                        <p className="validation-error">
                             {errors.email}
                         </p>
                     )}
@@ -383,14 +379,12 @@ function MyPageEdit() {
                     />
                 </div>
 
-                <div className="flex justify-center my-10">
-                    <button
-                        type="submit"
-                        className="btn-submit"
-                    >
-                        変更を保存
-                    </button>
-                </div>
+                <button
+                    type="submit"
+                    className="btn-submit"
+                >
+                    変更を保存
+                </button>
 
                 <button
                     onClick={() => navigate('/mypage')}

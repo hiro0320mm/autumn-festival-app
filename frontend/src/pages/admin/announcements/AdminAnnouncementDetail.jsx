@@ -96,7 +96,7 @@ function AdminAnnouncementDetail() {
                         </tr>
                         </tbody>
                     </table>
-                    <div className="flex justify-between my-10">
+                    <div>
 
                         {(
                             (admin.role === "ROLE_ADMIN" &&

@@ -94,11 +94,9 @@ function AdminLogin() {
                     </label>
                 </div>
 
-                <div className="flex justify-center">
-                    <button type="submit" className="btn-submit">
-                        ログイン
-                    </button>
-                </div>
+                <button type="submit" className="btn-submit">
+                    ログイン
+                </button>
 
             </form>
         </section>

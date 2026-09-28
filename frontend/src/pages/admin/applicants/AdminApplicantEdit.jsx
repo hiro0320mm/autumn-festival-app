@@ -179,7 +179,7 @@ function AdminApplicantEdit() {
                         )}
                     </label>
 
-                    <div className="flex items-center gap-2">
+                    <div>
                         <input
                             type="number"
                             name="age"
@@ -384,7 +384,6 @@ function AdminApplicantEdit() {
                     </label>
                     <textarea
                         name="note"
-                        className="textarea textarea-bordered w-full"
                         rows="4"
                         defaultValue={applicant.note ?? ""}
                     />
@@ -398,20 +397,17 @@ function AdminApplicantEdit() {
                     <p>申込者からの問い合わせ対応履歴など、山車組内で共有したい情報があれば入力してください</p>
                     <textarea
                         name="staffMemo"
-                        className="textarea textarea-bordered w-full"
                         rows="4"
                         defaultValue={applicant.staffMemo ?? ""}
                     />
                 </div>
 
-                <div className="flex justify-center my-10">
-                    <button
-                        type="submit"
-                        className="btn-submit"
-                    >
-                        変更を保存
-                    </button>
-                </div>
+                <button
+                    type="submit"
+                    className="btn-submit"
+                >
+                    変更を保存
+                </button>
             </form>
             <button
                 type="button"
