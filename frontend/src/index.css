@@ -394,6 +394,9 @@ input, select, textarea {
     outline: none;
     border: 2px solid var(--color-accent);
   }
+  &::placeholder {
+    color: color-mix(in srgb, var(--color-text) 30%, transparent);
+  }
 
 }
 
