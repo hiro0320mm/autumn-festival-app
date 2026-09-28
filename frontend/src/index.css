@@ -719,6 +719,7 @@ form {
     font-size: clamp(1.5em, 7vw, 2.5em);
     font-weight: 700;
     color: var(--color-sub);
+    text-align: center;
   }
 
   .apply-data {
