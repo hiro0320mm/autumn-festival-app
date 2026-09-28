@@ -9,6 +9,7 @@ import com.example.backend.repository.StaffsRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -256,6 +257,7 @@ public class PositionsService<ApplicantRepository> {
     }
 
     // 管理画面：一覧ポジション募集状況変更
+    @Transactional
     public void updatePositionRecruitmentStatus (
             Long positionId,
             Boolean recruitmentStatus,
@@ -270,7 +272,7 @@ public class PositionsService<ApplicantRepository> {
                         new UsernameNotFoundException("管理者名が見つかりません")
                 );
 
-        // 編集対象のお知らせを取得
+        // 編集対象のポジションを取得
         Positions position =
                 positionsRepository.findById(positionId)
                         .orElseThrow(() ->
@@ -299,8 +301,9 @@ public class PositionsService<ApplicantRepository> {
             throw new IllegalArgumentException("権限が不正です");
         }
 
-        position.setRecruitmentStatus(recruitmentStatus);
-
-        positionsRepository.save(position);
+        positionsRepository.updateRecruitmentStatus(
+                positionId,
+                recruitmentStatus
+        );
     }
 }
