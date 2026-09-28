@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:h2:tcp://localhost:1521/opt/h2-data/testdb}
+    driver-class-name: org.h2.Driver
+    username: ${DB_USERNAME:work0915mh}
+    password: ${DB_PASSWORD:}
+  h2:
+    console:
+      enabled: false
+      path: /h2-console
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    defer-datasource-initialization: true
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  flyway:
+    locations: classpath:db/migration
+    default-schema: PUBLIC
+
+logging:
+  level:
+    org.flywaydb: TRACE
+    org.springframework.boot.autoconfigure.flyway: TRACE

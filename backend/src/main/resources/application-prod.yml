@@ -10,3 +10,6 @@ spring:
     table: FLYWAY_SCHEMA_HISTORY
     baseline-on-migrate: true
     baseline-version: 0
+
+server:
+  port: ${PORT:8080}
