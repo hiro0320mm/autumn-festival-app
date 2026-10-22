@@ -77,7 +77,7 @@ function AdminGroupDetail() {
             <table className="table">
                 <tbody>
                 <tr>
-                    <th className="w-50">山車組名</th>
+                    <th className="w-fit">山車組名</th>
                     <td>{group.groupName}</td>
                 </tr>
                 <tr>

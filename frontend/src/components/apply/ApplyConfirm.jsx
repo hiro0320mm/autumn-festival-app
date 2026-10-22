@@ -60,7 +60,7 @@ function ApplyConfirm() {
                     <caption className="label">参加される方の情報</caption>
                     <tbody>
                     <tr>
-                        <th className="w-50">お名前</th>
+                        <th className="w-fit">お名前</th>
                         <td>{formData?.applicantName}</td>
                     </tr>
                     <tr>
@@ -87,18 +87,22 @@ function ApplyConfirm() {
                         <th>保護者名</th>
                         <td>{formData?.parentName}</td>
                     </tr>
-                    <tr>
-                        <th>学校名</th>
-                        <td>{formData?.schoolName}</td>
-                    </tr>
-                    <tr>
-                        <th>学年</th>
-                        <td>{formData?.schoolGrade}<span> 年</span></td>
-                    </tr>
-                    <tr>
-                        <th>クラス</th>
-                        <td>{formData?.schoolClass}<span> 組</span></td>
-                    </tr>
+                    {formData?.isStudent && (
+                        <>
+                            <tr>
+                                <th>学校名</th>
+                                <td>{formData?.schoolName}</td>
+                            </tr>
+                            <tr>
+                                <th>学年</th>
+                                <td>{formData?.schoolGrade}<span> 年</span></td>
+                            </tr>
+                            <tr>
+                                <th>クラス</th>
+                                <td>{formData?.schoolClass}<span> 組</span></td>
+                            </tr>
+                        </>
+                    )}
                     <tr>
                         <th>連絡事項</th>
                         <td>{formData?.note}</td>

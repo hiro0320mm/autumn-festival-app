@@ -166,7 +166,7 @@ function AdminApplicantDetail() {
                             }
                         >
                             <tr>
-                                <th className="w-50">お名前</th>
+                                <th className="w-fit">お名前</th>
                                 <td>{applicant.applicantName}</td>
                             </tr>
                             <tr>

@@ -24,6 +24,9 @@ public class MailService {
             ポジション：%s
 
             マイページから申込内容を確認できます。
+            
+            マイページURL：
+            https://autumn-festival-app.onrender.com/mypage/login
 
             """.formatted(
                 applicant.getReceptionNumber(),

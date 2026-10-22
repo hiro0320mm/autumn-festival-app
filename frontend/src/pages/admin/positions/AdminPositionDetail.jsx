@@ -66,7 +66,7 @@ function AdminPositionDetail() {
                     <table className="table">
                         <tbody>
                             <tr>
-                                <th className="w-50">ポジション名</th>
+                                <th className="w-fit">ポジション名</th>
                                 <td>{position.positionName}</td>
                             </tr>
                             <tr>
