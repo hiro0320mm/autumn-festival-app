@@ -26,7 +26,7 @@ public class MailService {
             マイページから申込内容を確認できます。
             
             マイページURL：
-            https://autumn-festival-app.onrender.com/mypage/login
+            https://160.251.231.42/mypage/login
 
             """.formatted(
                 applicant.getReceptionNumber(),
@@ -54,6 +54,11 @@ public class MailService {
             氏名：%s
             山車組：%s
             ポジション：%s
+            
+            ※キャンセルが確定いたしましたので、上記の受付番号でのマイページログインはできなくなります。
+            
+            改めて参加を希望される場合は、お手数ですがもう一度申込フォームからお手続きをお願いします。
+            https://160.251.231.42/
 
             """.formatted(
                 applicant.getReceptionNumber(),
